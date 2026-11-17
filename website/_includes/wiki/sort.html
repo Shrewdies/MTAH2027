@@ -1,0 +1,8 @@
+{%- comment -%} Sorts include.docs by `order`, then title; pages without an order come last. Result: wiki_sorted. {%- endcomment -%}
+{%- assign wiki_sorted = "" | split: "" -%}
+{%- assign ws_docs = include.docs | sort: "order", "last" -%}
+{%- assign ws_orders = ws_docs | map: "order" | uniq -%}
+{%- for ws_o in ws_orders -%}
+  {%- assign ws_run = ws_docs | where_exp: "d", "d.order == ws_o" | sort: "title" -%}
+  {%- assign wiki_sorted = wiki_sorted | concat: ws_run -%}
+{%- endfor -%}

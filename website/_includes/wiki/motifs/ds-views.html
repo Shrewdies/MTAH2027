@@ -1,0 +1,28 @@
+{%- comment -%} The same players through two cameras: a full-pitch view that holds everyone all match, and a broadcast view that follows the ball and cuts away. Synthetic. Labels: left view, right view, left timeline, right timeline. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign dots = "40,72,h,out|60,28,a,out|85,110,h,out|120,60,a,in|150,95,h,in|165,40,h,in|205,80,a,out|215,118,h,out|235,45,a,out|255,80,a,out" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text class="wm-t--s" x="30" y="56">{{ L[0] | default: "Full-pitch view" | escape }}</text>
+  <text class="wm-t--s" x="330" y="56">{{ L[1] | default: "Broadcast view" | escape }}</text>
+  {% include wiki/pitch-lines.html x=30 y=70 scale=0.5 %}
+  {% include wiki/pitch-lines.html x=330 y=70 scale=0.5 %}
+  <polygon class="wm-swing" points="470,232 400,72 540,72" fill="rgba(196,240,0,.13)" stroke="rgba(196,240,0,.7)" stroke-width="1.5" stroke-linejoin="round" style="transform-origin:470px 232px;--from:-3deg;--to:3deg;--dur:5s"/>
+  <g transform="translate(470 238) rotate(-90)"><rect class="wm-node" x="-20" y="-9" width="24" height="18" rx="4"/><path class="wm-lime" d="M4 -5L14 -10V10L4 5Z"/></g>
+  {%- for dot in dots %}{% assign v = dot | split: "," %}{% assign lx = v[0] | plus: 30 %}{% assign rx = v[0] | plus: 330 %}{% assign cy = v[1] | plus: 70 %}
+  <circle class="wm-{{ v[2] }} wm-edge" cx="{{ lx }}" cy="{{ cy }}" r="6.5"/>
+  {%- if v[3] == "in" %}
+  <circle class="wm-{{ v[2] }} wm-edge" cx="{{ rx }}" cy="{{ cy }}" r="6.5"/>
+  {%- else %}
+  <circle class="wm-pulse" cx="{{ rx }}" cy="{{ cy }}" r="6.5" fill="none" stroke="rgba(233,237,245,.75)" stroke-width="2" stroke-dasharray="3 3" style="--i:{{ forloop.index0 }};--lo:.25"/>
+  {%- endif %}
+  {%- endfor %}
+  <circle class="wm-ring wm-ping" cx="172" cy="150" r="6"/><circle class="wm-lime" cx="172" cy="150" r="4.5"/>
+  <circle class="wm-ring wm-ping" cx="472" cy="150" r="6"/><circle class="wm-lime" cx="472" cy="150" r="4.5"/>
+  <rect class="wm-lime" x="30" y="272" width="280" height="22" rx="5"/>
+  <text class="wm-t--s wm-t--dim" x="30" y="320">{{ L[2] | default: "Continuous" | escape }}</text>
+  <g class="wm-lime"><rect x="330" y="272" width="62" height="22" rx="5"/><rect x="424" y="272" width="88" height="22" rx="5"/><rect x="548" y="272" width="62" height="22" rx="5"/></g>
+  <g fill="#8E6FC4"><rect class="wm-blink" x="396" y="272" width="24" height="22" rx="5"/><rect class="wm-blink" x="516" y="272" width="28" height="22" rx="5" style="animation-delay:-.5s"/></g>
+  <text class="wm-t--s wm-t--dim" x="330" y="320">{{ L[3] | default: "Cuts and replays" | escape }}</text>
+  <g transform="translate(310 0)"><g class="wm-travel" style="--fx:-280px;--dur:6s"><path class="wm-ln wm-ln--white" stroke-width="2.5" d="M0 266V300"/></g></g>
+  <g transform="translate(610 0)"><g class="wm-travel" style="--fx:-280px;--dur:6s"><path class="wm-ln wm-ln--white" stroke-width="2.5" d="M0 266V300"/></g></g>
+</svg>

@@ -1,0 +1,50 @@
+<header class="site-header">
+  <div class="site-header__inner container">
+    <a class="site-header__logo" href="{{ '/' | relative_url }}"{% if page.url == "/" %} aria-current="page"{% endif %}>
+      <span class="visually-hidden">{{ site.title }}, home</span>
+      <span class="site-header__logo-art" aria-hidden="true">{% include logo.html variant="header" %}</span>
+    </a>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle__bars" aria-hidden="true"></span>
+      <span class="nav-toggle__label">Menu</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        {%- assign visible_sections = site.sections | where_exp: "s", "s.hidden != true" %}
+        {%- for section in visible_sections %}
+          {%- assign docs = site[section.collection] | sort: "order" | where_exp: "d", "d.nav_exclude != true" %}
+          {%- assign current = false %}
+          {%- assign url_head = page.url | slice: 0, section.url.size %}
+          {%- if page.collection == section.collection or url_head == section.url %}{% assign current = true %}{% endif %}
+        <li class="site-nav__item{% if current %} is-current{% endif %}">
+          <a class="site-nav__link" href="{{ section.url | relative_url }}"{% if current %} aria-current="true"{% endif %}>
+            <span class="site-nav__num" aria-hidden="true">{{ section.kicker }}</span>{{ section.title }}
+          </a>
+          {%- if section.families %}
+          <div class="site-nav__panel">
+            <p class="site-nav__blurb">{{ section.blurb }}</p>
+            <ul class="site-nav__sub">
+              {%- for fam in section.families %}
+              <li><a href="{{ fam.url | relative_url }}"{% if fam.url == page.url %} aria-current="page"{% endif %}>{{ fam.title }}</a></li>
+              {%- endfor %}
+            </ul>
+          </div>
+          {%- elsif docs.size > 0 %}
+          <div class="site-nav__panel">
+            <p class="site-nav__blurb">{{ section.blurb }}</p>
+            <ul class="site-nav__sub">
+              {%- for doc in docs %}
+              <li><a href="{{ doc.url | relative_url }}"{% if doc.url == page.url %} aria-current="page"{% endif %}>{{ doc.nav_title | default: doc.title }}</a></li>
+              {%- endfor %}
+            </ul>
+          </div>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ul>
+    </nav>
+  </div>
+  <div class="site-header__glint" aria-hidden="true"></div>
+</header>

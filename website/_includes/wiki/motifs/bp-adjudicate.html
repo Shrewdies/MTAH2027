@@ -1,0 +1,48 @@
+{%- comment -%}
+  Architecture motif: segment adjudication. Three decoded sequences agree except on one window; the window is ruled
+  on as one object, from the evidence listed on the right, and the ruling fills the gap in the final sequence.
+  Synthetic. Motion: opacity and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="38" class="wm-t--xs wm-t--dim">Three sequences, one disagreement</text>
+
+  <text x="24" y="78" class="wm-t--xs">Sequence A</text>
+  <rect class="wm-h" x="130" y="58" width="300" height="30" rx="5"/>
+
+  <text x="24" y="122" class="wm-t--xs">Sequence B</text>
+  <rect class="wm-h" x="130" y="102" width="150" height="30" rx="5"/>
+  <rect class="wm-a" x="282" y="102" width="52" height="30" rx="5"/>
+  <rect class="wm-h" x="336" y="102" width="94" height="30" rx="5"/>
+
+  <text x="24" y="166" class="wm-t--xs">Sequence C</text>
+  <rect class="wm-h" x="130" y="146" width="150" height="30" rx="5"/>
+  <rect class="wm-d" x="282" y="146" width="52" height="30" rx="5"/>
+  <rect class="wm-h" x="336" y="146" width="94" height="30" rx="5"/>
+
+  <rect class="wm-box wm-pulse" x="276" y="50" width="64" height="134" rx="8" style="--lo:.45"/>
+  <text x="308" y="204" text-anchor="middle" class="wm-t--xs wm-t--lime">Disputed</text>
+
+  <text x="456" y="38" class="wm-t--xs wm-t--dim">Evidence on the window</text>
+  {%- assign ev = "Raw scores|Transition cue|Duration|Reliability" | split: "|" -%}
+  {%- for e in ev %}{% assign y = forloop.index0 | times: 36 | plus: 52 %}
+  <g class="wm-light" style="--i:{{ forloop.index0 }};--step:.9s;--dur:7.2s;--lo:.45">
+    <rect class="wm-panel" x="456" y="{{ y }}" width="160" height="28" rx="7"/>
+    <circle class="wm-lime" cx="472" cy="{{ y | plus: 14 }}" r="4"/>
+    <text x="486" y="{{ y | plus: 18 }}" class="wm-t--xs">{{ e }}</text>
+  </g>
+  {%- endfor %}
+  <path class="wm-ln wm-ln--lime" d="M456 120C400 120 420 232 364 250M374 242l-10 8 12 4"/>
+  <path class="wm-flow" d="M456 120C400 120 420 232 364 250" pathLength="100" style="--dur:3.6s"/>
+
+  <text x="24" y="270" class="wm-t--xs wm-t--lime">Ruling</text>
+  <rect class="wm-h" x="130" y="250" width="150" height="30" rx="5"/>
+  <rect class="wm-ln wm-ln--dash" x="282" y="250" width="52" height="30" rx="5"/>
+  <rect class="wm-a wm-late" x="282" y="250" width="52" height="30" rx="5" style="--dur:7.2s"/>
+  <rect class="wm-h" x="336" y="250" width="94" height="30" rx="5"/>
+
+  <path class="wm-ln wm-ln--dash" d="M24 308H616" stroke-width="1.5"/>
+  <text x="24" y="336" class="wm-t--xs">A: 1 possession</text>
+  <text x="228" y="336" class="wm-t--xs">B: 3 possessions</text>
+  <text x="432" y="336" class="wm-t--xs">C: 2 possessions</text>
+  <text x="24" y="368" class="wm-t--xs wm-t--dim">The window is a few frames. The count of possessions is the score.</text>
+</svg>

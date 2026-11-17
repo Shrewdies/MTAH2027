@@ -1,0 +1,26 @@
+{%- comment -%} Confidence dial with provenance ticks. Labels: the reading, then three evidence sources. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <g fill="none" stroke-width="20">
+    <path d="M170 268A150 150 0 0 1 470 268" stroke="rgba(255,255,255,.1)" stroke-width="26"/>
+    <path d="M170 268A150 150 0 0 1 242.4 139.6" stroke="#E5336F"/>
+    <path d="M249.2 135.7A150 150 0 0 1 390.8 135.7" stroke="#B9A2D8"/>
+    <path d="M397.6 139.6A150 150 0 0 1 470 268" stroke="#C4F000"/>
+  </g>
+  <g class="wm-ln wm-ln--white">
+    {%- for k in (0..18) %}{% assign a = k | times: 10 | minus: 90 %}
+    {%- unless k == 3 or k == 9 or k == 14 %}
+    <path class="wm-pulse" d="M320 92V102" transform="rotate({{ a }} 320 268)" style="--i:{{ k }};--lo:.3;--dur:4.2s"/>
+    {%- endunless %}
+    {%- endfor %}
+  </g>
+  <g class="wm-ln wm-ln--lime wm-ln--bold"><path d="M320 84V104" transform="rotate(-60 320 268)"/><path d="M320 84V104"/><path d="M320 84V104" transform="rotate(50 320 268)"/></g>
+  <g class="wm-lime"><circle cx="160.7" cy="176" r="5"/><circle cx="320" cy="84" r="5"/><circle cx="461" cy="149.7" r="5"/></g>
+  <text x="150" y="170" text-anchor="end" class="wm-t--s">{{ L[1] | default: "Tracking" | truncate: 10, "" | escape }}</text>
+  <text x="320" y="68" text-anchor="middle" class="wm-t--s">{{ L[2] | default: "Events" | escape }}</text>
+  <text x="474" y="146" class="wm-t--s">{{ L[3] | default: "Video" | truncate: 12, "" | escape }}</text>
+  <g transform="rotate(60 320 268)"><g class="wm-swing" style="transform-origin:320px 268px;--from:-12deg;--to:7deg;--dur:3.4s"><path d="M314 268L320 142L326 268Z" fill="#fff"/></g></g>
+  <circle class="wm-white" cx="320" cy="268" r="13"/><circle class="wm-ink" cx="320" cy="268" r="5.5"/>
+  <text class="wm-t--disp wm-t--big" x="320" y="340" text-anchor="middle">0.87</text>
+  <text x="320" y="372" text-anchor="middle" class="wm-t--s wm-t--lime">{{ L[0] | default: "Confidence" | escape }}</text>
+</svg>

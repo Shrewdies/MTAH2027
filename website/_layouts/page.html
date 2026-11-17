@@ -1,0 +1,82 @@
+---
+layout: default
+---
+{%- assign section = nil -%}
+{%- if page.collection -%}
+  {%- assign section = site.sections | where: "collection", page.collection | first -%}
+{%- endif -%}
+{%- if section -%}
+  {%- assign siblings = site[page.collection] | sort: "order" | where_exp: "d", "d.nav_exclude != true" -%}
+{%- endif -%}
+{%- assign body = content | strip -%}
+<article class="page">
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="{{ '/' | relative_url }}">Home</a></li>
+          {%- if section %}
+          <li><a href="{{ section.url | relative_url }}">{{ section.title }}</a></li>
+          {%- endif %}
+          <li><span aria-current="page">{{ page.nav_title | default: page.title }}</span></li>
+        </ol>
+      </nav>
+      <p class="kicker">
+        {%- if section %}<span class="kicker__num">{{ section.kicker }}</span>{{ section.title }}{% else %}{{ page.kicker | default: site.title }}{% endif -%}
+        {%- if page.status %}<span class="status status--{{ page.status | slugify }}">{{ page.status }}</span>{% endif -%}
+      </p>
+      <h1 class="page-title">{{ page.title }}</h1>
+      {%- if page.summary %}
+      <p class="lede">{{ page.summary }}</p>
+      {%- endif %}
+    </div>
+  </header>
+
+  {%- if page.coming_soon %}
+  <div class="container">
+    {% include coming-soon.html title=page.title text=page.coming_soon_text %}
+  </div>
+  {%- endif %}
+
+  {%- if page.feature and page.feature_first %}
+  <div class="container feature">{% include {{ page.feature }} %}</div>
+  {%- endif %}
+
+  {%- if body != "" %}
+    {%- if page.canvas %}
+  <div class="container canvas">
+    {{ content }}
+  </div>
+    {%- else %}
+  <div class="container page-body">
+    <div class="paper page-body__paper">
+      <div class="prose">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+    {%- endif %}
+  {%- endif %}
+
+  {%- if page.feature and page.feature_first != true %}
+  <div class="container feature">{% include {{ page.feature }} %}</div>
+  {%- endif %}
+
+  {%- if siblings and siblings.size > 1 %}
+    {%- for doc in siblings %}
+      {%- if doc.url == page.url %}
+        {%- assign i_prev = forloop.index0 | minus: 1 %}
+        {%- assign i_next = forloop.index0 | plus: 1 %}
+      {%- endif %}
+    {%- endfor %}
+  <nav class="container pager" aria-label="More in {{ section.title }}">
+    {%- if i_prev >= 0 %}{% assign prev_doc = siblings[i_prev] %}
+    <a class="pager__link pager__link--prev" href="{{ prev_doc.url | relative_url }}"><span class="pager__dir">&larr; Previous</span><span class="pager__title">{{ prev_doc.nav_title | default: prev_doc.title }}</span></a>
+    {%- else %}<span></span>{% endif %}
+    {%- if i_next < siblings.size %}{% assign next_doc = siblings[i_next] %}
+    <a class="pager__link pager__link--next" href="{{ next_doc.url | relative_url }}"><span class="pager__dir">Next &rarr;</span><span class="pager__title">{{ next_doc.nav_title | default: next_doc.title }}</span></a>
+    {%- endif %}
+  </nav>
+  {%- endif %}
+
+</article>

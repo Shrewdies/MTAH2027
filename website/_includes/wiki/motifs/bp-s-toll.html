@@ -1,0 +1,34 @@
+{%- comment -%}
+  Architecture study motif (the Shrewdies decoder): how the two fielded switch costs act. Evidence for a change
+  accumulates frame by frame; a change of state is bought only when it exceeds the toll. A touch never reaches the
+  team toll (4.23), sustained control does after about four frames, and a stoppage has to pay the higher toll
+  (9.43). The two costs are the published ones; the curves are schematic.
+  Motion: stroke-dashoffset, opacity and transform only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="32" class="wm-t--xs wm-t--dim">Evidence for a change, adding up frame by frame (schematic)</text>
+  <path class="wm-ln" d="M70 48V320H610M64 56l6-8 6 8M602 314l8 6-8 6"/>
+  <text x="610" y="342" text-anchor="end" class="wm-t--xs">Frames</text>
+  {%- for i in (1..8) %}<path class="wm-ln" d="M{{ i | times: 60 | plus: 70 }} 320V328" stroke-width="1.5"/>{% endfor %}
+
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M70 206H610"/>
+  <text x="604" y="198" text-anchor="end" class="wm-t--xs wm-t--lime">4.23 to change team</text>
+  <path class="wm-ln wm-ln--mauve wm-ln--dash" d="M70 66H610"/>
+  <text x="604" y="58" text-anchor="end" class="wm-t--xs">9.43 to start or end a stoppage</text>
+
+  <path class="wm-ln wm-ln--white wm-ln--bold wm-draw" d="M70 320L130 290L190 264C220 262 250 300 310 320" pathLength="100" style="--dur:8s;--ease:linear"/>
+  <text x="150" y="308" class="wm-t--xs">A touch</text>
+  <text x="326" y="308" class="wm-t--xs wm-t--dim">Never pays: no change</text>
+
+  <path class="wm-ln wm-ln--a wm-ln--bold wm-draw" d="M70 320L400 172" pathLength="100" style="--dur:8s;--ease:linear"/>
+  <g class="wm-late" style="--dur:8s"><circle class="wm-a wm-edge" cx="322" cy="206" r="8"/><circle class="wm-ring wm-ping" cx="322" cy="206" r="8" style="--dur:2.4s"/></g>
+  <text x="408" y="166" class="wm-t--xs">Sustained control</text>
+  <text x="338" y="232" class="wm-t--xs wm-t--lime">Pays after about four frames</text>
+
+  <path class="wm-ln wm-ln--mauve wm-ln--bold wm-draw" d="M70 320L550 66" pathLength="100" style="--dur:8s;--ease:linear" stroke-dasharray="2 8"/>
+  <g class="wm-late" style="--dur:8s"><circle class="wm-d wm-edge" cx="550" cy="66" r="8"/></g>
+  <text x="536" y="104" text-anchor="end" class="wm-t--xs wm-t--dim">Stoppage evidence</text>
+
+  <text x="24" y="368" class="wm-t--xs wm-t--dim">One loud frame cannot buy a turnover. A stoppage costs more than twice as much.</text>
+  <text x="24" y="388" class="wm-t--xs wm-t--dim">Both tolls were set away from the match.</text>
+</svg>

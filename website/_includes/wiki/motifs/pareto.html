@@ -1,0 +1,21 @@
+{%- comment -%} Scatter with the Pareto frontier drawing in. Labels: x axis, y axis, frontier, chosen point. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M80 120H590M80 186H590M80 253H590" stroke-dasharray="2 8" opacity=".6"/>
+  <path class="wm-ln wm-ln--white" d="M80 56V320H594M72 66l8-10 8 10M584 312l10 8-10 8"/>
+  <g class="wm-d" opacity=".75"><circle cx="200" cy="270" r="6.5"/><circle cx="260" cy="232" r="6.5"/><circle cx="300" cy="190" r="6.5"/><circle cx="360" cy="252" r="6.5"/><circle cx="400" cy="160" r="6.5"/><circle cx="440" cy="212" r="6.5"/><circle cx="500" cy="140" r="6.5"/><circle cx="520" cy="232" r="6.5"/><circle cx="560" cy="182" r="6.5"/><circle cx="330" cy="292" r="6.5"/><circle cx="460" cy="272" r="6.5"/><circle cx="180" cy="300" r="6.5"/></g>
+  <path class="wm-ln wm-ln--lime wm-ln--bold wm-draw" d="M120 270C135 240 150 214 165 196S205 158 235 140S300 112 340 104S440 88 480 84" pathLength="100"/>
+  <g class="wm-lime wm-edge">
+    <circle class="wm-pop" cx="120" cy="270" r="8" style="--i:0"/>
+    <circle class="wm-pop" cx="165" cy="196" r="8" style="--i:1"/>
+    <circle class="wm-pop" cx="340" cy="104" r="8" style="--i:3"/>
+    <circle class="wm-pop" cx="480" cy="84" r="8" style="--i:4"/>
+  </g>
+  <circle class="wm-ring wm-ping" cx="235" cy="140" r="14"/>
+  <circle class="wm-ring" cx="235" cy="140" r="17"/>
+  <circle class="wm-lime wm-edge" cx="235" cy="140" r="10" stroke-width="3"/>
+  <text x="212" y="124" text-anchor="end" class="wm-t--lime">{{ L[3] | default: "Our pick" | truncate: 11, "" | escape }}</text>
+  <text x="496" y="72" class="wm-t--s">{{ L[2] | default: "Frontier" | escape }}</text>
+  <text x="590" y="352" text-anchor="end" class="wm-t--s wm-t--dim">{{ L[0] | default: "Cost" | escape }} &rarr;</text>
+  <text x="96" y="52" class="wm-t--s wm-t--dim">&uarr; {{ L[1] | default: "Score" | escape }}</text>
+</svg>

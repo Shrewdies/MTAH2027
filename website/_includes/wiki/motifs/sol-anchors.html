@@ -1,0 +1,28 @@
+{%- comment -%}
+  Solutions motif: events as anchors with error bars. Four spotted events, each with its one-second tolerance band,
+  above the possession strip they imply. The boundaries are only known to lie inside the bands.
+  Labels: tolerance, the event row, the possession row. Synthetic.
+  Uses the kit's drawing classes; motion is opacity and transform only.
+{%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign events = "130,84,h,0|270,112,a,1|400,70,a,2|520,100,h,3" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="50" y="52" class="wm-t--s">{{ L[1] | default: "Spotted events" | truncate: 20, "" | escape }}</text>
+  <path class="wm-ticks" d="M50 216H590" opacity=".5"/>
+  <path class="wm-ln wm-ln--white" d="M50 210H590"/>
+  {%- for e in events %}{% assign v = e | split: "," %}{% assign x = v[0] | plus: 0 %}{% assign top = 210 | minus: v[1] %}
+  <rect class="wm-pulse" x="{{ x | minus: 24 }}" y="78" width="48" height="232" rx="8" fill="rgba(196,240,0,.1)" stroke="#C4F000" stroke-width="1.5" stroke-dasharray="4 6" style="--i:{{ v[3] }};--lo:.45"/>
+  <g class="wm-grow wm-{{ v[2] }}" style="--i:{{ v[3] }};--step:.9s"><rect x="{{ x | minus: 2.5 }}" y="{{ top }}" width="5" height="{{ v[1] }}" rx="2.5"/><circle cx="{{ x }}" cy="{{ top }}" r="8"/></g>
+  {%- endfor %}
+  <path class="wm-ln wm-ln--lime" d="M376 90H424M376 84V96M424 84V96"/>
+  <text x="400" y="66" text-anchor="middle" class="wm-t--xs wm-t--lime">{{ L[0] | default: "±1 s, 25 frames" | truncate: 18, "" | escape }}</text>
+  <rect class="wm-h" x="50" y="252" width="212" height="36" rx="6"/>
+  <rect class="wm-a" x="264" y="252" width="248" height="36" rx="6"/>
+  <rect class="wm-h" x="514" y="252" width="76" height="36" rx="6"/>
+  <g class="wm-float" style="--tx:14px;--ty:0px;--dur:3.4s"><path class="wm-ln wm-ln--white" stroke-width="3" d="M256 244V296"/></g>
+  <g class="wm-float" style="--tx:-14px;--ty:0px;--dur:3.4s;--i:2"><path class="wm-ln wm-ln--white" stroke-width="3" d="M520 244V296"/></g>
+  <text x="50" y="340" class="wm-t--s">{{ L[2] | default: "Possession between" | truncate: 20, "" | escape }}</text>
+  <rect class="wm-h" x="50" y="360" width="12" height="12" rx="3"/><text x="70" y="371" class="wm-t--xs wm-t--dim">Home</text>
+  <rect class="wm-a" x="150" y="360" width="12" height="12" rx="3"/><text x="170" y="371" class="wm-t--xs wm-t--dim">Away</text>
+  <path class="wm-ln wm-ln--white" stroke-width="3" d="M256 358V374"/><text x="268" y="371" class="wm-t--xs wm-t--dim">Boundary, somewhere in the band</text>
+</svg>

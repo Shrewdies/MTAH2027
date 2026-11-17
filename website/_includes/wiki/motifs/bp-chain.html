@@ -1,0 +1,55 @@
+{%- comment -%}
+  Architecture motif: evidence, then a decoder, with the audit branch. Observations become per-frame scores (a noisy
+  strip), the decoder writes clean spells, and the raw scores are kept beside them so every changed frame is marked.
+  Labels: observations, evidence stage, scores strip, decoder stage, spells strip, audit. Synthetic cells.
+  Uses the kit's drawing classes; motion is transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign raw = "h,h,a,h,h,h,h,d,h,d,d,d,a,a,h,a,a,a,a,h,a,a" | split: "," -%}
+{%- assign out = "h,h,h,h,h,h,h,d,d,d,d,d,a,a,a,a,a,a,a,a,a,a" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <defs><clipPath id="{{ include.uid }}-bpc"><rect class="wm-wipe" x="176" y="262" width="440" height="36" style="--dur:7s"/></clipPath></defs>
+
+  <path class="wm-ln" d="M154 58H222M214 52l8 6-8 6"/>
+  <path class="wm-flow" d="M154 58H222" pathLength="100" style="--dur:2.2s"/>
+  <path class="wm-ln" d="M300 82V122M294 114l6 8 6-8"/>
+  <path class="wm-flow" d="M300 82V122" pathLength="100" style="--dur:2.2s;--delay:-.7s"/>
+  <path class="wm-ln" d="M396 162V184M390 176l6 8 6-8"/>
+  <path class="wm-ln" d="M396 236V258M390 250l6 8 6-8"/>
+  <path class="wm-flow" d="M396 162V184" pathLength="100" style="--dur:2.2s;--delay:-1.2s"/>
+  <path class="wm-flow" d="M396 236V258" pathLength="100" style="--dur:2.2s;--delay:-1.7s"/>
+  <path class="wm-ln wm-ln--dash wm-ln--white" d="M616 144H630V352H616" opacity=".7"/>
+
+  <rect class="wm-node" x="24" y="34" width="130" height="48" rx="10"/>
+  <text x="89" y="63" text-anchor="middle" class="wm-t--s">{{ L[0] | default: "Observations" | truncate: 13, "" | escape }}</text>
+  <rect class="wm-node" x="222" y="34" width="156" height="48" rx="10"/>
+  <text x="300" y="63" text-anchor="middle" class="wm-t--s">{{ L[1] | default: "Frame evidence" | truncate: 16, "" | escape }}</text>
+
+  <text x="24" y="149" class="wm-t--xs">{{ L[2] | default: "H / A / D scores" | truncate: 18, "" | escape }}</text>
+  {%- for c in raw %}{% assign o = out[forloop.index0] %}
+  <rect class="wm-{{ c }}{% if c != o %} wm-blink{% endif %}" x="{{ forloop.index0 | times: 20 | plus: 176 }}" y="128" width="18" height="32" rx="3"/>
+  {%- endfor %}
+
+  {%- for c in raw %}{% assign o = out[forloop.index0] %}{% if c != o %}{% assign cx = forloop.index0 | times: 20 | plus: 185 %}
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M{{ cx }} 164V258M{{ cx }} 300V340" stroke-width="1.5" opacity=".7"/>
+  {%- endif %}{% endfor %}
+  <rect class="wm-node" x="311" y="186" width="170" height="48" rx="10"/>
+  <rect class="wm-ring wm-pulse" x="311" y="186" width="170" height="48" rx="10" style="--lo:.4"/>
+  <text x="396" y="215" text-anchor="middle" class="wm-t--s">{{ L[3] | default: "Sequence decoder" | truncate: 17, "" | escape }}</text>
+
+  <text x="24" y="285" class="wm-t--xs">{{ L[4] | default: "Spells" | truncate: 18, "" | escape }}</text>
+  <rect class="wm-ln" x="176" y="264" width="438" height="32" rx="5" stroke-dasharray="4 6"/>
+  <g clip-path="url(#{{ include.uid }}-bpc)">
+    <rect class="wm-h" x="176" y="264" width="138" height="32" rx="5"/>
+    <rect class="wm-d" x="316" y="264" width="98" height="32" rx="5"/>
+    <rect class="wm-a" x="416" y="264" width="198" height="32" rx="5"/>
+  </g>
+
+  <text x="24" y="357" class="wm-t--xs wm-t--lime">{{ L[5] | default: "Audit" | truncate: 18, "" | escape }}</text>
+  <path class="wm-ln" d="M176 352H614" stroke-width="1.5"/>
+  {%- assign k = 0 -%}
+  {%- for c in raw %}{% assign o = out[forloop.index0] %}{% if c != o %}{% assign cx = forloop.index0 | times: 20 | plus: 185 %}
+  <rect class="wm-lime wm-pop" x="{{ cx | minus: 7 }}" y="345" width="14" height="14" rx="3" style="--i:{{ k }};--step:.9s;--dur:7s"/>
+  {%- assign k = k | plus: 1 -%}
+  {%- endif %}{% endfor %}
+</svg>

@@ -1,0 +1,38 @@
+{%- comment -%}
+  Embed a motion graphic with a caption, from any page:
+    {% include motion.html src="/assets/hero/hero.svg" caption="..." %}
+  Params
+    src       site path, starting with "/" (required). .svg .gif .webp .png .apng -> image,
+              .mp4 .webm -> silent looping video, .json -> Lottie animation.
+    caption   text under the frame (optional)
+    alt       accessible description (defaults to the caption)
+    ratio     frame aspect ratio, e.g. "16 / 9" (default) or "1 / 1"
+    poster    still image for videos (optional)
+    embed     "object" to embed an SVG as a live document (needed only if the SVG runs scripts)
+    fallback  message shown when the file is missing (optional)
+  A missing file never breaks the page: it is detected at build time and again in the browser.
+{%- endcomment -%}
+{%- assign m_src = include.src | default: "" -%}
+{%- assign m_ext = m_src | split: "." | last | downcase -%}
+{%- assign m_file = site.static_files | where: "path", m_src | first -%}
+{%- assign m_alt = include.alt | default: include.caption | default: "Animation" -%}
+{%- assign m_url = m_src | relative_url -%}
+<figure class="motion{% if include.class %} {{ include.class }}{% endif %}{% unless m_file %} is-missing{% endunless %}" data-motion>
+<div class="motion__stage" style="aspect-ratio: {{ include.ratio | default: '16 / 9' }}">
+{%- if m_file -%}
+{%- if m_ext == "mp4" or m_ext == "webm" -%}
+<video class="motion__media" src="{{ m_url }}"{% if include.poster %} poster="{{ include.poster | relative_url }}"{% endif %} muted loop playsinline preload="metadata" data-autoplay aria-label="{{ m_alt | escape }}" onerror="this.closest('[data-motion]').classList.add('is-missing')"></video>
+<button class="motion__toggle" type="button" aria-pressed="false" hidden>Pause</button>
+{%- elsif m_ext == "json" -%}
+<div class="motion__media motion__lottie" data-lottie="{{ m_url }}" role="img" aria-label="{{ m_alt | escape }}"></div>
+<button class="motion__toggle" type="button" aria-pressed="false" hidden>Pause</button>
+{%- elsif include.embed == "object" -%}
+<object class="motion__media" type="image/svg+xml" data="{{ m_url }}" aria-label="{{ m_alt | escape }}">{{ m_alt | escape }}</object>
+{%- else -%}
+<img class="motion__media" src="{{ m_url }}" alt="{{ m_alt | escape }}" loading="lazy" decoding="async" onerror="this.closest('[data-motion]').classList.add('is-missing')">
+{%- endif -%}
+{%- endif -%}
+<div class="motion__fallback" role="note"><span class="motion__fallback-kicker">Motion</span><span class="motion__fallback-text">{{ include.fallback | default: "This animation is on its way." }}</span><code>{{ m_src }}</code></div>
+</div>
+{%- if include.caption -%}<figcaption class="motion__caption">{{ include.caption }}</figcaption>{%- endif -%}
+</figure>

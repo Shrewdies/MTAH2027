@@ -1,0 +1,40 @@
+{%- comment -%} Data boundary: match data stays inside one offline machine; a label file and aggregates leave, nothing goes to hosted services. Labels: data, machine, output one, output two, blocked destination, process. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect class="wm-box" x="36" y="42" width="356" height="316" rx="16"/>
+  <text class="wm-t--lime" x="56" y="340">{{ L[1] | default: "Offline laptop" | escape }}</text>
+
+  <rect class="wm-panel" x="60" y="178" width="118" height="76" rx="8"/>
+  <rect class="wm-h" x="74" y="194" width="62" height="10" rx="3"/><rect class="wm-a" x="140" y="194" width="24" height="10" rx="3"/>
+  <rect class="wm-a" x="74" y="211" width="34" height="10" rx="3"/><rect class="wm-d" x="112" y="211" width="20" height="10" rx="3"/><rect class="wm-h" x="136" y="211" width="28" height="10" rx="3"/>
+  <rect class="wm-h" x="74" y="228" width="48" height="10" rx="3"/><rect class="wm-a" x="126" y="228" width="38" height="10" rx="3"/>
+  <text class="wm-t--s" x="60" y="278">{{ L[0] | default: "Match data" | escape }}</text>
+
+  <path class="wm-ln wm-ln--bold" d="M178 216H256"/>
+  <path class="wm-flow" d="M178 216H256" pathLength="100" style="--dur:2.2s"/>
+  <circle class="wm-ring wm-ping" cx="292" cy="216" r="26"/>
+  <circle class="wm-node" cx="292" cy="216" r="36"/>
+  <path class="wm-ln" d="M272 204H312M272 216H312M272 228H312"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M272 204L285 204L298 228L312 228"/>
+  <text class="wm-t--s" x="292" y="278" text-anchor="middle">{{ L[5] | default: "Decoder" | truncate: 12, "" | escape }}</text>
+
+  <path class="wm-ln wm-ln--lime" d="M328 206C372 200 392 190 436 190M328 226C372 232 392 256 436 256"/>
+  <path class="wm-flow" d="M328 206C372 200 392 190 436 190" pathLength="100" style="--dur:2.6s;--delay:-.6s"/>
+  <path class="wm-flow" d="M328 226C372 232 392 256 436 256" pathLength="100" style="--dur:2.6s;--delay:-1.7s"/>
+  <rect class="wm-panel" x="436" y="168" width="168" height="44" rx="8"/>
+  <text class="wm-t--s" x="450" y="195">{{ L[2] | default: "Label file" | truncate: 15, "" | escape }}</text>
+  <rect class="wm-panel" x="436" y="234" width="168" height="44" rx="8"/>
+  <text class="wm-t--s" x="450" y="261">{{ L[3] | default: "Aggregates" | truncate: 15, "" | escape }}</text>
+
+  <path class="wm-ln wm-ln--dash" d="M119 178C119 110 250 70 386 70"/>
+  <path class="wm-ln wm-ln--dash" d="M400 70H452" opacity=".45"/>
+  <g transform="translate(374 70)"><g class="wm-travel" style="--fx:-190px;--fy:44px;--dur:4.5s"><circle class="wm-white" r="6"/></g></g>
+  <path d="M392 46V94" fill="none" stroke="#E5336F" stroke-width="7" stroke-linecap="round"/>
+  <circle class="wm-ring wm-ping" cx="392" cy="70" r="12" style="stroke:#E5336F;--dur:4.5s;--delay:3.4s"/>
+  <g transform="translate(392 70)">
+    <circle class="wm-a wm-edge" r="13"/>
+    <path d="M-5 -5l10 10M5 -5l-10 10" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <path class="wm-ln wm-ln--mauve wm-ln--dash" d="M476 92H580A18 18 0 0 0 584 57A26 26 0 0 0 536 44A22 22 0 0 0 494 54A20 20 0 0 0 476 92Z"/>
+  <text class="wm-t--s wm-t--dim" x="530" y="118" text-anchor="middle">{{ L[4] | default: "Hosted AI" | truncate: 14, "" | escape }}</text>
+</svg>

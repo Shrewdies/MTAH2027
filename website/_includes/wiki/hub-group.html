@@ -1,0 +1,20 @@
+{%- comment -%} One group of cards on a hub. Params: key, title, blurb, motif, url (category page, optional), docs. {%- endcomment -%}
+{%- include wiki/sort.html docs=include.docs -%}
+{%- assign wg_id = include.key | slugify -%}
+<section class="wk-group" id="group-{{ wg_id }}" data-wk-group-section aria-labelledby="group-{{ wg_id }}-title">
+  <header class="wk-group__head" data-wk-glyph>
+    <span class="wk-group__icon" aria-hidden="true">{% include wiki/glyph.html id=include.motif %}</span>
+    <div>
+      <h2 class="wk-group__title" id="group-{{ wg_id }}-title">{{ include.title }}</h2>
+      {%- if include.blurb %}
+      <p class="wk-group__blurb">{{ include.blurb }}</p>
+      {%- endif %}
+    </div>
+    <p class="wk-group__meta"><span><b>{{ wiki_sorted.size }}</b> {% if wiki_sorted.size == 1 %}entry{% else %}entries{% endif %}</span>{% if include.url %}<a href="{{ include.url | relative_url }}">Open category &rarr;</a>{% endif %}</p>
+  </header>
+  <ul class="wk-cards" role="list">
+    {%- for wg_doc in wiki_sorted %}
+    {% include wiki/card.html doc=wg_doc group=include.key %}
+    {%- endfor %}
+  </ul>
+</section>

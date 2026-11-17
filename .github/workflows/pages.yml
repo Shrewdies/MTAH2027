@@ -1,0 +1,69 @@
+# Builds website/ with the Jekyll that GitHub Pages ships and publishes it to GitHub Pages.
+#
+# One-time setup, before the first run: Settings -> Pages -> Build and deployment -> Source: GitHub Actions.
+# Until that is set, the "configure-pages" step fails with "Get Pages site failed" and nothing is published;
+# set the source, then re-run the workflow (Actions -> Website -> Run workflow).
+name: Website
+
+on:
+  push:
+    branches: [main]
+    paths: ["website/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. A run that is already deploying finishes; queued runs collapse to the newest.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - id: pages
+        uses: actions/configure-pages@v5
+      # The address comes from the Pages settings: base path "/<repo>" on <owner>.github.io/<repo>,
+      # "" on a custom domain. Any url/baseurl lines in _config.yml are replaced, whatever their format.
+      - name: Set site address
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          ORIGIN: ${{ steps.pages.outputs.origin }}
+        run: |
+          config=website/_config.yml
+          sed -i -E '/^(baseurl|url)[[:space:]]*:/d' "$config"
+          printf '\nbaseurl: "%s"\nurl: "%s"\n' "$BASE_PATH" "$ORIGIN" >> "$config"
+          grep -E '^(baseurl|url):' "$config"
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./website
+          destination: ./_site
+      # Stop before publishing if the build is empty or its links ignore the base path.
+      - name: Check the build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          test -s _site/index.html
+          test -s _site/404.html
+          grep -q "href=\"${BASE_PATH}/assets/css/site.css" _site/index.html
+          grep -q "href=\"${BASE_PATH}/team/\"" _site/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

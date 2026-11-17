@@ -1,0 +1,137 @@
+---
+layout: home
+title: Home
+kicker: More Than a Hack 2027
+tagline: >-
+  A football analytics squad. Initial Challenge: <strong>possession decoded</strong>.
+  Next up: the Innovative Challenge.
+---
+<section class="band" id="intro" aria-labelledby="intro-title">
+  <div class="container">
+    <div class="glass intro">
+      <div class="intro__text">
+        <p class="kicker"><span class="kicker__num">01</span>The team</p>
+        <h2 id="intro-title" class="display-2">Football first. <em>Engineering</em> all the way.</h2>
+        <p>We are The Shrewdies, a squad entering More Than a Hack 2027. We treat every brief as a football question first and an engineering question second.</p>
+        <p>This site follows the whole hackathon with us, one challenge at a time.</p>
+      </div>
+      <ul class="intro__stats" role="list">
+        <li><span class="intro__stat-value">Football first</span><span class="intro__stat-label">Methods a coach would recognise</span></li>
+        <li><span class="intro__stat-value">Reproducible</span><span class="intro__stat-label">Rerun byte for byte, by anyone</span></li>
+        <li><span class="intro__stat-value">Data stays local</span><span class="intro__stat-label">Match data never leaves the laptop</span></li>
+        <li><span class="intro__stat-value">2 stages</span><span class="intro__stat-label">One done, one next</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="journey-title">
+  <div class="container">
+    <div class="band__head">
+      <p class="kicker"><span class="kicker__num">02</span>The journey</p>
+      <h2 id="journey-title" class="display-2">Two challenges. <em>One squad.</em></h2>
+    </div>
+    <div class="journey">
+      <article class="glass journey__stop journey__stop--done">
+        <span class="journey__big" aria-hidden="true">1</span>
+        <span class="journey__stage">Stage 01 &middot; Initial Challenge</span>
+        <span class="status status--done">Done</span>
+        <h3 class="journey__title"><a href="{{ '/challenges/initial-challenge/' | relative_url }}">Who has the ball?</a></h3>
+        <p class="journey__text">Possession decoded: every frame of a full match labelled home, away or dead ball, in under 10 seconds on a laptop CPU.</p>
+        <span class="journey__go" aria-hidden="true">See the solution &rarr;</span>
+      </article>
+      <div class="journey__track" aria-hidden="true"><span class="journey__runner"></span></div>
+      <article class="glass journey__stop journey__stop--next">
+        <span class="journey__big" aria-hidden="true">2</span>
+        <span class="journey__stage">Stage 02 &middot; Innovative Challenge</span>
+        <span class="status status--coming-soon">In development</span>
+        <h3 class="journey__title"><a href="{{ '/challenges/roadmap/' | relative_url }}">Engines warming up</a></h3>
+        <p class="journey__text">The brief decides the target. The hidden ball, on-device vision and learned evidence are already in development.</p>
+        <span class="journey__go" aria-hidden="true">See the roadmap &rarr;</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="showcase-title">
+  <div class="container">
+    <div class="band__head">
+      <p class="kicker"><span class="kicker__num">03</span>In motion</p>
+      <h2 id="showcase-title" class="display-2">Who has <em>the ball?</em></h2>
+      <p class="band__lede">Our Initial Challenge in one animation: tracking evidence in, one coherent possession story out.</p>
+    </div>
+    <div class="glass showcase">
+      {% include motion.html src="/assets/hero/hero.svg" ratio="16 / 10" caption="Control, a touch, an interception, a lost ball, a dead ball and the restart, decoded frame by frame." alt="Animated synthetic play labelled frame by frame: control within 1.5 m, a touch that does not change possession, an interception that does, the ball lost by the tracker while possession is held, the ball going out, and the throw-in restart." fallback="The animation will appear here once it is added." %}
+    </div>
+    <div class="showcase__foot">
+      <a class="button" href="{{ '/challenges/initial-challenge/' | relative_url }}">Inside the Initial Challenge <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="squad-title">
+  <div class="container">
+    <div class="paper squad-teaser">
+      <div>
+        <p class="kicker"><span class="kicker__num">04</span>The squad</p>
+        <h2 id="squad-title" class="squad-teaser__title">Meet the <span>squad</span></h2>
+        <p>The people behind the work, presented as a squad of kit cards. Flip a card to meet each Shrewdie.</p>
+        <a class="button" href="{{ '/team/' | relative_url }}">Meet the squad <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+      <svg class="formation" viewBox="0 0 420 280" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="formation-grass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#004D98"/><stop offset=".55" stop-color="#6E4C9F"/><stop offset="1" stop-color="#A50044"/>
+          </linearGradient>
+        </defs>
+        <rect class="formation__pitch" x="0" y="0" width="420" height="280" rx="18"/>
+        <path d="M60 0V280M140 0V280M220 0V280M300 0V280M380 0V280" stroke="rgba(255,255,255,.07)" stroke-width="40"/>
+        <g class="formation__lines">
+          <rect x="14" y="14" width="392" height="252" rx="4"/>
+          <path d="M210 14V266M14 82H70V198H14M406 82H350V198H406"/>
+        </g>
+        <circle class="formation__dot" cx="34" cy="140" r="10" style="--i:0"/>
+        <circle class="formation__dot" cx="95" cy="50" r="10" style="--i:1"/>
+        <circle class="formation__dot" cx="95" cy="110" r="10" style="--i:2"/>
+        <circle class="formation__dot" cx="95" cy="170" r="10" style="--i:3"/>
+        <circle class="formation__dot" cx="95" cy="230" r="10" style="--i:4"/>
+        <circle class="formation__dot" cx="185" cy="80" r="10" style="--i:5"/>
+        <circle class="formation__dot" cx="185" cy="140" r="10" style="--i:6"/>
+        <circle class="formation__dot" cx="185" cy="200" r="10" style="--i:7"/>
+        <circle class="formation__dot formation__dot--lime" cx="280" cy="60" r="10" style="--i:8"/>
+        <circle class="formation__dot formation__dot--lime" cx="280" cy="140" r="10" style="--i:9"/>
+        <circle class="formation__dot formation__dot--lime" cx="280" cy="220" r="10" style="--i:10"/>
+        <circle class="formation__ball" cx="108" cy="104" r="6"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="explore-title">
+  <div class="container">
+    <div class="band__head">
+      <p class="kicker"><span class="kicker__num">05</span>Explore</p>
+      <h2 id="explore-title" class="display-2">Every section, <em>one tap away.</em></h2>
+    </div>
+    <ol class="card-grid card-grid--sections" role="list">
+      {%- assign visible_sections = site.sections | where_exp: "s", "s.hidden != true" %}
+      {%- for section in visible_sections %}
+      {%- assign n = site[section.collection] | where_exp: "d", "d.nav_exclude != true" | size %}
+      {%- assign total = site[section.collection] | size %}
+      <li class="card card--section">
+        <span class="card__num" aria-hidden="true">{{ section.kicker }}</span>
+        <h3 class="card__title"><a href="{{ section.url | relative_url }}">{{ section.title }}</a></h3>
+        <p class="card__text">{{ section.blurb }}</p>
+        {%- if section.families %}
+        <span class="card__meta">{{ section.families.size }} families &middot; {{ total }} pages</span>
+        {%- elsif n == 0 %}
+        <span class="status status--coming-soon">Coming soon</span>
+        {%- else %}
+        <span class="card__meta">{{ n }} {% if n == 1 %}page{% else %}pages{% endif %}</span>
+        {%- endif %}
+        <span class="card__arrow" aria-hidden="true">&rarr;</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>

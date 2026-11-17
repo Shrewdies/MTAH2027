@@ -1,0 +1,8 @@
+# Runtime dependencies, installed with --no-deps (this is the complete set).
+# numpy BSD-3 | pandas BSD-3 | python-dateutil Apache-2.0/BSD | pytz MIT | tzdata Apache-2.0 | six MIT
+numpy==2.2.6
+pandas==2.2.3
+python-dateutil==2.9.0.post0
+pytz==2024.2
+tzdata==2024.2
+six==1.16.0

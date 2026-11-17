@@ -1,0 +1,30 @@
+{%- comment -%} External-validation table from _data/results.yml, with inline bars (0-1 scale). {%- endcomment -%}
+{%- assign r = site.data.results -%}
+<div class="table-wrap">
+  <table class="results">
+    <caption>Official metric on open DFL match J03WOH. &ldquo;Degraded&rdquo; hides the ball in bursts on 41% of frames, the competition rate, and adds 0.15&nbsp;m noise, to resemble the competition tracking.</caption>
+    <thead>
+      <tr>
+        <th scope="col">Method</th>
+        <th scope="col" class="num">spellF1<span>clean</span></th>
+        <th scope="col" class="num">macroF1<span>clean</span></th>
+        <th scope="col" class="num">spellF1<span>degraded</span></th>
+        <th scope="col" class="num">macroF1<span>degraded</span></th>
+        <th scope="col" class="num">Possessions<span>degraded, truth {{ r.truth_possessions_degraded }}</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      {%- for row in r.rows %}
+      <tr{% if row.submitted %} class="is-submitted"{% endif %}>
+        <th scope="row">{{ row.method }}</th>
+        {%- assign cells = "spell_clean,macro_clean,spell_degraded,macro_degraded" | split: "," %}
+        {%- for c in cells %}
+        {%- assign v = row[c] %}
+        <td class="num"><span class="bar" style="--v: {{ v }}" aria-hidden="true"></span>{{ v | prepend: "" | append: "000" | slice: 0, 5 }}</td>
+        {%- endfor %}
+        <td class="num">{{ row.possessions_degraded }}</td>
+      </tr>
+      {%- endfor %}
+    </tbody>
+  </table>
+</div>

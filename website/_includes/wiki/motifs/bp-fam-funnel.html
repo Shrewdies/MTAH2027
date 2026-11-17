@@ -1,0 +1,54 @@
+{%- comment -%}
+  Architecture family motif (The engine): what moves through the engine. The unit changes at every stage: opinions
+  on single frames, three scores per frame, one state per frame, then possessions. The tie-break metric reads the
+  third band and the ranking metric reads the fourth. Synthetic.
+  Motion: opacity, transform (wipe) and stroke-dashoffset only.
+{%- endcomment -%}
+{%- assign noisy = "h,h,a,h,h,d,h,h,a,h,h,h,d,d,h,d,d,a,a,h,a,a,a,d,a,a,h,a,a,a" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="{{ include.uid }}-f3"><rect class="wm-wipe" x="170" y="212" width="360" height="40" style="--dur:7s"/></clipPath>
+  </defs>
+  <text x="24" y="58" class="wm-t--xs">Frames</text>
+  <text x="24" y="74" class="wm-t--xs wm-t--dim">25 opinions a second</text>
+  {%- for c in noisy %}
+  <rect class="wm-{{ c }} wm-pulse" x="{{ forloop.index0 | times: 12 | plus: 170 }}" y="44" width="10" height="32" rx="2" style="--i:{{ forloop.index0 | modulo: 7 }};--lo:.45"/>
+  {%- endfor %}
+
+  <path class="wm-ln" d="M350 82V108M344 100l6 8 6-8"/>
+  <text x="366" y="100" class="wm-t--xs wm-t--lime">Evidence</text>
+  <text x="24" y="142" class="wm-t--xs">Scores</text>
+  <text x="24" y="158" class="wm-t--xs wm-t--dim">Three per frame</text>
+  <path class="wm-ln wm-ln--h wm-ln--bold" d="M170 124h60l12 10h36l12-10h96l12 10h24l12-10h96"/>
+  <path class="wm-ln wm-ln--a wm-ln--bold" d="M170 152h192l12-10h24l12 10h12l12-10h84" opacity=".9"/>
+  <path class="wm-ln wm-ln--mauve wm-ln--bold" d="M170 166h144l12-8h60l12 8h132" opacity=".9"/>
+
+  <path class="wm-ln" d="M350 174V204M344 196l6 8 6-8"/>
+  <text x="366" y="194" class="wm-t--xs wm-t--lime">Decoder</text>
+  <text x="24" y="230" class="wm-t--xs">States</text>
+  <text x="24" y="246" class="wm-t--xs wm-t--dim">One per frame</text>
+  <g clip-path="url(#{{ include.uid }}-f3)">
+    <rect class="wm-h" x="170" y="216" width="142" height="32" rx="5"/>
+    <rect class="wm-d" x="314" y="216" width="58" height="32" rx="5"/>
+    <rect class="wm-a" x="374" y="216" width="156" height="32" rx="5"/>
+  </g>
+  <path class="wm-ln" d="M534 232H544"/>
+  <text x="616" y="228" text-anchor="end" class="wm-t--xs wm-t--dim">Tie-break</text>
+  <text x="616" y="244" text-anchor="end" class="wm-t--xs wm-t--dim">reads here</text>
+
+  <path class="wm-ln" d="M350 256V286M344 278l6 8 6-8"/>
+  <text x="366" y="276" class="wm-t--xs wm-t--lime">Counting rule</text>
+  <text x="24" y="312" class="wm-t--xs wm-t--lime">Possessions</text>
+  <text x="24" y="328" class="wm-t--xs wm-t--dim">The unit that is ranked</text>
+  <g class="wm-late" style="--dur:7s">
+    <rect class="wm-ring" x="170" y="296" width="142" height="36" rx="8"/><text x="241" y="320" text-anchor="middle" class="wm-t--s wm-t--lime">1</text>
+    <rect class="wm-ring" x="374" y="296" width="156" height="36" rx="8"/><text x="452" y="320" text-anchor="middle" class="wm-t--s wm-t--lime">2</text>
+  </g>
+  <rect class="wm-ln wm-ln--dash" x="314" y="296" width="58" height="36" rx="8"/>
+  <text x="343" y="318" text-anchor="middle" class="wm-t--xs wm-t--dim">Dead</text>
+  <path class="wm-ln wm-ln--lime" d="M534 314H542"/>
+  <text x="616" y="310" text-anchor="end" class="wm-t--xs wm-t--lime">Ranking</text>
+  <text x="616" y="326" text-anchor="end" class="wm-t--xs wm-t--lime">reads here</text>
+
+  <text x="24" y="374" class="wm-t--xs wm-t--dim">Thirty frames became two possessions. Errors get dearer on the way down.</text>
+</svg>

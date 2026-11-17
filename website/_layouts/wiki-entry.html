@@ -1,0 +1,232 @@
+---
+layout: default
+---
+{%- comment -%}
+  Knowledge entry (datasets, solutions, architecture studies, challenges). Front matter is documented in README-SITE.md,
+  chapter "Wiki pages". Every block is optional and is left out when its field is missing.
+{%- endcomment -%}
+{%- assign coll = page.collection | default: page.section -%}
+{%- assign section = nil -%}
+{%- assign hubs = "" | split: "" -%}
+{%- if coll -%}
+  {%- assign section = site.sections | where: "collection", coll | first -%}
+  {%- assign hubs = site.pages | where: "layout", "wiki-hub" | where: "collection_index", coll -%}
+{%- endif -%}
+{%- if page.collection -%}
+  {%- assign doc_hubs = site[page.collection] | where: "layout", "wiki-hub" -%}
+  {%- assign hubs = hubs | concat: doc_hubs -%}
+{%- endif -%}
+{%- assign hub = hubs | where_exp: "h", "h.only_group == nil" | first -%}
+{%- assign hub_url = hub.url | default: section.url -%}
+
+{%- if page.group -%}
+  {%- assign group_hub = hubs | where: "only_group", page.group | first -%}
+  {%- assign group_meta = hub.groups | where: "key", page.group | first -%}
+  {%- assign group_title = group_meta.title | default: group_hub.title -%}
+  {%- unless group_title -%}{%- assign group_title = page.group | replace: "-", " " | replace: "_", " " | capitalize -%}{%- endunless -%}
+  {%- if group_meta.url -%}
+    {%- assign group_url = group_meta.url -%}
+  {%- elsif group_hub -%}
+    {%- assign group_url = group_hub.url -%}
+  {%- elsif hub and hub.families != true -%}
+    {%- capture group_url -%}{{ hub.url }}#group-{{ page.group | slugify }}{%- endcapture -%}
+  {%- else -%}
+    {%- assign group_url = hub_url -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign i_prev = -1 -%}
+{%- assign i_next = -1 -%}
+{%- if page.collection -%}
+  {%- assign sibs = site[page.collection] | where_exp: "d", "d.layout != 'wiki-hub'" | where_exp: "d", "d.template != true" -%}
+  {%- if page.group -%}
+    {%- assign sibs = sibs | where: "group", page.group -%}
+  {%- else -%}
+    {%- assign sibs = sibs | where_exp: "d", "d.group == nil" -%}
+  {%- endif -%}
+  {%- include wiki/sort.html docs=sibs -%}
+  {%- for d in wiki_sorted -%}
+    {%- if d.url == page.url -%}
+      {%- assign i_prev = forloop.index0 | minus: 1 -%}
+      {%- assign i_next = forloop.index0 | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if i_next >= wiki_sorted.size -%}{%- assign i_next = -1 -%}{%- endif -%}
+{%- endif -%}
+
+{%- assign title_size = page.title | size -%}
+{%- assign body = content | strip -%}
+<link rel="stylesheet" href="{{ '/assets/wiki/wiki.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<article class="wk wk-entry">
+  <header class="page-hero wk-hero">
+    <div class="container wk-hero__grid{% if page.motif %} wk-hero__grid--motif{% endif %}">
+      <div class="page-hero__inner">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="{{ '/' | relative_url }}">Home</a></li>
+            {%- if section %}
+            <li><a href="{{ hub_url | relative_url }}">{{ section.title }}</a></li>
+            {%- endif %}
+            {%- if page.group %}
+            <li>{% if group_url %}<a href="{{ group_url | relative_url }}">{{ group_title }}</a>{% else %}{{ group_title }}{% endif %}</li>
+            {%- endif %}
+            <li><span aria-current="page">{{ page.nav_title | default: page.title }}</span></li>
+          </ol>
+        </nav>
+        <p class="kicker">
+          {%- if section %}<span class="kicker__num">{{ section.kicker }}</span>{% endif -%}
+          {{- page.kicker | default: group_title | default: section.title | default: site.title -}}
+          {%- if page.status %}<span class="status status--{{ page.status | slugify }}">{{ page.status }}</span>{% endif -%}
+        </p>
+        <h1 class="page-title wk-title{% if title_size > 30 %} wk-title--long{% elsif title_size < 13 %} wk-title--xl{% endif %}">{{ page.title }}</h1>
+        {%- if page.summary %}
+        <p class="lede">{{ page.summary }}</p>
+        {%- endif %}
+        {%- if page.chips %}
+        <ul class="wk-chips" role="list" aria-label="Tags">
+          {%- for chip in page.chips %}
+          <li>{{ chip }}</li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+      </div>
+      {%- if page.motif %}
+      {% include wiki/motif.html id=page.motif labels=page.motif_labels caption=page.motif_caption uid="wk-hero" %}
+      {%- endif %}
+    </div>
+  </header>
+
+  {%- if page.facts %}
+  <section class="container wk-block" aria-label="Key facts">
+    {%- assign fact_count = page.facts | size -%}
+    {%- if fact_count <= 5 -%}{%- assign fact_cols = fact_count -%}
+    {%- elsif fact_count == 6 or fact_count == 9 -%}{%- assign fact_cols = 3 -%}
+    {%- elsif fact_count == 10 -%}{%- assign fact_cols = 5 -%}
+    {%- else -%}{%- assign fact_cols = 4 -%}{%- endif %}
+    <dl class="wk-facts" style="--cols: {{ fact_cols }}">
+      {%- for fact in page.facts %}
+      {%- if fact.k %}
+      <div class="wk-fact"><dt>{{ fact.k }}</dt><dd>{{ fact.v }}</dd></div>
+      {%- endif %}
+      {%- endfor %}
+    </dl>
+  </section>
+  {%- endif %}
+
+  <div class="container wk-flow">
+    {%- if body != "" %}
+    <div class="paper wk-body">
+      <nav class="wk-toc" aria-label="On this page" data-wk-toc hidden>
+        <p class="wk-toc__title">On this page</p>
+        <ol></ol>
+      </nav>
+      <div class="prose wk-prose">
+        {{ content }}
+      </div>
+    </div>
+    {%- endif %}
+
+    {%- if page.verdict %}
+    {%- assign verdict_text = page.verdict.text -%}
+    {%- unless page.verdict.text or page.verdict.label -%}{%- assign verdict_text = page.verdict -%}{%- endunless -%}
+    {%- if verdict_text %}
+    <section class="wk-verdict" aria-labelledby="wk-verdict-title">
+      <h2 class="wk-verdict__label" id="wk-verdict-title">{{ page.verdict.label | default: "Our read" }}</h2>
+      <p class="wk-verdict__text">{{ verdict_text }}</p>
+    </section>
+    {%- endif %}
+    {%- endif %}
+
+    {%- if page.call %}
+    <section class="wk-call" aria-labelledby="wk-call-title">
+      <div class="wk-call__head">
+        <p class="wk-call__kicker"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="9" cy="14" r="5.5"/><path d="M13.6 11H21v3.5h-6.6M9 4.5v2M4.2 6.2l1.4 1.4M13.8 6.2l-1.4 1.4"/></svg>{{ page.call.label | default: "Our call" }}</p>
+        {%- if page.call.constraint %}
+        <p class="wk-call__constraint"><span>Constraint</span>{{ page.call.constraint }}</p>
+        {%- endif %}
+      </div>
+      <h2 class="wk-call__title" id="wk-call-title">{{ page.call.title | default: "The call we made" }}</h2>
+      {%- if page.call.text %}
+      <p class="wk-call__text">{{ page.call.text }}</p>
+      {%- endif %}
+    </section>
+    {%- endif %}
+
+    {%- if page.sources %}
+    <section class="wk-sources" aria-labelledby="wk-sources-title">
+      <h2 class="wk-h" id="wk-sources-title">Sources</h2>
+      <ol class="wk-sources__list">
+        {%- for source in page.sources %}
+        {%- assign s_url = source.url -%}
+        {%- assign s_title = source.title | default: source.url -%}
+        {%- unless s_title -%}
+          {%- assign s_title = source -%}
+          {%- if source contains "://" -%}{%- assign s_url = source -%}{%- endif -%}
+        {%- endunless -%}
+        {%- assign s_first = s_url | slice: 0 -%}
+        {%- if s_first == "/" -%}{%- assign s_href = s_url | relative_url -%}{%- else -%}{%- assign s_href = s_url -%}{%- endif -%}
+        {%- assign s_host = "" -%}
+        {%- if s_url contains "://" -%}{%- assign s_host = s_url | split: "/" | slice: 2 | first | remove_first: "www." -%}{%- endif %}
+        <li>
+          {%- if s_url %}
+          <a class="wk-source" href="{{ s_href }}"{% if s_host != "" %} rel="noopener"{% endif %}>
+            <span><span class="wk-source__title">{{ s_title }}</span>{% if s_host != "" %}<span class="wk-source__host">{{ s_host }}</span>{% endif %}</span>
+            <span class="wk-source__go" aria-hidden="true">&nearr;</span>
+          </a>
+          {%- else %}
+          <span class="wk-source"><span class="wk-source__title">{{ s_title }}</span></span>
+          {%- endif %}
+        </li>
+        {%- endfor %}
+      </ol>
+    </section>
+    {%- endif %}
+
+    {%- if page.related %}
+    {%- capture related_cards -%}
+      {%- for item in page.related -%}
+        {%- assign r_url = item.url | default: item -%}
+        {%- assign r_last = r_url | slice: -1 -%}
+        {%- unless r_last == "/" -%}{%- assign r_url = r_url | append: "/" -%}{%- endunless -%}
+        {%- assign r_doc = site.documents | where: "url", r_url | first -%}
+        {%- unless r_doc -%}{%- assign r_doc = site.pages | where: "url", r_url | first -%}{%- endunless -%}
+        {%- if r_doc -%}
+          {%- assign r_label = r_doc.kicker -%}
+          {%- if r_doc.collection -%}
+            {%- assign r_section = site.sections | where: "collection", r_doc.collection | first -%}
+            {%- assign r_label = r_section.title | default: r_doc.kicker -%}
+          {%- endif %}
+          {% include wiki/card.html doc=r_doc label=r_label static=true %}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+    {%- assign related_cards = related_cards | strip -%}
+    {%- if related_cards != "" %}
+    <section class="wk-related" aria-labelledby="wk-related-title">
+      <h2 class="wk-h" id="wk-related-title">Related</h2>
+      <ul class="wk-cards" role="list">
+        {{ related_cards }}
+      </ul>
+    </section>
+    {%- endif %}
+    {%- endif %}
+  </div>
+
+  {%- if i_prev >= 0 or i_next >= 0 %}
+  <nav class="container pager" aria-label="More in {{ group_title | default: section.title }}">
+    {%- if i_prev >= 0 %}{% assign prev_doc = wiki_sorted[i_prev] %}
+    <a class="pager__link pager__link--prev" href="{{ prev_doc.url | relative_url }}"><span class="pager__dir">&larr; Previous</span><span class="pager__title">{{ prev_doc.nav_title | default: prev_doc.title }}</span></a>
+    {%- else %}<span></span>{% endif %}
+    {%- if i_next >= 0 %}{% assign next_doc = wiki_sorted[i_next] %}
+    <a class="pager__link pager__link--next" href="{{ next_doc.url | relative_url }}"><span class="pager__dir">Next &rarr;</span><span class="pager__title">{{ next_doc.nav_title | default: next_doc.title }}</span></a>
+    {%- endif %}
+  </nav>
+  {%- endif %}
+
+  <div class="container wk-foot">
+    {%- if hub_url %}
+    <a class="button button--ghost" href="{{ hub_url | relative_url }}"><span aria-hidden="true">&larr;</span> All {{ section.title | default: "entries" }}</a>
+    {%- endif %}
+  </div>
+</article>
+<script src="{{ '/assets/wiki/wiki.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

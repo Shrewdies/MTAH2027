@@ -1,0 +1,95 @@
+{%- comment -%}
+  Squad of kit cards from _data/team.yml. Front: the shirt (jersey.svg). Back: photo and profile.
+  Behaviour: assets/js/team.js. Styles: assets/css/team.css.
+{%- endcomment -%}
+{%- assign team = site.data.team -%}
+{%- assign members = team.members | sort: "number" -%}
+{%- assign placeholder = '/assets/team/placeholder.svg' | relative_url -%}
+{%- assign flag_dir = '/assets/flags/' | relative_url -%}
+{%- assign icons = '/assets/icons/social.svg' | relative_url -%}
+<section class="squad" aria-label="Squad">
+  <ul class="squad__grid" role="list">
+    {%- for m in members %}
+      {%- capture uid %}kit-{{ m.number }}{% endcapture %}
+      {%- capture shirt_title %}Shirt number {{ m.number }}, {{ m.shirt }}{% endcapture %}
+      {%- assign photo_base = '/assets/team/' | append: m.slug %}
+      {%- assign webp_path = photo_base | append: '.webp' %}
+      {%- assign png_path = photo_base | append: '.png' %}
+      {%- assign has_webp = site.static_files | where: "path", webp_path | first %}
+      {%- assign has_png = site.static_files | where: "path", png_path | first %}
+      {%- capture profile_url %}{{ '/team/' | append: m.slug | append: '/' | relative_url }}{% endcapture %}
+    <li class="kit-card" data-kit-card style="--i: {{ forloop.index0 }}">
+      <div class="kit-card__tilt">
+        <div class="kit-card__inner">
+          <div class="kit-card__face kit-card__face--front">
+            <div class="kit-card__lights" aria-hidden="true"></div>
+            <span class="kit-card__year" aria-hidden="true">{{ team.kit.year }}</span>
+            <a class="kit-card__kit" href="{{ profile_url }}" tabindex="-1" aria-hidden="true" data-kit-front>{% include jersey.svg uid=uid label=team.kit.label name=m.shirt number=m.number title=shirt_title %}</a>
+            <div class="kit-card__plate">
+              <h3 class="kit-card__name">{{ m.name }}</h3>
+              {%- if m.role and m.role != "" %}<p class="kit-card__role">{{ m.role }}</p>{% endif %}
+            </div>
+            <div class="kit-card__sheen" aria-hidden="true"></div>
+          </div>
+
+          <div class="kit-card__face kit-card__face--back">
+            <a class="kit-card__stage" href="{{ profile_url }}" tabindex="-1" aria-hidden="true">
+              {%- if has_webp or has_png %}
+              <picture>
+                {%- if has_webp and has_png %}<source srcset="{{ webp_path | relative_url }}" type="image/webp">{% endif %}
+                <img class="kit-card__photo" src="{% if has_png %}{{ png_path | relative_url }}{% else %}{{ webp_path | relative_url }}{% endif %}" alt="Portrait of {{ m.name }}" width="800" height="1000" loading="lazy" decoding="async" onerror="this.onerror=null;this.parentNode.querySelectorAll('source').forEach(function(s){s.remove()});this.src='{{ placeholder }}';this.classList.add('is-placeholder')">
+              </picture>
+              {%- else %}
+              <img class="kit-card__photo is-placeholder" src="{{ placeholder }}" alt="Photo of {{ m.name }} to come" width="600" height="750" loading="lazy" decoding="async">
+              {%- endif %}
+              <span class="kit-card__cta">View profile <span class="kit-card__cta-arrow">&rarr;</span></span>
+            </a>
+            <div class="kit-card__info">
+              <p class="kit-card__info-name"><a href="{{ profile_url }}">{{ m.name }}<span class="visually-hidden">, open profile</span></a></p>
+              {%- if m.role and m.role != "" %}<p class="kit-card__info-role">{{ m.role }}</p>{% endif %}
+              <dl class="kit-card__facts">
+                <div>
+                  <dt>Roots</dt>
+                  <dd><ul class="chips" role="list">
+                    {%- for c in m.nationality %}{% assign country = team.countries[c] %}
+                    <li class="chip" data-tip="{{ country }}"><img src="{{ flag_dir }}{{ c }}.svg" alt="{{ country }}" width="20" height="15"></li>
+                    {%- endfor %}
+                  </ul></dd>
+                </div>
+                <div>
+                  <dt>Based in</dt>
+                  <dd><ul class="chips" role="list">
+                    {%- assign country = team.countries[m.residency] %}
+                    <li class="chip" data-tip="{{ country }}"><img src="{{ flag_dir }}{{ m.residency }}.svg" alt="{{ country }}" width="20" height="15"></li>
+                  </ul></dd>
+                </div>
+                <div>
+                  <dt>Cultures</dt>
+                  <dd><ul class="chips" role="list">
+                    {%- for l in m.languages %}{% assign lang = team.languages[l] %}
+                    <li class="chip chip--lang" data-tip="{{ lang.name }}"><img src="{{ flag_dir }}{{ lang.flag }}.svg" alt="{{ lang.name }}" width="20" height="15"><span aria-hidden="true">{{ l | upcase }}</span></li>
+                    {%- endfor %}
+                  </ul></dd>
+                </div>
+              </dl>
+              <ul class="kit-card__social" role="list">
+                {%- if m.links.linkedin and m.links.linkedin != "" %}
+                <li><a href="{{ m.links.linkedin }}" target="_blank" rel="noopener" aria-label="{{ m.name }} on LinkedIn" title="LinkedIn"><svg aria-hidden="true" focusable="false" width="20" height="20"><use href="{{ icons }}#linkedin"></use></svg></a></li>
+                {%- endif %}
+                {%- if m.links.github and m.links.github != "" %}
+                <li><a href="{{ m.links.github }}" target="_blank" rel="noopener" aria-label="{{ m.name }} on GitHub" title="GitHub"><svg aria-hidden="true" focusable="false" width="20" height="20"><use href="{{ icons }}#github"></use></svg></a></li>
+                {%- endif %}
+              </ul>
+            </div>
+            <div class="kit-card__sheen" aria-hidden="true"></div>
+          </div>
+        </div>
+        <button class="kit-card__flip" type="button" aria-pressed="false">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.7M20 4v4.7h-4.7M20 12a8 8 0 0 1-13.7 5.6L4 15.3M4 20v-4.7h4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="visually-hidden">Show profile of {{ m.name }}</span>
+        </button>
+      </div>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>

@@ -1,0 +1,51 @@
+{%- comment -%}
+  Architecture motif: the decision map of one family. A question (or, for the fielded family, a constraint) on the
+  left leads to the study that answers it on the right; every study is a link. Label 0 selects the family:
+  fielded, map, engine, hard-parts or proof. Rows are "left text;right text;page name".
+  Motion: stroke-dashoffset and opacity only; the base state is the still frame.
+{%- endcomment -%}
+{%- assign fam = include.labels[0] | default: "map" | downcase | strip -%}
+{%- assign head_l = "Your question" -%}
+{%- assign head_r = "The study that answers it" -%}
+{%- case fam -%}
+  {%- when "fielded" -%}
+    {%- assign head_l = "The constraint" -%}
+    {%- assign head_r = "The call it forced" -%}
+    {%- assign rows = "Offline, one laptop, days;Coordinates carry the match;geospatial-only|No labels on the match;Evidence, then a decoder;chained-classifier-and-decoder|No labels, exact rerun;Viterbi writes the sequence;decoding-alternatives|Ball untracked on 41%;Silence is no evidence;ball-aware-vs-ball-free|A team, not an identity;Reason about teams;player-identities|Automatic tags, no answers;Tags calibrate themselves;events-and-control|Public window: check only;Open labels pick the profile;evaluation-framework|Organisers rerun the file;Deterministic, CPU-only;the-shrewdies-decoder|Days, and an exact rerun;One witness, for now;single-source-of-truth" | split: "|" -%}
+  {%- when "engine" -%}
+    {%- assign rows = "Where should time live?;Evidence, then a decoder;chained-classifier-and-decoder|Which decoder, and why?;Seven ways to decode a match;decoding-alternatives|Several models disagree?;Experts, gates and referees;ensemble-logic" | split: "|" -%}
+  {%- when "hard-parts" -%}
+    {%- assign rows = "Two clocks, one match?;One clock for the match;match-timeline|Two cameras, one pitch?;Space is not time;multi-camera-geography|No player identities?;Players without names;player-identities|No ball on the frame?;When the ball goes missing;ball-aware-vs-ball-free|In play, or stopped?;Alive or dead, then who;live-dead|A touch, or a turnover?;Events are not possession;events-and-control" | split: "|" -%}
+  {%- when "proof" -%}
+    {%- assign rows = "Is it actually better?;Two metrics, one verdict;evaluation-framework|How sure, and of what?;Confidence and provenance;confidence-and-provenance|What is still unsolved?;Open frontiers;open-frontiers" | split: "|" -%}
+  {%- else -%}
+    {%- assign rows = "Three witnesses, one state?;The single source of truth;single-source-of-truth|Coordinates alone?;Geospatial-only inference;geospatial-only|Pixels alone?;Video-only inference;video-only" | split: "|" -%}
+{%- endcase -%}
+{%- assign n = rows.size -%}
+{%- assign pitch = 320 | divided_by: n -%}
+{%- if pitch > 62 -%}{%- assign pitch = 62 -%}{%- endif -%}
+{%- assign block = n | times: pitch -%}
+{%- assign top = 400 | minus: block | divided_by: 2 | plus: 14 -%}
+{%- assign h = pitch | minus: 10 -%}
+{%- if h > 40 -%}{%- assign h = 40 -%}{%- endif -%}
+<svg class="wm bp-dm" viewBox="0 0 640 400" role="group" aria-label="Decision map: each line leads to the study that answers it.">
+  <style>
+    .bp-dm a { cursor: pointer; }
+    .bp-dm__go { transition: stroke .2s ease, fill .2s ease; }
+    .bp-dm a:hover .bp-dm__go, .bp-dm a:focus .bp-dm__go { stroke: var(--sh-lime); fill: rgba(196, 240, 0, .16); }
+    .bp-dm a:focus { outline: none; }
+  </style>
+  <text x="24" y="{{ top | minus: 14 }}" class="wm-t--xs wm-t--dim">{{ head_l }}</text>
+  <text x="352" y="{{ top | minus: 14 }}" class="wm-t--xs wm-t--lime">{{ head_r }}</text>
+  {%- for row in rows %}{% assign v = row | split: ";" %}{% assign y = forloop.index0 | times: pitch | plus: top %}{% assign cy = h | divided_by: 2 | plus: y %}
+  <rect class="wm-panel" x="24" y="{{ y }}" width="248" height="{{ h }}" rx="9"/>
+  <text x="40" y="{{ cy | plus: 4 }}" class="wm-t--xs">{{ v[0] }}</text>
+  <path class="wm-ln" d="M272 {{ cy }}H346M338 {{ cy | minus: 5 }}l8 5-8 5"/>
+  <path class="wm-flow" d="M272 {{ cy }}H346" pathLength="100" style="--dur:2.8s;--delay:-{{ forloop.index0 | times: 0.35 }}s"/>
+  <a href="{{ '/architecture/' | append: v[2] | append: '/' | relative_url }}" aria-label="{{ v[0] }} {{ v[1] }}">
+    <rect class="wm-node bp-dm__go" x="352" y="{{ y }}" width="264" height="{{ h }}" rx="9"/>
+    <text x="368" y="{{ cy | plus: 4 }}" class="wm-t--xs">{{ v[1] }}</text>
+    <path class="wm-ln wm-ln--lime" d="M592 {{ cy | minus: 5 }}l7 5-7 5"/>
+  </a>
+  {%- endfor %}
+</svg>

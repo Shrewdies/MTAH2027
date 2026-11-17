@@ -1,0 +1,15 @@
+{%- comment -%} Solutions family "synchronisation": the five methods as a funnel, cheapest first. Each row is tried only on what the row above left open, and most problems end at the second or third. {%- endcomment -%}
+{%- assign rows = "File timestamps,60,520|Stadium audio,110,420|Time warping,160,320|Player geometry,210,220|Learned,250,140" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln wm-ln--white" d="M34 60V316M34 316l-6 -10M34 316l6 -10"/>
+  <text class="wm-t--xs wm-t--dim" x="24" y="190" text-anchor="middle" transform="rotate(-90 24 190)">Cost</text>
+  {%- for r in rows %}{% assign v = r | split: "," %}{% assign y = forloop.index0 | times: 56 | plus: 56 %}
+  <g class="wm-light" style="--i:{{ forloop.index0 }};--step:1s;--lo:.6">
+    <rect class="{% if forloop.index0 == 1 or forloop.index0 == 2 %}wm-box{% else %}wm-panel{% endif %}" x="{{ v[1] }}" y="{{ y }}" width="{{ v[2] }}" height="40" rx="10"/>
+    <text class="wm-t--s" x="320" y="{{ y | plus: 25 }}" text-anchor="middle">{{ v[0] }}</text>
+  </g>
+  {%- endfor %}
+  <path class="wm-ln wm-ln--lime" d="M546 118V202M540 118h6M540 202h6"/>
+  <text class="wm-t--xs wm-t--lime" x="554" y="158">Usually</text><text class="wm-t--xs wm-t--lime" x="554" y="174">enough</text>
+  <text class="wm-t--s wm-t--dim" x="320" y="354" text-anchor="middle">Fewer problems reach each row</text>
+</svg>

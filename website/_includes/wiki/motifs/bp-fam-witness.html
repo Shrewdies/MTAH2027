@@ -1,0 +1,50 @@
+{%- comment -%}
+  Architecture family motif (The map): one instant of one match, as each kind of witness sees it. Tactical tracking
+  has everyone and no ball; broadcast tracking has the ball inside a window and nothing outside it; the video frame
+  has contact and a shirt number but no metres. Below, where a design sits between one witness and one reconciled
+  state. Synthetic. Motion: opacity, transform and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="32" class="wm-t--xs wm-t--dim">One instant, three witnesses</text>
+
+  <text x="24" y="60" class="wm-t--xs">Tactical tracking</text>
+  <rect class="wm-pitch" x="24" y="70" width="184" height="112" rx="4"/><path class="wm-pitch" d="M116 70V182"/>
+  <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="52" cy="96" r="5"/><circle cx="78" cy="150" r="5"/><circle cx="124" cy="112" r="5"/><circle cx="150" cy="160" r="5"/></g>
+  <g class="wm-a wm-edge" stroke-width="1.5"><circle cx="96" cy="120" r="5"/><circle cx="140" cy="92" r="5"/><circle cx="176" cy="130" r="5"/><circle cx="164" cy="104" r="5"/></g>
+  <circle class="wm-ln wm-ln--a wm-ln--dash wm-pulse" cx="134" cy="118" r="11" style="--lo:.35"/>
+  <text x="134" y="122" text-anchor="middle" class="wm-t--xs">?</text>
+  <text x="24" y="202" class="wm-t--xs wm-t--lime">Everyone, always</text>
+  <text x="24" y="218" class="wm-t--xs wm-t--dim">No ball, no names</text>
+
+  <text x="228" y="60" class="wm-t--xs">Broadcast tracking</text>
+  <rect class="wm-pitch" x="228" y="70" width="184" height="112" rx="4" opacity=".5"/>
+  <g fill="none" stroke="rgba(233,237,245,.3)" stroke-width="1.5" stroke-dasharray="2 3"><circle cx="256" cy="96" r="5"/><circle cx="282" cy="150" r="5"/><circle cx="354" cy="160" r="5"/><circle cx="380" cy="130" r="5"/></g>
+  <rect class="wm-box wm-pulse" x="292" y="84" width="88" height="62" rx="5" style="--lo:.6"/>
+  <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="328" cy="112" r="5"/></g>
+  <g class="wm-a wm-edge" stroke-width="1.5"><circle cx="300" cy="120" r="5"/><circle cx="344" cy="92" r="5"/><circle cx="368" cy="104" r="5"/></g>
+  <circle class="wm-lime" cx="338" cy="118" r="4"/>
+  <text x="228" y="202" class="wm-t--xs wm-t--lime">The ball, up close</text>
+  <text x="228" y="218" class="wm-t--xs wm-t--dim">Part of the pitch</text>
+
+  <text x="432" y="60" class="wm-t--xs">Video frame</text>
+  <path class="wm-panel" d="M432 182L456 70H592L616 182Z"/>
+  <rect class="wm-box" x="496" y="92" width="34" height="62" rx="3" stroke-width="2"/>
+  <text x="513" y="126" text-anchor="middle" class="wm-t--s wm-t--lime">9</text>
+  <rect class="wm-box" x="532" y="140" width="14" height="14" rx="3" stroke="#fff" stroke-width="2"/>
+  <path class="wm-ln wm-ln--lime wm-pulse" d="M526 150H534" stroke-width="3" style="--lo:.2"/>
+  <text x="432" y="202" class="wm-t--xs wm-t--lime">Contact, shirt numbers</text>
+  <text x="432" y="218" class="wm-t--xs wm-t--dim">No metres, no clock</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 244H616" stroke-width="1.5"/>
+  <text x="24" y="274" class="wm-t--xs wm-t--dim">Where a design sits</text>
+  <path class="wm-ln wm-ln--bold" d="M40 314H600"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold wm-draw" d="M40 314H600" pathLength="100" style="--dur:7s;--ease:linear"/>
+  <circle class="wm-lime wm-edge" cx="76" cy="314" r="9"/>
+  <text x="40" y="296" class="wm-t--xs wm-t--lime">Geospatial-only: fielded</text>
+  <circle class="wm-node" cx="210" cy="314" r="8"/>
+  <text x="210" y="342" text-anchor="middle" class="wm-t--xs">Video-only</text>
+  <circle class="wm-node" cx="564" cy="314" r="9"/><circle class="wm-ring wm-ping" cx="564" cy="314" r="9" style="--dur:3s"/>
+  <text x="600" y="296" text-anchor="end" class="wm-t--xs">Single source of truth</text>
+  <text x="40" y="372" class="wm-t--xs wm-t--dim">One witness</text>
+  <text x="600" y="372" text-anchor="end" class="wm-t--xs wm-t--dim">Every witness, one state. More to own.</text>
+</svg>

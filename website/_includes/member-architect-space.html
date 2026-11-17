@@ -1,0 +1,71 @@
+{%- comment -%}
+  Design-space map: problem, five routes, three constraint gates, one decision. Data: page.space.
+  Phases (assets/members/architect.js): 1 problem, 2 options, 3 routes, 4-6 gates, 7 decision.
+  Without scripts the finished map is shown.
+{%- endcomment -%}
+{%- assign sp = page.space -%}
+{%- assign ys = "46,118,190,262,334" | split: "," -%}
+{%- assign ends = "470,470,730,570,570" | split: "," -%}
+{%- assign fates = "1,1,0,2,2" | split: "," -%}
+{%- assign gxs = "470,570,670" | split: "," -%}
+{%- assign problem = sp.problem | split: "|" -%}
+{%- assign decision = sp.decision | split: "|" -%}
+<section class="container ax-sec ax-space" aria-labelledby="ax-space-title">
+  <div class="ax-space__card" data-phases="7" data-phase-steps="1,2,2,3,3,3,4" data-phase-ms="1500">
+    <header class="ax-space__head">
+      <h2 id="ax-space-title" class="mb-section-title">{{ sp.title }}</h2>
+      <p class="ax-statement">{{ sp.statement }}</p>
+    </header>
+    <div class="ax-space__map">
+      <svg viewBox="0 -18 860 402" aria-hidden="true" focusable="false">
+        {%- for gx in gxs %}
+        <g class="ax-sp__gate ax-sp__gate--{{ forloop.index }}">
+          <line x1="{{ gx }}" y1="6" x2="{{ gx }}" y2="372"/>
+          <text x="{{ gx }}" y="-4" text-anchor="middle">{{ sp.gates[forloop.index0] }}</text>
+        </g>
+        {%- endfor %}
+        {%- for o in sp.options limit: 5 %}
+          {%- assign y = ys[forloop.index0] | plus: 0 -%}
+          {%- assign fate = fates[forloop.index0] %}
+        <g class="ax-sp__lane{% if fate == '0' %} is-chosen{% else %} is-out{{ fate }}{% endif %}" style="--i: {{ forloop.index0 }}">
+          <path class="ax-sp__fan" d="M150 190C172 190 168 {{ y }} 190 {{ y }}" pathLength="1"/>
+          <path class="ax-sp__route" d="M360 {{ y }}H{{ ends[forloop.index0] }}" pathLength="1"/>
+          <g class="ax-sp__opt">
+            <rect x="190" y="{{ y | minus: 21 }}" width="170" height="42" rx="9"/>
+            <text x="275" y="{{ y }}" text-anchor="middle" dominant-baseline="central">{{ o.label }}</text>
+          </g>
+        </g>
+        {%- endfor %}
+        <g class="ax-sp__runner"><circle cx="360" cy="190" r="5"/></g>
+        {%- for i in (0..4) %}{% assign fate = fates[i] %}{% unless fate == '0' %}
+        <g class="ax-sp__x ax-sp__x--{{ fate }}" transform="translate({{ ends[i] }} {{ ys[i] }})"><circle r="10"/><path d="M-4 -4L4 4M4 -4L-4 4"/></g>
+        {%- endunless %}{% endfor %}
+        {%- for gx in gxs %}
+        <g class="ax-sp__tick ax-sp__tick--{{ forloop.index }}" transform="translate({{ gx }} 190)"><circle r="10"/><path d="M-4.5 0L-1.5 3.5L4.5 -3.5"/></g>
+        {%- endfor %}
+        <g class="ax-sp__problem">
+          <text class="ax-sp__cap" x="79" y="138" text-anchor="middle">Problem</text>
+          <rect x="8" y="150" width="142" height="80" rx="12"/>
+          <text x="79" y="181" text-anchor="middle">{{ problem[0] }}</text>
+          <text x="79" y="203" text-anchor="middle">{{ problem[1] }}</text>
+        </g>
+        <g class="ax-sp__decision">
+          <text class="ax-sp__cap" x="791" y="138" text-anchor="middle">Decision</text>
+          <rect x="730" y="150" width="122" height="80" rx="12"/>
+          <text x="791" y="181" text-anchor="middle">{{ decision[0] }}</text>
+          <text x="791" y="203" text-anchor="middle">{{ decision[1] }}</text>
+        </g>
+      </svg>
+      <ul class="ax-space__routes" role="list">
+        {%- for o in sp.options %}
+        <li{% unless o.out %} class="is-chosen"{% endunless %}><b>{{ o.label }}</b>{% if o.out %}Set aside: {{ o.out }}.{% else %}Fielded.{% endif %}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+    <ol class="ax-steps ax-space__steps" role="list">
+      {%- for s in sp.steps %}
+      <li><span class="ax-steps__num" aria-hidden="true">{{ forloop.index }}</span><span class="ax-steps__text"><b>{{ s.title }}</b>{{ s.text }}</span></li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>

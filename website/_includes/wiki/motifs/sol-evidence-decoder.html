@@ -1,0 +1,52 @@
+{%- comment -%}
+  Solutions motif: evidence to decoder. Four sparse evidence lanes, with a stretch where the ball is untracked,
+  feed one exact decode that writes a clean possession strip. The strip holds through the gap.
+  Labels: four lane names, the decoder, the output strip. Synthetic.
+  Uses the kit's drawing classes; motion is stroke-dashoffset, opacity and transform only.
+{%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign lanes = "h,h,a,h,h,h,h,h,_,_,_,_,_,_,_,_,_,_,a,a,a,h,a,a,h,h,h|_,_,_,_,_,_,_,_,_,_,_,_,_,_,d,d,d,_,_,_,_,_,_,_,_,_,_|_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,d,d,d,_,_,_,_,_,_,_,_,_|_,h,_,_,_,_,_,_,_,_,h,_,_,_,_,_,_,d,_,a,_,_,_,_,_,h,_" | split: "|" -%}
+{%- assign defaults = "Ball control,Out of play,Stillness,Tags" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <defs><clipPath id="{{ include.uid }}-out"><rect class="wm-wipe" x="150" y="260" width="298" height="40"/></clipPath></defs>
+  <path class="wm-ln wm-ln--lime" d="M238 56V50H304V56"/>
+  <text x="271" y="40" text-anchor="middle" class="wm-t--xs wm-t--lime">Ball untracked</text>
+  {%- for lane in lanes %}{% assign r = forloop.index0 %}{% assign y = r | times: 36 | plus: 66 %}{% assign cells = lane | split: "," %}
+  <text x="20" y="{{ y | plus: 16 }}" class="wm-t--xs">{{ L[r] | default: defaults[r] | truncate: 14, "" | escape }}</text>
+  {%- for c in cells %}{% assign x = forloop.index0 | times: 11 | plus: 150 %}
+  {%- if c == "_" %}
+  <rect x="{{ x }}" y="{{ y }}" width="9" height="24" rx="2" fill="rgba(233,237,245,.1)"/>
+  {%- else %}
+  <rect class="wm-{{ c }} wm-pulse" x="{{ x }}" y="{{ y }}" width="9" height="24" rx="2" style="--i:{{ forloop.index0 | plus: r | modulo: 9 }};--lo:.5"/>
+  {%- endif %}
+  {%- endfor %}
+  {%- endfor %}
+  <g class="wm-ln">
+    <path d="M452 78C482 78 474 122 500 126"/>
+    <path d="M452 114C478 114 478 128 500 129"/>
+    <path d="M452 150C478 150 478 132 500 131"/>
+    <path d="M452 186C482 186 474 138 500 134"/>
+    <path d="M560 160V280H458M467 273l-9 7 9 7"/>
+  </g>
+  <path class="wm-flow" d="M452 78C482 78 474 122 500 126" pathLength="100" style="--dur:2.4s"/>
+  <path class="wm-flow" d="M452 114C478 114 478 128 500 129" pathLength="100" style="--dur:2.4s;--delay:-.6s"/>
+  <path class="wm-flow" d="M452 150C478 150 478 132 500 131" pathLength="100" style="--dur:2.4s;--delay:-1.2s"/>
+  <path class="wm-flow" d="M452 186C482 186 474 138 500 134" pathLength="100" style="--dur:2.4s;--delay:-1.8s"/>
+  <path class="wm-flow wm-flow--white" d="M560 160V280H458" pathLength="100" style="--dur:3s" opacity=".8"/>
+  <rect class="wm-node" x="500" y="100" width="120" height="60" rx="12"/>
+  <rect class="wm-ring wm-pulse" x="500" y="100" width="120" height="60" rx="12" style="--lo:.4"/>
+  <text x="560" y="135" text-anchor="middle" class="wm-t--xs">{{ L[4] | default: "Exact decode" | truncate: 14, "" | escape }}</text>
+  <g clip-path="url(#{{ include.uid }}-out)">
+    <rect class="wm-h" x="150" y="262" width="152" height="36" rx="6"/>
+    <rect class="wm-d" x="304" y="262" width="42" height="36" rx="6"/>
+    <rect class="wm-a" x="348" y="262" width="64" height="36" rx="6"/>
+    <rect class="wm-h" x="414" y="262" width="33" height="36" rx="6"/>
+  </g>
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M238 204V258M304 204V258" opacity=".8"/>
+  <g transform="translate(448 0)"><g class="wm-travel" style="--fx:-298px;--dur:6s"><path class="wm-ln wm-ln--lime" stroke-width="2.5" d="M0 62V302"/></g></g>
+  <text x="150" y="326" class="wm-t--s">{{ L[5] | default: "Decoded possession" | truncate: 20, "" | escape }}</text>
+  <rect class="wm-h" x="150" y="350" width="12" height="12" rx="3"/><text x="170" y="361" class="wm-t--xs wm-t--dim">Home</text>
+  <rect class="wm-a" x="236" y="350" width="12" height="12" rx="3"/><text x="256" y="361" class="wm-t--xs wm-t--dim">Away</text>
+  <rect class="wm-d" x="322" y="350" width="12" height="12" rx="3"/><text x="342" y="361" class="wm-t--xs wm-t--dim">Dead ball</text>
+  <rect x="436" y="350" width="12" height="12" rx="3" fill="rgba(233,237,245,.16)"/><text x="456" y="361" class="wm-t--xs wm-t--dim">No evidence</text>
+</svg>

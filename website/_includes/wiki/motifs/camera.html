@@ -1,0 +1,21 @@
+{%- comment -%} Several cameras around one pitch, their views overlapping. Labels: one per camera (four). {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect x="180" y="130" width="280" height="145" rx="3" fill="rgba(47,134,240,.16)"/>
+  <g stroke="rgba(233,237,245,.3)" stroke-width="1.5" stroke-linejoin="round">
+    <polygon class="wm-swing" points="320,62 196,272 444,272" fill="rgba(196,240,0,.13)" style="transform-origin:320px 62px;--from:-5deg;--to:5deg"/>
+    <polygon class="wm-swing" points="84,202 330,128 330,278" fill="rgba(255,255,255,.1)" style="transform-origin:84px 202px;--from:-4deg;--to:4deg;--delay:-1.4s"/>
+    <polygon class="wm-swing" points="562,106 300,160 452,284" fill="rgba(229,51,111,.16)" style="transform-origin:562px 106px;--from:-4deg;--to:5deg;--delay:-2.6s"/>
+    <polygon class="wm-swing" points="204,336 236,134 448,206" fill="rgba(185,162,216,.16)" style="transform-origin:204px 336px;--from:-5deg;--to:3deg;--delay:-3.4s"/>
+  </g>
+  {% include wiki/pitch-lines.html x=180 y=130 scale=0.5 %}
+  <circle class="wm-ring wm-ping" cx="340" cy="212" r="8"/><circle class="wm-lime" cx="340" cy="212" r="5.5"/>
+  {%- assign cams = "320,52,90|72,202,0|572,98,146|196,346,-47" | split: "|" -%}
+  {%- for cam in cams %}{% assign v = cam | split: "," %}
+  <g transform="translate({{ v[0] }} {{ v[1] }}) rotate({{ v[2] }})"><rect class="wm-node" x="-24" y="-11" width="28" height="22" rx="5"/><path class="wm-lime" d="M4 -6L16 -12V12L4 6Z"/><circle class="wm-a wm-blink" cx="-15" cy="0" r="3.5" style="animation-delay:{{ forloop.index0 | times: -0.3 }}s"/></g>
+  {%- endfor %}
+  <text x="346" y="44" class="wm-t--s">{{ L[0] | default: "Broadcast" | escape }}</text>
+  <text x="36" y="168" class="wm-t--s">{{ L[1] | default: "Tactical" | truncate: 11, "" | escape }}</text>
+  <text x="604" y="64" text-anchor="end" class="wm-t--s">{{ L[2] | default: "High behind" | truncate: 12, "" | escape }}</text>
+  <text x="230" y="376" class="wm-t--s">{{ L[3] | default: "Reverse" | escape }}</text>
+</svg>

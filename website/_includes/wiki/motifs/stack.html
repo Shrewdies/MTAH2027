@@ -1,0 +1,44 @@
+{%- comment -%} Four data layers pierced by one frame of time. Labels: the four layers, top to bottom. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <g class="wm-float" style="--i:3">
+    <g transform="translate(60 334) matrix(1 0 -1.923 1 0 0)">
+      <rect y="-52" width="240" height="52" rx="5" fill="rgba(196,240,0,.2)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
+      <rect class="wm-h" x="14" y="-36" width="88" height="20" rx="4"/><rect class="wm-d" x="104" y="-36" width="28" height="20" rx="4"/><rect class="wm-a" x="134" y="-36" width="92" height="20" rx="4"/>
+    </g>
+    <path class="wm-ln wm-ln--dash" d="M356 308H412"/>
+    <text x="422" y="314">{{ L[3] | default: "Labels" | escape }}</text>
+  </g>
+  <g class="wm-float" style="--i:2">
+    <g transform="translate(60 268) matrix(1 0 -1.923 1 0 0)">
+      <rect y="-52" width="240" height="52" rx="5" fill="rgba(165,0,68,.5)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
+      <path class="wm-ln" d="M18 -26H222"/>
+      <g class="wm-white"><rect x="34" y="-33" width="14" height="14" rx="2"/><rect x="118" y="-33" width="14" height="14" rx="2"/><rect x="196" y="-33" width="14" height="14" rx="2"/></g>
+      <g class="wm-lime"><rect x="76" y="-33" width="14" height="14" rx="2"/><rect x="158" y="-33" width="14" height="14" rx="2"/></g>
+    </g>
+    <path class="wm-ln wm-ln--dash" d="M356 242H412"/>
+    <text x="422" y="248">{{ L[2] | default: "Events" | escape }}</text>
+  </g>
+  <g class="wm-float" style="--i:1">
+    <g transform="translate(60 202) matrix(1 0 -1.923 1 0 0)">
+      <rect y="-52" width="240" height="52" rx="5" fill="rgba(110,76,159,.62)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
+      <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="34" cy="-16" r="6"/><circle cx="108" cy="-22" r="6"/><circle cx="188" cy="-14" r="6"/></g>
+      <g class="wm-a wm-edge" stroke-width="1.5"><circle cx="70" cy="-36" r="6"/><circle cx="150" cy="-38" r="6"/><circle cx="214" cy="-32" r="6"/></g>
+      <circle class="wm-lime" cx="128" cy="-28" r="4"/>
+    </g>
+    <path class="wm-ln wm-ln--dash" d="M356 176H412"/>
+    <text x="422" y="182">{{ L[1] | default: "Tracking" | escape }}</text>
+  </g>
+  <g class="wm-float" style="--i:0">
+    <g transform="translate(60 136) matrix(1 0 -1.923 1 0 0)">
+      <rect y="-52" width="240" height="52" rx="5" fill="rgba(47,134,240,.5)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
+      <g fill="rgba(255,255,255,.16)" stroke="#fff" stroke-width="1.5"><rect x="12" y="-44" width="48" height="36" rx="3"/><rect x="68" y="-44" width="48" height="36" rx="3"/><rect x="124" y="-44" width="48" height="36" rx="3"/><rect x="180" y="-44" width="48" height="36" rx="3"/></g>
+      <path class="wm-white" d="M30 -35v18l14-9z"/>
+    </g>
+    <path class="wm-ln wm-ln--dash" d="M356 110H412"/>
+    <text x="422" y="116">{{ L[0] | default: "Video" | escape }}</text>
+  </g>
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M206 58V352" opacity=".8"/>
+  <path class="wm-flow" d="M206 58V352" pathLength="100" style="--dur:2.8s"/>
+  <rect class="wm-lime" x="-7" y="-7" width="14" height="14" rx="2" transform="translate(206 52) rotate(45)"/>
+</svg>

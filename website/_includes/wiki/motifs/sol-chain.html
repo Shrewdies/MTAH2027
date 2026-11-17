@@ -1,0 +1,48 @@
+{%- comment -%}
+  Solutions motif: the possession chain. Six links from raw data to a decoded possession strip, with the
+  direct-possession family drawn as a bracket under the links it replaces.
+  Labels: [0] the link to highlight (1 Read, 2 See, 3 Sync, 4 Measure, 5 Spot, 6 Decode, 7 the direct bracket;
+  0 or empty highlights nothing), [1] the tag shown on the highlight. Synthetic.
+  Uses the kit's drawing classes; motion is stroke-dashoffset, opacity and transform only.
+{%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign hi = L[0] | default: "0" | plus: 0 -%}
+{%- assign tag = L[1] | default: "This family" | truncate: 16, "" -%}
+{%- assign names = "Read,See,Sync,Measure,Spot,Decode" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <defs><clipPath id="{{ include.uid }}-out"><rect class="wm-wipe" x="60" y="304" width="472" height="40"/></clipPath></defs>
+  <path class="wm-ln wm-ln--bold" d="M60 150H520"/>
+  <path class="wm-flow" d="M60 150H520" pathLength="100" style="--dur:4s"/>
+  <path class="wm-ln" d="M548 150H598V324H546M555 317l-9 7 9 7"/>
+  <path class="wm-flow wm-flow--white" d="M548 150H598V324H546" pathLength="100" style="--dur:4s;--delay:-1s" opacity=".8"/>
+  {%- for name in names %}{% assign n = forloop.index %}{% assign x = forloop.index0 | times: 92 | plus: 60 %}
+  <g transform="translate({{ x }} 150)">
+    {%- if n == hi %}
+    <circle class="wm-ring wm-ping" r="28"/>
+    <circle class="wm-lime wm-edge" r="28"/>
+    <text class="wm-t--disp wm-t--num wm-t--ink" y="9" text-anchor="middle">{{ n | prepend: "0" }}</text>
+    <path class="wm-ln wm-ln--lime" d="M0 -34V-52"/>
+    <text class="wm-t--s wm-t--lime" y="-62" text-anchor="middle">{{ tag | escape }}</text>
+    <text class="wm-t--s wm-t--lime" y="54" text-anchor="middle">{{ name }}</text>
+    {%- else %}
+    <circle class="wm-node" r="28"/>
+    <text class="wm-t--disp wm-t--num" y="9" text-anchor="middle">{{ n | prepend: "0" }}</text>
+    <text class="wm-t--s" y="54" text-anchor="middle">{{ name }}</text>
+    {%- endif %}
+  </g>
+  {%- endfor %}
+  {%- if hi == 7 %}
+  <path class="wm-ln wm-ln--lime wm-ln--bold wm-pulse" d="M306 224V242H550V224" style="--lo:.5"/>
+  <text x="428" y="268" text-anchor="middle" class="wm-t--s wm-t--lime">Direct possession: {{ tag | escape }}</text>
+  {%- else %}
+  <path class="wm-ln wm-ln--dash" d="M306 224V242H550V224"/>
+  <text x="428" y="268" text-anchor="middle" class="wm-t--s wm-t--dim">Direct possession</text>
+  {%- endif %}
+  <g clip-path="url(#{{ include.uid }}-out)">
+    <rect class="wm-h" x="60" y="306" width="150" height="36" rx="6"/>
+    <rect class="wm-d" x="212" y="306" width="44" height="36" rx="6"/>
+    <rect class="wm-a" x="258" y="306" width="162" height="36" rx="6"/>
+    <rect class="wm-h" x="422" y="306" width="110" height="36" rx="6"/>
+  </g>
+  <text x="60" y="372" class="wm-t--s wm-t--dim">Possession, frame by frame</text>
+</svg>

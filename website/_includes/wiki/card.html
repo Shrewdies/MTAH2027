@@ -1,0 +1,24 @@
+{%- comment -%}
+  Compact entry card with an animated glyph. Params: doc (required), group (filter key), label (small line above the title),
+  h (heading tag, default h3), featured, static (true: not part of the hub filter).
+{%- endcomment -%}
+{%- assign wc = include.doc -%}
+{%- assign wc_h = include.h | default: "h3" -%}
+{%- capture wc_search -%}{{ wc.title }} {{ wc.kicker }} {{ wc.summary }} {{ wc.chips | join: " " }}{%- endcapture -%}
+<li class="wk-card{% if include.featured %} wk-card--featured{% endif %}" data-wk-glyph{% unless include.static %} data-wk-card data-group="{{ include.group | escape }}" data-search="{{ wc_search | strip_html | normalize_whitespace | downcase | escape }}"{% endunless %}>
+  <div class="wk-card__head">
+    <span class="wk-card__icon" aria-hidden="true">{% include wiki/glyph.html id=wc.motif icon=wc.icon %}</span>
+    <div>
+      {%- if include.label %}
+      <p class="wk-card__kicker">{{ include.label }}</p>
+      {%- endif %}
+      <{{ wc_h }} class="wk-card__title"><a href="{{ wc.url | relative_url }}">{{ wc.nav_title | default: wc.title }}</a></{{ wc_h }}>
+    </div>
+  </div>
+  {%- if wc.summary %}
+  <p class="wk-card__text">{{ wc.summary | strip_html | truncate: 180 }}</p>
+  {%- endif %}
+  {%- if wc.chips %}
+  <ul class="wk-card__chips" role="list">{% for wc_chip in wc.chips limit: 4 %}<li>{{ wc_chip }}</li>{% endfor %}</ul>
+  {%- endif %}
+</li>

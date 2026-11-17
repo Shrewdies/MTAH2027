@@ -1,0 +1,21 @@
+{%- comment -%} A position error is a possession error: two opponents at similar distances from the ball, each with a localisation error ring; a small shift changes who is nearest. Synthetic. Labels: control radius, position error, consequence. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M40 300H600M320 60V300" opacity=".35"/>
+  <circle class="wm-ln wm-ln--lime wm-ln--dash" cx="320" cy="186" r="112"/>
+  <path class="wm-ln wm-ln--dash" d="M320 186L236 158M320 186L412 222" opacity=".8"/>
+  <circle class="wm-ring wm-ping" cx="320" cy="186" r="9"/><circle class="wm-lime" cx="320" cy="186" r="7"/>
+  <g class="wm-float" style="--i:0;--tx:14px;--ty:6px;--dur:4s">
+    <circle class="wm-ln wm-ln--white wm-breathe" cx="236" cy="158" r="34" stroke-dasharray="3 5" style="--s:1.12"/>
+    <circle class="wm-h wm-edge" cx="236" cy="158" r="11"/>
+  </g>
+  <g class="wm-float" style="--i:3;--tx:-16px;--ty:-8px;--dur:4s">
+    <circle class="wm-ln wm-ln--white wm-breathe" cx="412" cy="222" r="34" stroke-dasharray="3 5" style="--s:1.12;--delay:-1.5s"/>
+    <circle class="wm-a wm-edge" cx="412" cy="222" r="11"/>
+  </g>
+  <circle class="wm-h wm-edge" cx="120" cy="250" r="9" opacity=".6"/><circle class="wm-a wm-edge" cx="530" cy="110" r="9" opacity=".6"/>
+  <text class="wm-t--s wm-t--lime wm-pulse" x="320" y="48" text-anchor="middle" style="--lo:.35;--dur:4s">{{ L[2] | default: "Nearest player flips" | escape }}</text>
+  <path class="wm-ln wm-ln--white" d="M486 286H561M486 280V292M561 280V292"/><text class="wm-t--xs wm-t--dim" x="523" y="276" text-anchor="middle">1 m</text>
+  <circle class="wm-ln wm-ln--lime wm-ln--dash" cx="60" cy="350" r="9"/><text x="80" y="356" class="wm-t--s">{{ L[0] | default: "Control radius" | escape }}</text>
+  <circle class="wm-ln wm-ln--white" cx="350" cy="350" r="9" stroke-dasharray="3 5"/><text x="370" y="356" class="wm-t--s">{{ L[1] | default: "Position error" | escape }}</text>
+</svg>

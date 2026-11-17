@@ -1,0 +1,2 @@
+# The repository ignores *.pdf; the published report is the one exception.
+!the-shrewdies-technical-report.pdf

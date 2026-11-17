@@ -1,0 +1,14 @@
+{%- comment -%} Solutions family "physics and features": a signal cannot be smooth and sharp at once. The raw ball speed shows the touch to the frame, with false touches from jitter. The smoothed one loses the jitter and blurs the touch into a band. Synthetic. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M200 164H590M200 314H590" opacity=".4"/>
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M334 52V314"/><text class="wm-t--xs wm-t--lime" x="342" y="334">The touch</text>
+  <text x="40" y="100">Raw</text><text class="wm-t--xs wm-t--dim" x="40" y="120">Sharp, jittery</text>
+  <path class="wm-ln wm-ln--white wm-draw" stroke-width="2.5" pathLength="100" d="M200 84L220 76L240 90L260 70L280 86L300 80L320 83L332 82L336 138L352 132L370 142L390 126L410 140L430 136L450 144L470 134L490 140L510 137L530 143L550 135L570 140L590 138"/>
+  <circle class="wm-a wm-pulse" cx="260" cy="62" r="5" style="--i:0"/><circle class="wm-a wm-pulse" cx="390" cy="116" r="5" style="--i:4"/>
+  <text class="wm-t--xs wm-t--dim" x="400" y="108">False touches</text>
+  <text x="40" y="256">Smoothed</text><text class="wm-t--xs wm-t--dim" x="40" y="276">Calm, blurred</text>
+  <rect class="wm-pulse" x="296" y="226" width="110" height="78" rx="8" fill="rgba(196,240,0,.1)" stroke="#C4F000" stroke-width="1.5" stroke-dasharray="4 6" style="--lo:.45"/>
+  <path class="wm-ln wm-ln--white wm-draw" stroke-width="2.5" pathLength="100" d="M200 236C270 236 290 238 310 246S360 284 400 290S520 292 590 292"/>
+  <text class="wm-t--xs wm-t--lime" x="416" y="262">Somewhere in here</text>
+  <text class="wm-t--s wm-t--dim" x="200" y="368">Ball speed over a second of play</text>
+</svg>

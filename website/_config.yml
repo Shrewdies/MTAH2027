@@ -1,0 +1,143 @@
+# Site configuration. Published by .github/workflows/pages.yml (Settings -> Pages -> Source: GitHub Actions).
+# Builds with the Jekyll version GitHub Pages ships; no plugins beyond its defaults are required.
+
+title: The Shrewdies
+tagline: Football analytics, played at full speed
+description: >-
+  The Shrewdies at More Than a Hack 2027: a football analytics team. Our Initial Challenge decoded
+  team possession frame by frame; the Innovative Challenge is next.
+lang: en
+
+# baseurl and url are set by .github/workflows/pages.yml when the site is published: "/<repo>" and
+# https://<owner>.github.io on a project site, "" and the custom domain once one is configured.
+# Local preview: jekyll serve --baseurl ""
+baseurl: ""
+url: "https://theshrewdies.com"
+
+# The site ships its own layouts and styles: no gem theme (GitHub Pages would otherwise add Primer's stylesheet).
+theme: null
+
+# Image shown when a page is shared (Open Graph), 1280 x 800.
+social_image: /assets/hero/hero-poster.png
+social_image_alt: "Who has the ball? A synthetic passage of play decoded frame by frame into home, away and dead ball."
+
+# Code repository, used for "Edit this page" and the footer. The site source lives in website/.
+repository_url: https://github.com/Shrewdies/MTAH2027
+repository_branch: main
+repository_site_dir: website
+
+# Team links shown in the footer.
+team_links:
+  website: https://theshrewdies.com
+  website_label: theshrewdies.com
+  github: https://github.com/Shrewdies
+  github_label: github.com/Shrewdies
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    disable: true
+
+# Content lives in collections: one folder per site section. A new Markdown file in a folder
+# appears in the navigation and on its section page automatically, ordered by `order:`.
+collections:
+  team:
+    output: true
+    permalink: /team/:name/
+  challenges:
+    output: true
+    permalink: /challenges/:name/
+  datasets:
+    output: true
+    permalink: /datasets/:name/
+  solutions:
+    output: true
+    permalink: /solutions/:path/
+  architecture:
+    output: true
+    permalink: /architecture/:name/
+  ondevice:
+    output: true
+    permalink: /on-device/:name/
+
+# Navigation, in display order. `collection` must match a folder above (without the underscore).
+# `soon` is the line shown while a section has no pages yet.
+sections:
+  - collection: team
+    title: Team
+    url: /team/
+    kicker: "01"
+    blurb: The squad behind the work, and the mix of skills we bring to the pitch.
+  - collection: challenges
+    title: Challenges
+    url: /challenges/
+    kicker: "02"
+    blurb: Our hackathon journey, stage by stage. Initial Challenge done; the Innovative Challenge is next.
+  - collection: datasets
+    title: Datasets
+    url: /datasets/
+    kicker: "03"
+    blurb: Every football dataset worth knowing, and what each one can teach a possession model.
+    families:
+      - { title: Possession labels, url: /datasets/possession/ }
+      - { title: Tracking and full-pitch video, url: /datasets/tracking/ }
+      - { title: Broadcast and game state, url: /datasets/broadcast/ }
+      - { title: Events, url: /datasets/events/ }
+      - { title: Detection and calibration, url: /datasets/geometry/ }
+      - { title: The competition data, url: /datasets/competition/ }
+  - collection: solutions
+    title: Solutions
+    url: /solutions/
+    kicker: "04"
+    blurb: The landscape of models, methods and tools for football intelligence, mapped and judged.
+    families:
+      - { title: Direct possession, url: /solutions/direct-possession/ }
+      - { title: Physics and features, url: /solutions/physics-and-features/ }
+      - { title: Classifiers and decoders, url: /solutions/classifiers-and-decoders/ }
+      - { title: Vision and calibration, url: /solutions/vision-and-calibration/ }
+      - { title: Events and replay, url: /solutions/events-and-replay/ }
+      - { title: Synchronisation, url: /solutions/synchronization/ }
+      - { title: Readers and formats, url: /solutions/readers-and-formats/ }
+  - collection: architecture
+    title: Architecture
+    url: /architecture/
+    kicker: "05"
+    blurb: Our DNA in architecting football intelligence. The design space, and the calls we made in it.
+    families:
+      - { title: On the pitch, url: /architecture/fielded/ }
+      - { title: The map, url: /architecture/map/ }
+      - { title: The engine, url: /architecture/engine/ }
+      - { title: The hard parts, url: /architecture/hard-parts/ }
+      - { title: Proof, url: /architecture/proof/ }
+  - collection: ondevice
+    title: On-device
+    url: /on-device/
+    kicker: "06"
+    blurb: Security, reproducibility and the hardware we compute on. The match data never left our laptop.
+    soon: Security, reproducibility, our machine and the hardware behind it, one page each.
+
+defaults:
+  - scope: { path: "", type: team }
+    values: { layout: page }
+  - scope: { path: "", type: challenges }
+    values: { layout: page }
+  - scope: { path: "", type: datasets }
+    values: { layout: wiki-entry, nav_exclude: true }
+  - scope: { path: "", type: solutions }
+    values: { layout: wiki-entry, nav_exclude: true }
+  - scope: { path: "", type: architecture }
+    values: { layout: wiki-entry, nav_exclude: true }
+  - scope: { path: "", type: ondevice }
+    values: { layout: page }
+  - scope: { path: "" }
+    values: { layout: page }
+
+exclude:
+  - README-SITE.md
+  - assets/brand/BRAND.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .jekyll-cache

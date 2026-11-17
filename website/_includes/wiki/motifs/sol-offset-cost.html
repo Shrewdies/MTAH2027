@@ -1,0 +1,11 @@
+{%- comment -%} Solutions family "synchronisation": what an offset costs. The same match on two clocks, ten frames apart. Every boundary gains a sliver where the two sources describe different moments. Synthetic strips; 10 frames at 25 fps is 0.4 s. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="40" y="122">Tracking</text><text x="40" y="212">Video</text><text x="40" y="300">Disagree</text>
+  <rect class="wm-h" x="200" y="100" width="108" height="34" rx="6"/><rect class="wm-a" x="310" y="100" width="118" height="34" rx="6"/><rect class="wm-d" x="430" y="100" width="48" height="34" rx="6"/><rect class="wm-h" x="480" y="100" width="110" height="34" rx="6"/>
+  <g class="wm-float" style="--tx:-24px;--ty:0px;--dur:6s"><rect class="wm-h" x="200" y="190" width="132" height="34" rx="6"/><rect class="wm-a" x="334" y="190" width="118" height="34" rx="6"/><rect class="wm-d" x="454" y="190" width="48" height="34" rx="6"/><rect class="wm-h" x="504" y="190" width="86" height="34" rx="6"/></g>
+  <path class="wm-ln wm-ln--white wm-ln--dash" d="M310 140V184M334 140V184"/><path class="wm-ln wm-ln--lime wm-ln--bold" d="M310 162H334"/>
+  <text class="wm-t--xs wm-t--lime" x="344" y="166">10 frames · 0.4 s</text>
+  <path class="wm-ln" d="M200 294H590"/>
+  <rect class="wm-lime wm-pulse" x="310" y="280" width="24" height="28" rx="4" style="--i:0;--lo:.4"/><rect class="wm-lime wm-pulse" x="430" y="280" width="24" height="28" rx="4" style="--i:3;--lo:.4"/><rect class="wm-lime wm-pulse" x="480" y="280" width="24" height="28" rx="4" style="--i:6;--lo:.4"/>
+  <text class="wm-t--s wm-t--dim" x="200" y="350">Every boundary moves, every time</text>
+</svg>

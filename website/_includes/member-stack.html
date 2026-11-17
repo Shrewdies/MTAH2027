@@ -1,0 +1,20 @@
+{%- comment -%}
+  End-to-end stack: layers from the link to the product, with a packet travelling through them.
+  Params: stack { title, layers: [{name, items}], note }.
+{%- endcomment -%}
+{%- assign st = include.stack -%}
+<section class="mb-panel mb-stack" aria-labelledby="mb-stack-title">
+  <h2 id="mb-stack-title" class="mb-section-title">{{ st.title | default: "End to end" }}</h2>
+  <div class="mb-stack__wrap" data-reveal-group>
+    <span class="mb-stack__wire" aria-hidden="true"><i></i></span>
+    <ol class="mb-stack__layers" role="list">
+      {%- for l in st.layers %}
+      <li class="mb-stack__layer" style="--i: {{ forloop.index0 }}">
+        <span class="mb-stack__name">{{ l.name }}</span>
+        <span class="mb-stack__items">{{ l.items }}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+  {%- if st.note %}<p class="mb-map__note">{{ st.note }}</p>{% endif %}
+</section>

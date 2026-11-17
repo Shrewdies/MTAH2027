@@ -1,0 +1,20 @@
+{%- comment -%} Broadcast-derived tracking: players inside the camera view are detected, the rest are extrapolated. Labels: detected, extrapolated, camera view. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign seen = "300,150,h,0|342,204,a,1|262,244,h,2|382,272,a,3|318,296,h,4" | split: "|" -%}
+{%- assign unseen = "108,122,a,-34,10,0|92,236,h,26,-14,2|542,112,h,-22,16,4|562,224,a,-30,-8,1|528,304,h,-18,-12,3|126,304,a,24,-10,5" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  {% include wiki/pitch-lines.html x=40 y=50 %}
+  <polygon class="wm-swing" points="320,34 150,332 490,332" fill="rgba(196,240,0,.12)" stroke="rgba(196,240,0,.7)" stroke-width="1.5" stroke-linejoin="round" style="transform-origin:320px 34px;--from:-3deg;--to:3deg;--dur:5s"/>
+  <g transform="translate(320 30) rotate(90)"><rect class="wm-node" x="-24" y="-11" width="28" height="22" rx="5"/><path class="wm-lime" d="M4 -6L16 -12V12L4 6Z"/></g>
+  <text x="346" y="36" class="wm-t--s wm-t--lime">{{ L[2] | default: "Camera view" | escape }}</text>
+  {%- for dot in unseen %}{% assign v = dot | split: "," %}{% assign ex = v[0] | plus: v[3] %}{% assign ey = v[1] | plus: v[4] %}
+  <path class="wm-ln wm-ln--dash" d="M{{ v[0] }} {{ v[1] }}L{{ ex }} {{ ey }}" opacity=".6"/>
+  <circle class="wm-pulse" cx="{{ v[0] }}" cy="{{ v[1] }}" r="10" fill="none" stroke="{% if v[2] == 'h' %}#2F86F0{% else %}#E5336F{% endif %}" stroke-width="2.5" stroke-dasharray="4 4" style="--i:{{ v[5] }};--lo:.3"/>
+  {%- endfor %}
+  {%- for dot in seen %}{% assign v = dot | split: "," %}
+  <g class="wm-float" style="--i:{{ v[3] }};--tx:5px;--ty:-5px"><circle class="wm-{{ v[2] }} wm-edge" cx="{{ v[0] }}" cy="{{ v[1] }}" r="10"/></g>
+  {%- endfor %}
+  <circle class="wm-ring wm-ping" cx="304" cy="222" r="8"/><circle class="wm-lime" cx="304" cy="222" r="5.5"/>
+  <circle class="wm-h wm-edge" cx="50" cy="371" r="8"/><text x="68" y="377" class="wm-t--s">{{ L[0] | default: "Detected" | escape }}</text>
+  <circle cx="338" cy="371" r="8" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="4 4"/><text x="356" y="377" class="wm-t--s">{{ L[1] | default: "Extrapolated" | escape }}</text>
+</svg>

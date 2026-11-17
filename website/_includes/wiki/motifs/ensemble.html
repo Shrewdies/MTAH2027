@@ -1,0 +1,21 @@
+{%- comment -%} Several model strips voting, column by column, into one. Labels: four models, the vote, the result. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign rows = "h,h,h,a,h,h,h,d,d,a,a,a,a,h,a,a,a,h,h,h,h,h,h,h|h,h,h,h,h,h,d,d,d,a,a,a,a,a,a,a,h,h,h,h,a,h,h,h|h,a,h,h,h,h,h,h,d,a,a,d,a,a,a,a,a,a,h,h,h,h,h,h|h,h,h,h,h,a,h,d,d,d,a,a,a,a,a,h,a,h,h,h,h,h,d,h" | split: "|" -%}
+{%- assign names = "Model A,Model B,Model C,Model D" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <defs><clipPath id="{{ include.uid }}-clip"><rect class="wm-wipe wm-wipe--step" x="160" y="286" width="432" height="48" style="--dur:7s"/></clipPath></defs>
+  {%- for row in rows %}{% assign y = forloop.index0 | times: 40 | plus: 62 %}{% assign cells = row | split: "," %}{% assign r = forloop.index0 %}
+  <text x="40" y="{{ y | plus: 20 }}" class="wm-t--s">{{ L[r] | default: names[r] | truncate: 10, "" | escape }}</text>
+  {%- for c in cells %}
+  <rect class="wm-{{ c }}" x="{{ forloop.index0 | times: 18 | plus: 160 }}" y="{{ y }}" width="16" height="28" rx="3"/>
+  {%- endfor %}
+  {%- endfor %}
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M366 232V266M356 256L366 268L376 256"/>
+  <text x="390" y="258" class="wm-t--s wm-t--lime">{{ L[4] | default: "Majority vote" | escape }}</text>
+  <text x="40" y="316" class="wm-t--s">{{ L[5] | default: "Consensus" | truncate: 10, "" | escape }}</text>
+  <rect class="wm-ln" x="160" y="290" width="430" height="40" rx="6" stroke-dasharray="4 6"/>
+  <g clip-path="url(#{{ include.uid }}-clip)">
+    <rect class="wm-h" x="160" y="290" width="124" height="40" rx="6"/><rect class="wm-d" x="286" y="290" width="34" height="40" rx="6"/><rect class="wm-a" x="322" y="290" width="142" height="40" rx="6"/><rect class="wm-h" x="466" y="290" width="124" height="40" rx="6"/>
+  </g>
+  <rect class="wm-box wm-step" x="285" y="56" width="18" height="280" rx="5" style="--fx:-126px;--tx:288px;--dur:7s"/>
+</svg>

@@ -1,0 +1,42 @@
+{%- comment -%}
+  Architecture motif: experts and a reliability gate. Four experts send scores to a gate; the ball is lost, so the
+  ball-aware expert is muted and the weight moves to the others. Weights are illustrative. Synthetic.
+  Motion: stroke-dashoffset and opacity only.
+{%- endcomment -%}
+{%- assign ex = "Ball-aware|Ball-free|Live or dead|Tags" | split: "|" -%}
+{%- assign w = "8|92|64|30" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect class="wm-a wm-blink" x="24" y="24" width="12" height="12" rx="6"/>
+  <text x="44" y="35" class="wm-t--xs">Ball lost by the tracker</text>
+  <text x="330" y="35" class="wm-t--xs wm-t--dim">Weight now</text>
+
+  {%- for e in ex %}{% assign y = forloop.index0 | times: 58 | plus: 54 %}{% assign cy = y | plus: 22 %}{% assign ww = w[forloop.index0] | plus: 0 %}
+  <rect class="wm-node" x="24" y="{{ y }}" width="168" height="44" rx="9"{% if forloop.index0 == 0 %} stroke-dasharray="5 6" opacity=".6"{% endif %}/>
+  <text x="56" y="{{ cy | plus: 4 }}" class="wm-t--xs{% if forloop.index0 == 0 %} wm-t--dim{% endif %}">{{ e }}</text>
+  {%- if forloop.index0 == 0 %}
+  <circle class="wm-a" cx="40" cy="{{ cy }}" r="5"/>
+  <path class="wm-ln wm-ln--dash" d="M192 {{ cy }}H322"/>
+  <path class="wm-ln wm-ln--a wm-ln--bold" d="M250 {{ cy | minus: 8 }}l16 16M266 {{ cy | minus: 8 }}l-16 16"/>
+  {%- else %}
+  <circle class="wm-lime wm-pulse" cx="40" cy="{{ cy }}" r="5" style="--i:{{ forloop.index0 }};--lo:.4"/>
+  <path class="wm-ln" d="M192 {{ cy }}H322"/>
+  <path class="wm-flow" d="M192 {{ cy }}H322" pathLength="100" style="--dur:2.2s;--delay:-{{ forloop.index0 | times: 0.5 }}s"/>
+  {%- endif %}
+  <rect class="wm-ln" x="330" y="{{ y | plus: 12 }}" width="100" height="20" rx="5" stroke-width="1.5"/>
+  <rect class="{% if forloop.index0 == 0 %}wm-a{% else %}wm-lime{% endif %}" x="332" y="{{ y | plus: 14 }}" width="{{ ww }}" height="16" rx="4"/>
+  <path class="wm-ln" d="M430 {{ cy }}C470 {{ cy }} 456 163 496 163"/>
+  {%- endfor %}
+
+  <circle class="wm-node" cx="536" cy="163" r="40"/>
+  <circle class="wm-ring wm-pulse" cx="536" cy="163" r="40" style="--lo:.4"/>
+  <text x="536" y="160" text-anchor="middle" class="wm-t--s">Gate</text>
+  <text x="536" y="178" text-anchor="middle" class="wm-t--xs wm-t--dim">Weights</text>
+  <path class="wm-ln wm-ln--bold" d="M536 203V300M530 292l6 8 6-8"/>
+  <path class="wm-flow" d="M536 203V300" pathLength="100" style="--dur:2.2s"/>
+
+  <text x="24" y="330" class="wm-t--xs">Fused</text>
+  <rect class="wm-h" x="96" y="306" width="186" height="34" rx="6"/>
+  <rect class="wm-d" x="284" y="306" width="70" height="34" rx="6"/>
+  <rect class="wm-a" x="356" y="306" width="260" height="34" rx="6"/>
+  <text x="24" y="374" class="wm-t--xs wm-t--dim">Each expert's scores and validity stay on file beside the result</text>
+</svg>

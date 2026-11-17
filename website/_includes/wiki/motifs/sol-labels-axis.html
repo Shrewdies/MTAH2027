@@ -1,0 +1,17 @@
+{%- comment -%} Solutions family "classifiers and decoders": the family laid out by how many labels each member needs. Decoders on the top row, scorers on the bottom. The zone on the left needs none; the pair we fielded sits inside it. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect x="120" y="72" width="170" height="212" rx="10" fill="rgba(196,240,0,.07)" stroke="#C4F000" stroke-width="1.5" stroke-dasharray="4 6"/>
+  <text class="wm-t--xs wm-t--lime" x="124" y="62">No labels needed</text>
+  <text class="wm-t--s wm-t--dim" x="30" y="125">Decode</text><text class="wm-t--s wm-t--dim" x="30" y="245">Score</text>
+  <g class="wm-light" style="--i:0;--step:.8s;--lo:.6"><rect class="wm-node" x="132" y="105" width="84" height="30" rx="15"/><text class="wm-t--s" x="174" y="125" text-anchor="middle">Viterbi</text><rect class="wm-node" x="128" y="225" width="136" height="30" rx="15"/><text class="wm-t--s" x="196" y="245" text-anchor="middle">Hand evidence</text></g>
+  <g class="wm-light" style="--i:1;--step:.8s;--lo:.6"><rect class="wm-node" x="228" y="105" width="56" height="30" rx="15"/><text class="wm-t--s" x="256" y="125" text-anchor="middle">HMM</text></g>
+  <g class="wm-light" style="--i:2;--step:.8s;--lo:.6"><rect class="wm-node" x="304" y="105" width="66" height="30" rx="15"/><text class="wm-t--s" x="337" y="125" text-anchor="middle">HSMM</text><rect class="wm-node" x="304" y="225" width="66" height="30" rx="15"/><text class="wm-t--s" x="337" y="245" text-anchor="middle">Trees</text></g>
+  <g class="wm-light" style="--i:3;--step:.8s;--lo:.6"><rect class="wm-node" x="390" y="225" width="58" height="30" rx="15"/><text class="wm-t--s" x="419" y="245" text-anchor="middle">Sets</text></g>
+  <g class="wm-light" style="--i:4;--step:.8s;--lo:.6"><rect class="wm-node" x="460" y="105" width="56" height="30" rx="15"/><text class="wm-t--s" x="488" y="125" text-anchor="middle">CRF</text><rect class="wm-node" x="466" y="225" width="52" height="30" rx="15"/><text class="wm-t--s" x="492" y="245" text-anchor="middle">TCN</text></g>
+  <g class="wm-light" style="--i:5;--step:.8s;--lo:.6"><rect class="wm-node" x="540" y="225" width="52" height="30" rx="15"/><text class="wm-t--s" x="566" y="245" text-anchor="middle">GNN</text></g>
+  <rect class="wm-ring wm-pulse" x="128" y="101" width="92" height="38" rx="19" style="--lo:.45"/><rect class="wm-ring wm-pulse" x="124" y="221" width="144" height="38" rx="19" style="--lo:.45"/>
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M176 141V219"/><text class="wm-t--xs wm-t--lime" x="186" y="184">Fielded</text>
+  <path class="wm-ln wm-ln--white" d="M120 310H604M604 310l-10 -6M604 310l-10 6"/><path class="wm-flow" pathLength="100" d="M120 310H600" style="--dur:3.4s"/>
+  <text class="wm-t--xs wm-t--dim" x="120" y="334">None</text><text class="wm-t--xs wm-t--dim" x="604" y="334" text-anchor="end">Many</text>
+  <text class="wm-t--s" x="362" y="338" text-anchor="middle">Labels needed</text>
+</svg>

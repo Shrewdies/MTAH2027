@@ -1,0 +1,20 @@
+{%- comment -%} Solutions family "direct possession": the two routes over one stretch of play. Rules read the ball and go silent when it is untracked. A learned ball-free model keeps answering, at the price of labels and identities. Synthetic. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln wm-ln--dash" d="M360 58V292M450 58V292" opacity=".6"/>
+  <text x="40" y="94">Ball track</text>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M230 88H360M450 88H590"/><path class="wm-ln wm-ln--dash" d="M360 88H450"/>
+  <path class="wm-flow wm-flow--white" pathLength="100" d="M230 88H360"/><path class="wm-flow wm-flow--white" pathLength="100" d="M450 88H590" style="--delay:-1.3s"/>
+  <text class="wm-t--xs wm-t--dim" x="405" y="74" text-anchor="middle">Untracked</text>
+  <text x="40" y="168">Rules</text><text class="wm-t--xs wm-t--dim" x="40" y="186">No labels</text>
+  <rect class="wm-h" x="230" y="150" width="78" height="30" rx="6"/><rect class="wm-a" x="310" y="150" width="48" height="30" rx="6"/>
+  <rect class="wm-ln wm-ln--white wm-ln--dash wm-pulse" x="362" y="150" width="86" height="30" rx="6" style="--lo:.3"/><text class="wm-t--s wm-pulse" x="405" y="171" text-anchor="middle" style="--lo:.3">?</text>
+  <rect class="wm-a" x="452" y="150" width="66" height="30" rx="6"/><rect class="wm-h" x="520" y="150" width="70" height="30" rx="6"/>
+  <text x="40" y="248">Ball-free</text><text class="wm-t--xs wm-t--dim" x="40" y="266">Labels and identities</text>
+  <rect class="wm-h" x="230" y="230" width="78" height="30" rx="6"/><rect class="wm-a" x="310" y="230" width="73" height="30" rx="6"/>
+  <rect class="wm-h wm-pulse" x="385" y="230" width="38" height="30" rx="6" style="--lo:.45"/>
+  <rect class="wm-a" x="425" y="230" width="93" height="30" rx="6"/><rect class="wm-h" x="520" y="230" width="70" height="30" rx="6"/>
+  <text class="wm-t--xs wm-t--lime" x="405" y="284" text-anchor="middle">Inferred from the players</text>
+  <rect class="wm-h" x="230" y="334" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="252" y="346">Home</text>
+  <rect class="wm-a" x="330" y="334" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="352" y="346">Away</text>
+  <rect class="wm-ln wm-ln--white wm-ln--dash" x="430" y="334" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="452" y="346">No answer</text>
+</svg>

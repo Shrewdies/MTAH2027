@@ -1,0 +1,289 @@
+/* The Shrewdies: animated wordmark. Markup: _includes/logo.html. Behaviour: assets/js/logo.js. */
+
+.sh-logo {
+  --sh-rim-color: #C4F000;
+  --sh-ink: #0A1440;
+  --sh-lx: -0.6;            /* light direction, -1..1 */
+  --sh-ly: -0.8;
+  --sh-rim: 9;              /* rim light offset, wordmark units */
+  --sh-depth: 13;           /* extrusion depth, wordmark units */
+  --sh-key: 15;             /* keyline width, wordmark units */
+  --sh-bloom: 0.55;
+  --sh-drift: 26s;          /* hue drift period */
+  --sh-sheen-period: 7.5s;
+  --sh-sheen-delay: 1.9s;
+  --sh-glint: 4.4%;         /* glint size, share of logo width */
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 0;
+  isolation: isolate;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sh-logo__stage {
+  position: relative;
+  display: block;
+  transform-origin: 50% 60%;
+}
+
+.sh-logo__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  overflow: visible;
+}
+
+/* ---- Static letterform layers ---------------------------------------------------------- */
+.sh-logo__bloom { opacity: var(--sh-bloom); }
+.sh-logo__depth,
+.sh-logo__key {
+  stroke-linejoin: round;
+}
+.sh-logo__depth {
+  fill: #1C0C46;
+  stroke: #1C0C46;
+  stroke-width: var(--sh-key);
+  transform: translate(calc(var(--sh-lx) * var(--sh-depth) * -1px), calc(var(--sh-ly) * var(--sh-depth) * -1px));
+}
+.sh-logo__key {
+  fill: var(--sh-ink);
+  stroke: var(--sh-ink);
+  stroke-width: var(--sh-key);
+}
+.sh-logo__rim {
+  fill: var(--sh-rim-color);
+  transform: translate(calc(var(--sh-lx) * var(--sh-rim) * 1px), calc(var(--sh-ly) * var(--sh-rim) * 1px));
+}
+.sh-logo__hair {
+  fill: none;
+  stroke: var(--sh-ink);
+  stroke-width: 5;
+  stroke-opacity: 0.85;
+}
+
+/* ---- Animated fill: masked to the letterforms, composited layers only ------------------ */
+.sh-logo__fx { display: none; }
+
+@supports ((mask-image: url("")) or (-webkit-mask-image: url(""))) {
+  .sh-logo__fx {
+    position: absolute;
+    inset: 0;
+    display: block;
+    overflow: hidden;
+    -webkit-mask: var(--sh-mask) center / 100% 100% no-repeat;
+    mask: var(--sh-mask) center / 100% 100% no-repeat;
+  }
+}
+
+.sh-logo__hue,
+.sh-logo__tint {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 300%;
+  background-repeat: repeat-x;
+  background-size: 33.3334% 100%;
+  will-change: transform;
+}
+.sh-logo__hue {
+  background-image: linear-gradient(90deg,
+    #C4F000 0%, #E4FF6E 10%, #F4F6FA 20%, #B9A2D8 32%, #8FB4FF 45%,
+    #E9EDF5 54%, #A98CF0 64%, #FF7DB6 76%, #FFD0E4 85%, #E9EDF5 91%, #C4F000 100%);
+  animation: sh-drift var(--sh-drift) linear infinite;
+}
+.sh-logo__tint {
+  background-image:
+    radial-gradient(ellipse 16% 70% at 18% 30%, rgba(196, 240, 0, 0.55), transparent 70%),
+    radial-gradient(ellipse 20% 90% at 52% 95%, rgba(110, 76, 159, 0.5), transparent 72%),
+    radial-gradient(ellipse 14% 80% at 84% 10%, rgba(0, 77, 152, 0.38), transparent 70%);
+  animation: sh-drift calc(var(--sh-drift) * 1.7) linear infinite reverse;
+}
+.sh-logo__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0) 46%,
+    rgba(27, 17, 80, 0.3) 63%, rgba(27, 17, 80, 0.08) 80%, rgba(255, 255, 255, 0.3) 100%);
+}
+.sh-logo__sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(104deg,
+    transparent 30%, rgba(233, 237, 245, 0.25) 38%, #FFFFFF 45%, rgba(233, 237, 245, 0.55) 48.5%,
+    #FFFFFF 51%, rgba(196, 240, 0, 0.5) 55%, rgba(233, 237, 245, 0.18) 60%, transparent 66%);
+  transform: translateX(-110%);
+  animation: sh-sheen var(--sh-sheen-period) cubic-bezier(0.5, 0, 0.3, 1) var(--sh-sheen-delay) infinite;
+  will-change: transform;
+}
+
+/* ---- Glints ---------------------------------------------------------------------------- */
+.sh-logo__glints {
+  position: absolute;
+  inset: 0;
+}
+.sh-logo__glint {
+  position: absolute;
+  width: var(--sh-glint);
+  aspect-ratio: 1;
+  margin: calc(var(--sh-glint) / -2) 0 0 calc(var(--sh-glint) / -2);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cpath d='M0-50C4-14 14-4 50 0 14 4 4 14 0 50-4 14-14 4-50 0-14-4-4-14 0-50Z' fill='%23fff'/%3E%3Cpath d='M0-26C2-6 6-2 26 0 6 2 2 6 0 26-2 6-6 2-26 0-6-2-2-6 0-26Z' fill='%23E9EDF5' transform='rotate(45)'/%3E%3C/svg%3E") center / 100% 100% no-repeat,
+    radial-gradient(circle, #FFFFFF 0 6%, rgba(233, 237, 245, 0.6) 13%, rgba(196, 240, 0, 0.28) 25%, transparent 48%);
+  opacity: 0;
+  transform: scale(0);
+  animation: sh-glint var(--sh-glint-t, 3.4s) ease-in-out var(--sh-glint-delay, 0s) infinite;
+  will-change: transform, opacity;
+}
+
+/* ---- Hero: floodlight bloom and entrance ------------------------------------------------ */
+.sh-logo__flare,
+.sh-logo__wipe {
+  position: absolute;
+  pointer-events: none;
+}
+.sh-logo__flare {
+  z-index: -1;
+  left: -4%;
+  right: -4%;
+  top: -60%;
+  bottom: -60%;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 34% 40% at 50% 52%, rgba(233, 237, 245, 0.34), rgba(185, 162, 216, 0.14) 45%, transparent 72%),
+    radial-gradient(ellipse 56% 3.2% at 50% 51%, rgba(255, 255, 255, 0.7), rgba(196, 240, 0, 0.32) 38%, transparent 72%),
+    radial-gradient(circle closest-side at 9% 22%, rgba(233, 237, 245, 0.4), rgba(185, 162, 216, 0.12) 55%, transparent),
+    radial-gradient(circle closest-side at 91% 22%, rgba(233, 237, 245, 0.4), rgba(185, 162, 216, 0.12) 55%, transparent);
+  transform: translate(calc(var(--sh-px, 0) * 2.5%), calc(var(--sh-py, 0) * 4%));
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation: sh-flare-in 1.8s ease-out 0.2s backwards, sh-breathe 6s ease-in-out 2s infinite alternate;
+}
+.sh-logo__flare::before,
+.sh-logo__flare::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 46%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(233, 237, 245, 0.16) 40%, rgba(255, 255, 255, 0.24) 50%, rgba(233, 237, 245, 0.16) 60%, transparent);
+  -webkit-mask: linear-gradient(180deg, transparent 4%, #000 22%, rgba(0, 0, 0, 0.45) 52%, transparent 84%);
+  mask: linear-gradient(180deg, transparent 4%, #000 22%, rgba(0, 0, 0, 0.45) 52%, transparent 84%);
+  transform-origin: 50% 0;
+  animation: sh-beam 11s ease-in-out infinite alternate;
+}
+.sh-logo__flare::before { left: 2%; --sh-beam: -26deg; }
+.sh-logo__flare::after { right: 2%; --sh-beam: 26deg; animation-delay: -5.5s; }
+
+.sh-logo__wipe {
+  top: -30%;
+  bottom: -30%;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.sh-logo__wipe::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 16%;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 12% 50% at 50% 50%, rgba(255, 255, 255, 0.95), transparent 100%),
+    radial-gradient(ellipse 50% 46% at 50% 50%, rgba(196, 240, 0, 0.45), rgba(233, 237, 245, 0.18) 45%, transparent 75%);
+  animation: sh-wipe 1.5s cubic-bezier(0.7, 0, 0.25, 1) 0.15s backwards;
+}
+
+.sh-logo--hero .sh-logo__stage {
+  transform: perspective(1400px) rotateX(calc(var(--sh-ty, 0) * 1deg)) rotateY(calc(var(--sh-tx, 0) * 1deg));
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation: sh-reveal 1.5s cubic-bezier(0.7, 0, 0.25, 1) 0.15s backwards;
+}
+.sh-logo--hero .sh-logo__rim,
+.sh-logo--hero .sh-logo__depth { transition: transform 0.4s ease-out; }
+
+/* ---- Variants -------------------------------------------------------------------------- */
+.sh-logo--header {
+  --sh-rim: 13;
+  --sh-depth: 18;
+  --sh-key: 22;
+  --sh-bloom: 0.4;
+  --sh-drift: 42s;
+  --sh-sheen-period: 12s;
+  --sh-glint: 7.5%;
+}
+.sh-logo--footer {
+  --sh-rim: 14;
+  --sh-depth: 18;
+  --sh-key: 24;
+  --sh-bloom: 0.3;
+  --sh-drift: 56s;
+  --sh-sheen-period: 16s;
+  --sh-glint: 9%;
+}
+.sh-logo--footer .sh-logo__sheen { opacity: 0.7; }
+
+/* ---- Pausing: off-screen, hidden tab, or the site-wide motion toggle -------------------- */
+.sh-logo.is-paused *,
+.sh-logo.is-paused *::before,
+.sh-logo.is-paused *::after,
+.sh-motion-paused .sh-logo *,
+.sh-motion-paused .sh-logo *::before,
+.sh-motion-paused .sh-logo *::after { animation-play-state: paused !important; }
+
+/* ---- Keyframes ------------------------------------------------------------------------- */
+@keyframes sh-drift { to { transform: translateX(-33.3334%); } }
+@keyframes sh-sheen {
+  0% { transform: translateX(-110%); }
+  24%, 100% { transform: translateX(110%); }
+}
+@keyframes sh-glint {
+  0% { opacity: 0; transform: scale(0) rotate(-40deg); }
+  10% { opacity: 1; }
+  20% { opacity: 1; transform: scale(1) rotate(0deg); }
+  34%, 100% { opacity: 0; transform: scale(0) rotate(40deg); }
+}
+@keyframes sh-reveal {
+  from { clip-path: inset(-60% 110% -60% -10%); }
+  to { clip-path: inset(-60% -10% -60% -10%); }
+}
+@keyframes sh-wipe {
+  0% { opacity: 1; transform: translateX(-50%); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(575%); }
+}
+@keyframes sh-flare-in {
+  from { opacity: 0; }
+}
+@keyframes sh-breathe {
+  from { opacity: 0.82; }
+  to { opacity: 1; }
+}
+@keyframes sh-beam {
+  from { transform: rotate(var(--sh-beam)) scaleX(0.8); opacity: 0.6; }
+  to { transform: rotate(calc(var(--sh-beam) * 0.35)) scaleX(1.1); opacity: 1; }
+}
+
+/* ---- Reduced motion: a still, fully lit logo ------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .sh-logo *,
+  .sh-logo *::before,
+  .sh-logo *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .sh-logo__hue { transform: translateX(-4%); }
+  .sh-logo__tint { transform: translateX(-12%); }
+  .sh-logo__sheen,
+  .sh-logo__wipe { display: none; }
+  .sh-logo__glint { opacity: 0.9; transform: scale(0.8); }
+  .sh-logo__glint:nth-child(n+4) { display: none; }
+  .sh-logo--hero .sh-logo__stage { transform: none; }
+}

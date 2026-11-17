@@ -1,0 +1,25 @@
+{%- comment -%} Two timelines sliding into alignment. Labels: first clock, second clock, aligned state. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign marks = "150,270,330,470" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="60" y="96">{{ L[0] | default: "Video clock" | escape }}</text>
+  <path class="wm-ticks" d="M60 130H560"/>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M60 130H560"/>
+  {%- for x in marks %}
+  <rect class="wm-white" x="-8" y="-8" width="16" height="16" rx="2" transform="translate({{ x }} 130) rotate(45)"/>
+  {%- endfor %}
+  <path class="wm-ln wm-ln--lime wm-ln--dash wm-late" d="M150 146V234M270 146V234M330 146V234M470 146V234"/>
+  <g class="wm-shift" style="--fx:54px">
+    <path class="wm-ticks" d="M60 250H560"/>
+    <path class="wm-ln wm-ln--lime wm-ln--bold" d="M60 250H560"/>
+    {%- for x in marks %}
+    <rect class="wm-lime" x="-8" y="-8" width="16" height="16" rx="2" transform="translate({{ x }} 250) rotate(45)"/>
+    {%- endfor %}
+  </g>
+  <text x="60" y="296" class="wm-t--lime">{{ L[1] | default: "Tracking clock" | escape }}</text>
+  <g class="wm-late">
+    <circle class="wm-lime" cx="72" cy="346" r="12"/>
+    <path d="M66 346l4.5 4.5 8-9" fill="none" stroke="#0A1F44" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="94" y="352">{{ L[2] | default: "Aligned" | escape }}</text>
+  </g>
+</svg>

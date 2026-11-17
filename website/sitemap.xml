@@ -1,0 +1,16 @@
+---
+layout: null
+permalink: /sitemap.xml
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+{%- comment %} Every published page with a folder address; redirect stubs and noindex pages opt out with `sitemap: false`. {% endcomment %}
+{%- assign entries = site.pages | concat: site.documents | sort: "url" %}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for entry in entries %}
+{%- assign tail = entry.url | slice: -1 %}
+{%- if tail == "/" and entry.sitemap != false %}
+  <url><loc>{{ entry.url | absolute_url | xml_escape }}</loc></url>
+{%- endif %}
+{%- endfor %}
+</urlset>

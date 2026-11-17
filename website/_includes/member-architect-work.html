@@ -1,0 +1,37 @@
+{%- comment -%}
+  The Architecture section as a body of work: a gateway block with the hub's own diagram and families, then
+  flagship studies drawn with their own animated motifs. Params: work { title, heading, statement, cta, studies }.
+  Titles, summaries, motifs and families come from the Architecture pages themselves.
+{%- endcomment -%}
+{%- assign wk = include.work -%}
+{%- assign hub = site.pages | where: "url", "/architecture/" | first -%}
+{%- assign sec = site.sections | where: "collection", "architecture" | first -%}
+{%- assign studies = site.architecture | where_exp: "d", "d.layout != 'wiki-hub'" -%}
+<section class="container ax-sec ax-work" aria-labelledby="ax-work-title">
+  <div class="ax-work__gate">
+    <div class="ax-work__lead">
+      <p class="mb-section-title">{{ wk.title }}</p>
+      <h2 id="ax-work-title" class="ax-work__heading"><a href="{{ '/architecture/' | relative_url }}">{{ wk.heading }}</a></h2>
+      <p class="ax-work__text">{{ wk.statement }}</p>
+      <p class="ax-work__count"><b>{{ studies.size }}</b> studies in <b>{{ sec.families.size }}</b> families</p>
+      {%- if sec.families %}
+      <ul class="ax-work__families" role="list">
+        {%- for f in sec.families %}<li><a href="{{ f.url | relative_url }}">{{ f.title }}</a></li>{% endfor %}
+      </ul>
+      {%- endif %}
+      <a class="button" href="{{ '/architecture/' | relative_url }}">{{ wk.cta }}<span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="ax-work__motif">{% include wiki/motif.html id=hub.motif labels=hub.motif_labels %}</div>
+  </div>
+  <ul class="ax-studies" role="list">
+    {%- for u in wk.studies %}{% assign d = site.architecture | where: "url", u | first %}{% if d %}
+    <li class="ax-study" style="--i: {{ forloop.index0 }}" data-reveal-item>
+      <div class="ax-study__motif">{% include wiki/motif.html id=d.motif labels=d.motif_labels %}</div>
+      <p class="ax-study__kicker">{{ d.kicker }}</p>
+      <h3 class="ax-study__title"><a href="{{ d.url | relative_url }}">{{ d.title }}</a></h3>
+      <p class="ax-study__text">{{ d.summary | strip_html }}</p>
+      <span class="ax-study__go" aria-hidden="true">Read the study <span>&rarr;</span></span>
+    </li>
+    {%- endif %}{% endfor %}
+  </ul>
+</section>

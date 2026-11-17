@@ -1,0 +1,35 @@
+{%- comment -%}
+  Architecture study motif (alive or dead): the stationary ball. Two scenes with the same motionless ball: a
+  goalkeeper waiting under pressure, and a free kick. The ball cannot tell them apart; the players and the tag can.
+  Synthetic. Motion: stroke-dashoffset, opacity and transform only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="34" class="wm-t--xs wm-t--lime">Still, and alive</text>
+  <rect class="wm-pitch" x="24" y="46" width="284" height="150" rx="4"/><rect class="wm-pitch" x="24" y="86" width="60" height="70"/>
+  <circle class="wm-h wm-edge" cx="70" cy="121" r="8"/><circle class="wm-white" cx="84" cy="126" r="5"/><circle class="wm-ring wm-pulse" cx="84" cy="126" r="10" style="--lo:.3"/>
+  <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="130" cy="72" r="6"/><circle cx="140" cy="170" r="6"/><circle cx="200" cy="120" r="6"/></g>
+  <g class="wm-a wm-edge" stroke-width="1.5"><circle cx="230" cy="96" r="6"/><circle cx="244" cy="150" r="6"/></g>
+  <path class="wm-ln wm-ln--a" d="M222 98L132 118M236 148L140 132"/>
+  <path class="wm-flow" d="M222 98L132 118" pathLength="100" style="--dur:2.2s;stroke:var(--sh-garnet-bright)"/>
+  <path class="wm-flow" d="M236 148L140 132" pathLength="100" style="--dur:2.2s;--delay:-1.1s;stroke:var(--sh-garnet-bright)"/>
+  <path class="wm-ln wm-ln--h" d="M136 74L160 60M146 168L172 182"/>
+  <text x="24" y="218" class="wm-t--xs">Goalkeeper waits, the press arrives</text>
+
+  <text x="332" y="34" class="wm-t--xs">Still, and dead</text>
+  <rect class="wm-pitch" x="332" y="46" width="284" height="150" rx="4"/><rect class="wm-pitch" x="556" y="86" width="60" height="70"/>
+  <circle class="wm-h wm-edge" cx="420" cy="121" r="8"/><circle class="wm-white" cx="436" cy="121" r="5"/><circle class="wm-ring wm-pulse" cx="436" cy="121" r="10" style="--lo:.3"/>
+  <g class="wm-a wm-edge" stroke-width="1.5"><circle cx="486" cy="100" r="6"/><circle cx="486" cy="114" r="6"/><circle cx="486" cy="128" r="6"/><circle cx="486" cy="142" r="6"/><circle cx="590" cy="121" r="6"/></g>
+  <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="520" cy="84" r="6"/><circle cx="528" cy="160" r="6"/><circle cx="380" cy="80" r="6"/></g>
+  <text x="332" y="218" class="wm-t--xs">Free kick: a wall, and nobody moves</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 240H616" stroke-width="1.5"/>
+  {%- assign rows = "Ball motionless|1|1|Players moving|1|0|Ball was placed|0|1|Set-piece tag|0|1" | split: "|" -%}
+  {%- for i in (0..3) %}{% assign k = i | times: 3 %}{% assign k1 = k | plus: 1 %}{% assign k2 = k | plus: 2 %}{% assign y = i | times: 28 | plus: 266 %}
+  <text x="320" y="{{ y | plus: 4 }}" text-anchor="middle" class="wm-t--xs{% if i == 0 %} wm-t--dim{% endif %}">{{ rows[k] }}</text>
+  <circle class="{% if rows[k1] == '1' %}{% if i == 0 %}wm-white{% else %}wm-lime{% endif %}{% else %}wm-ln{% endif %}" cx="166" cy="{{ y }}" r="7"/>
+  <circle class="{% if rows[k2] == '1' %}{% if i == 0 %}wm-white{% else %}wm-lime{% endif %}{% else %}wm-ln{% endif %}" cx="474" cy="{{ y }}" r="7"/>
+  {%- endfor %}
+  <text x="166" y="386" text-anchor="middle" class="wm-t--s wm-t--lime">Alive</text>
+  <text x="474" y="386" text-anchor="middle" class="wm-t--s">Dead</text>
+  <text x="320" y="386" text-anchor="middle" class="wm-t--xs wm-t--dim">The ball says the same in both</text>
+</svg>

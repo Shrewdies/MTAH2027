@@ -1,0 +1,17 @@
+{%- comment -%} Solutions family "events and replay": a broadcast is an edit. One tackle in match time is seen three times in the programme: live and in two replays. Without shot and replay handling a spotter counts it three times. Synthetic. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="40" y="116">Match time</text><text x="40" y="262">Broadcast</text>
+  <path class="wm-ln wm-ln--white" d="M200 110H590"/><path class="wm-ticks" d="M200 118H590" opacity=".35"/>
+  <text class="wm-t--xs wm-t--lime" x="310" y="86" text-anchor="middle">One tackle</text>
+  <path class="wm-ln wm-ln--lime" d="M310 238V122"/><path class="wm-ln wm-ln--lime wm-ln--dash" d="M374 238C374 170 332 152 316 122M519 238C519 150 362 142 318 118"/>
+  <path class="wm-flow" pathLength="100" d="M374 238C374 170 332 152 316 122" style="--dur:3s"/><path class="wm-flow" pathLength="100" d="M519 238C519 150 362 142 318 118" style="--dur:3s;--delay:-1.5s"/>
+  <circle class="wm-ring wm-ping" cx="310" cy="110" r="11"/><circle class="wm-lime" cx="310" cy="110" r="9"/>
+  <text class="wm-t--xs wm-t--dim" x="269" y="230" text-anchor="middle">Live</text><text class="wm-t--xs wm-t--dim" x="374" y="230" text-anchor="middle">Replay</text>
+  <text class="wm-t--xs wm-t--dim" x="449" y="230" text-anchor="middle">Live</text><text class="wm-t--xs wm-t--dim" x="519" y="230" text-anchor="middle">Replay</text>
+  <rect class="wm-h" x="200" y="238" width="138" height="34" rx="6"/><rect class="wm-d" x="340" y="238" width="68" height="34" rx="6"/>
+  <rect class="wm-h" x="410" y="238" width="78" height="34" rx="6"/><rect class="wm-d" x="490" y="238" width="58" height="34" rx="6"/><rect class="wm-h" x="550" y="238" width="40" height="34" rx="6"/>
+  <circle class="wm-white" cx="310" cy="255" r="6"/><circle class="wm-white wm-pulse" cx="374" cy="255" r="6" style="--i:2"/><circle class="wm-white wm-pulse" cx="519" cy="255" r="6" style="--i:5"/>
+  <path class="wm-ln wm-ln--white wm-ln--dash" d="M340 288H408M490 288H548"/>
+  <text class="wm-t--xs wm-t--dim" x="340" y="308">Clock keeps running underneath</text>
+  <text class="wm-t--s wm-t--lime" x="200" y="350">One tackle, three sightings</text>
+</svg>

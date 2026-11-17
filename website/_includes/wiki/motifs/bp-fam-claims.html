@@ -1,0 +1,30 @@
+{%- comment -%}
+  Architecture family motif (Proof): every design claim becomes a test. Five claims made by the other families
+  travel to one bench, whole matches the design has never seen, and each comes back as the test that would refute
+  it. Motion: stroke-dashoffset, transform and opacity only.
+{%- endcomment -%}
+{%- assign c = "24|66|The map|Survives a hidden ball|Score the blank frames|24|168|The engine|Keeps real short spells|Count missed spells|24|270|On the pitch|Nothing tuned on the match|Rerun from public data|412|100|The hard parts|Slots do not matter|Shuffle slots, re-run|412|236|The hard parts|Stoppages are found|Score alive/dead alone" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <circle class="wm-node" cx="320" cy="198" r="58"/>
+  <circle class="wm-ring wm-pulse" cx="320" cy="198" r="58" style="--lo:.4"/>
+  <text x="320" y="186" text-anchor="middle" class="wm-t--xs wm-t--lime">The bench</text>
+  <text x="320" y="204" text-anchor="middle" class="wm-t--xs wm-t--tight">Whole matches,</text>
+  <text x="320" y="220" text-anchor="middle" class="wm-t--xs wm-t--tight">never seen</text>
+  {%- for i in (0..4) %}{% assign k = i | times: 5 %}{% assign k1 = k | plus: 1 %}{% assign k2 = k | plus: 2 %}{% assign k3 = k | plus: 3 %}{% assign k4 = k | plus: 4 %}{% assign x = c[k] | plus: 0 %}{% assign y = c[k1] | plus: 0 %}{% assign cy = y | plus: 34 %}
+  {%- if x < 300 %}
+  <path class="wm-ln" d="M{{ x | plus: 204 }} {{ cy }}L270 {{ 198 | plus: cy | divided_by: 2 }}"/>
+  <path class="wm-flow" d="M{{ x | plus: 204 }} {{ cy }}L270 {{ 198 | plus: cy | divided_by: 2 }}" pathLength="100" style="--dur:3s;--delay:-{{ i | times: 0.6 }}s"/>
+  {%- else %}
+  <path class="wm-ln" d="M{{ x }} {{ cy }}L370 {{ 198 | plus: cy | divided_by: 2 }}"/>
+  <path class="wm-flow" d="M{{ x }} {{ cy }}L370 {{ 198 | plus: cy | divided_by: 2 }}" pathLength="100" style="--dur:3s;--delay:-{{ i | times: 0.6 }}s"/>
+  {%- endif %}
+  <rect class="wm-panel" x="{{ x }}" y="{{ y }}" width="204" height="68" rx="9"/>
+  <text x="{{ x | plus: 12 }}" y="{{ y | plus: 18 }}" class="wm-t--xs wm-t--tight wm-t--dim">{{ c[k2] }} claims</text>
+  <text x="{{ x | plus: 12 }}" y="{{ y | plus: 36 }}" class="wm-t--xs wm-t--tight">{{ c[k3] }}</text>
+  <g class="wm-pop" style="--i:{{ i }};--step:1s;--dur:8s">
+    <path d="M{{ x | plus: 12 }} {{ y | plus: 50 }}l4 4 7-8" fill="none" stroke="#C4F000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="{{ x | plus: 30 }}" y="{{ y | plus: 56 }}" class="wm-t--xs wm-t--tight wm-t--lime">{{ c[k4] }}</text>
+  </g>
+  {%- endfor %}
+  <text x="320" y="372" text-anchor="middle" class="wm-t--xs wm-t--dim">A claim with no test that could refute it is not on the board.</text>
+</svg>

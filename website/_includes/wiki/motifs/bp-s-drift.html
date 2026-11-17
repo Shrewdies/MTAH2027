@@ -1,0 +1,39 @@
+{%- comment -%}
+  Architecture study motif (one clock): uncertainty inside one segment. Two anchors lock the broadcast to the
+  tactical clock; between them the clocks drift, so the timing uncertainty is smallest at an anchor and largest
+  half-way. A slow-motion stretch changes the frame ratio altogether. Synthetic.
+  Motion: transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="34" class="wm-t--xs wm-t--dim">Inside one live segment</text>
+  <text x="24" y="70" class="wm-t--xs wm-t--lime">Tactical</text>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M110 66H600"/>
+  {%- for i in (0..14) %}{% assign x = i | times: 35 | plus: 110 %}<path class="wm-ln wm-ln--lime" d="M{{ x }} 66V78" stroke-width="2"/>{% endfor %}
+  <text x="24" y="170" class="wm-t--xs">Broadcast</text>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M110 166H600"/>
+  {%- for i in (0..13) %}{% assign x = i | times: 37 | plus: 110 %}{% assign tx = i | times: 35 | plus: 110 %}
+  <path class="wm-ln wm-ln--white" d="M{{ x }} 166V154" stroke-width="2"/>
+  <path class="wm-ln" d="M{{ x }} 152L{{ tx }} 80" stroke-width="1"/>
+  {%- endfor %}
+  <circle class="wm-lime wm-edge" cx="110" cy="116" r="9"/><path class="wm-ln wm-ln--lime wm-ln--bold" d="M110 78V154"/>
+  <text x="124" y="120" class="wm-t--xs wm-t--lime">Anchor</text>
+  <circle class="wm-lime wm-edge" cx="596" cy="116" r="9"/><path class="wm-ln wm-ln--lime wm-ln--bold" d="M600 78L591 154"/>
+  <text x="582" y="120" text-anchor="end" class="wm-t--xs wm-t--lime">Anchor</text>
+
+  <text x="24" y="232" class="wm-t--xs">Timing</text>
+  <text x="24" y="248" class="wm-t--xs">uncertainty</text>
+  <path class="wm-pulse" d="M110 238C240 206 470 206 600 238C470 270 240 270 110 238Z" fill="rgba(229,51,111,.3)" stroke="#E5336F" stroke-width="1.5" style="--lo:.6"/>
+  <path class="wm-ln" d="M110 238H600" stroke-width="1"/>
+  <text x="355" y="242" text-anchor="middle" class="wm-t--xs">Widest half-way</text>
+  <g transform="translate(600 238)"><g class="wm-travel" style="--fx:-490px;--dur:6s"><circle class="wm-white" r="5"/></g></g>
+
+  <path class="wm-ln wm-ln--dash" d="M24 292H616" stroke-width="1.5"/>
+  <text x="24" y="322" class="wm-t--xs wm-t--dim">Slow motion</text>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M150 318H330"/>
+  {%- for i in (0..6) %}<path class="wm-ln wm-ln--lime" d="M{{ i | times: 30 | plus: 150 }} 318V328" stroke-width="2"/>{% endfor %}
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M150 356H600"/>
+  {%- for i in (0..6) %}<path class="wm-ln wm-ln--white" d="M{{ i | times: 75 | plus: 150 }} 356V346" stroke-width="2"/><path class="wm-ln" d="M{{ i | times: 75 | plus: 150 }} 344L{{ i | times: 30 | plus: 150 }} 330" stroke-width="1"/>{% endfor %}
+  <text x="24" y="360" class="wm-t--xs wm-t--dim">Same play,</text>
+  <text x="24" y="376" class="wm-t--xs wm-t--dim">more frames</text>
+  <text x="600" y="322" text-anchor="end" class="wm-t--xs">One offset cannot describe it</text>
+</svg>

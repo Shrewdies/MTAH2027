@@ -1,0 +1,23 @@
+{%- comment -%} One passage of play as three providers would label it: three states, owner plus state, and a possession field with no dead-ball state. Illustrative, not real data. Labels: three provider rows, then H, A, D. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M217 52V300M265 52V300M445 52V300" opacity=".75"/>
+  <text class="wm-t--s" x="50" y="62">{{ L[0] | default: "Provider A" | escape }}</text>
+  <g class="wm-light" style="--i:0;--step:2s;--lo:.7">
+    <rect class="wm-h" x="50" y="72" width="166" height="40" rx="6"/><rect class="wm-d" x="218" y="72" width="46" height="40" rx="6"/><rect class="wm-a" x="266" y="72" width="178" height="40" rx="6"/><rect class="wm-h" x="446" y="72" width="142" height="40" rx="6"/>
+  </g>
+  <text class="wm-t--s" x="50" y="146">{{ L[1] | default: "Provider B" | escape }}</text>
+  <g class="wm-light" style="--i:1;--step:2s;--lo:.7">
+    <rect class="wm-h" x="50" y="156" width="152" height="40" rx="6"/><rect class="wm-d" x="204" y="156" width="74" height="40" rx="6"/><rect class="wm-a" x="280" y="156" width="176" height="40" rx="6"/><rect class="wm-h" x="458" y="156" width="130" height="40" rx="6"/>
+  </g>
+  <text class="wm-t--s" x="50" y="230">{{ L[2] | default: "Provider C" | escape }}</text>
+  <g class="wm-light" style="--i:2;--step:2s;--lo:.7">
+    <rect class="wm-h" x="50" y="240" width="176" height="40" rx="6"/><rect class="wm-a" x="258" y="240" width="182" height="40" rx="6"/><rect class="wm-h" x="442" y="240" width="146" height="40" rx="6"/>
+  </g>
+  <rect class="wm-ln wm-ln--white wm-ln--dash wm-pulse" x="229" y="243" width="26" height="34" rx="5" style="--lo:.25"/>
+  <text class="wm-t--s wm-pulse" x="242" y="265" text-anchor="middle" style="--lo:.25">?</text>
+  <g transform="translate(590 0)"><g class="wm-travel" style="--fx:-540px;--dur:6s"><path class="wm-ln wm-ln--lime" stroke-width="2.5" d="M0 52V300"/><path class="wm-lime" d="M-7 42h14l-7 10z"/></g></g>
+  <rect class="wm-h" x="50" y="335" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="72" y="347">{{ L[3] | default: "Home" | escape }}</text>
+  <rect class="wm-a" x="240" y="335" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="262" y="347">{{ L[4] | default: "Away" | escape }}</text>
+  <rect class="wm-d" x="430" y="335" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="452" y="347">{{ L[5] | default: "Dead ball" | escape }}</text>
+</svg>

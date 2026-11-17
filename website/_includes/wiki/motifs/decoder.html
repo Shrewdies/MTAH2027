@@ -1,0 +1,24 @@
+{%- comment -%} Three-state trellis with the best path lighting up. Labels: three states, best path. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign ys = "100,190,280" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" stroke-width="1.5" d="{% for i in (0..5) %}{% assign x1 = i | times: 68 | plus: 172 %}{% assign x2 = x1 | plus: 68 %}{% for a in ys %}{% for b in ys %}M{{ x1 }} {{ a }}L{{ x2 }} {{ b }}{% endfor %}{% endfor %}{% endfor %}"/>
+  <g class="wm-node">
+    {%- for i in (0..6) %}{% assign x = i | times: 68 | plus: 172 %}{% for y in ys %}<circle cx="{{ x }}" cy="{{ y }}" r="11"/>{% endfor %}{% endfor %}
+  </g>
+  <path class="wm-ln wm-ln--lime wm-ln--bold wm-draw" d="M172 100L240 100L308 100L376 280L444 190L512 190L580 190" pathLength="100" style="--ease:linear"/>
+  <g class="wm-lime">
+    <circle class="wm-pop" cx="172" cy="100" r="12" style="--i:0;--step:.5s"/>
+    <circle class="wm-pop" cx="240" cy="100" r="12" style="--i:.7;--step:.5s"/>
+    <circle class="wm-pop" cx="308" cy="100" r="12" style="--i:1.4;--step:.5s"/>
+    <circle class="wm-pop" cx="376" cy="280" r="12" style="--i:3.36;--step:.5s"/>
+    <circle class="wm-pop" cx="444" cy="190" r="12" style="--i:4.52;--step:.5s"/>
+    <circle class="wm-pop" cx="512" cy="190" r="12" style="--i:5.2;--step:.5s"/>
+    <circle class="wm-pop" cx="580" cy="190" r="12" style="--i:5.9;--step:.5s"/>
+  </g>
+  <rect class="wm-h" x="36" y="92" width="14" height="14" rx="3"/><text x="58" y="105" class="wm-t--s">{{ L[0] | default: "Home" | truncate: 9, "" | escape }}</text>
+  <rect class="wm-a" x="36" y="182" width="14" height="14" rx="3"/><text x="58" y="195" class="wm-t--s">{{ L[1] | default: "Away" | truncate: 9, "" | escape }}</text>
+  <rect class="wm-d" x="36" y="272" width="14" height="14" rx="3"/><text x="58" y="285" class="wm-t--s">{{ L[2] | default: "Dead ball" | truncate: 9, "" | escape }}</text>
+  <path class="wm-ln" d="M172 330H580M572 324l8 6-8 6"/>
+  <text x="376" y="362" text-anchor="middle" class="wm-t--lime">{{ L[3] | default: "Best path" | escape }}</text>
+</svg>

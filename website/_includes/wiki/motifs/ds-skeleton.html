@@ -1,0 +1,24 @@
+{%- comment -%} Events are instants; the possession between them has to be inferred. Same-team runs join into a spell, the hand-over and the stoppage stay open. Synthetic. Labels: event row, skeleton row, known spell, open boundary. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign events = "72,h,.2|112,h,.5|150,h,.8|186,h,1.1|262,a,1.6|302,a,1.9|346,a,2.2|390,a,2.5|432,w,2.9|502,w,3.4|542,h,3.8|578,h,4.1" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="50" y="66">{{ L[0] | default: "On-ball events" | escape }}</text>
+  <path class="wm-ticks" d="M50 166H590" opacity=".5"/>
+  <path class="wm-ln wm-ln--white" d="M50 160H590"/>
+  {%- for event in events %}{% assign v = event | split: "," %}
+  {%- case v[1] %}{% when "h" %}{% assign colour = "#2F86F0" %}{% when "a" %}{% assign colour = "#E5336F" %}{% else %}{% assign colour = "#E9EDF5" %}{% endcase %}
+  <path class="wm-ln wm-ln--dash" d="M{{ v[0] }} 166V222" opacity=".45"/>
+  <g class="wm-grow" style="--i:{{ v[2] }};--step:1s" fill="{{ colour }}"><rect x="{{ v[0] | minus: 2.5 }}" y="100" width="5" height="60" rx="2.5"/><circle cx="{{ v[0] }}" cy="100" r="7.5" stroke="#fff" stroke-width="1.5"/></g>
+  {%- endfor %}
+  <rect class="wm-h" x="64" y="228" width="130" height="50" rx="6"/>
+  <rect class="wm-ln wm-ln--white wm-ln--dash wm-pulse" x="198" y="232" width="52" height="42" rx="6" style="--lo:.25"/>
+  <text class="wm-t--s wm-pulse" x="224" y="258" text-anchor="middle" style="--lo:.25">?</text>
+  <rect class="wm-a" x="254" y="228" width="144" height="50" rx="6"/>
+  <rect class="wm-ln wm-ln--mauve wm-ln--dash wm-pulse" x="402" y="232" width="128" height="42" rx="6" style="--i:4;--lo:.25"/>
+  <text class="wm-t--s wm-pulse" x="466" y="258" text-anchor="middle" style="--i:4;--lo:.25">?</text>
+  <rect class="wm-h" x="534" y="228" width="52" height="50" rx="6"/>
+  <text x="50" y="308">{{ L[1] | default: "Possession skeleton" | escape }}</text>
+  <g transform="translate(590 0)"><g class="wm-travel" style="--fx:-540px;--dur:6s"><path class="wm-ln wm-ln--lime" stroke-width="2.5" d="M0 84V284"/><path class="wm-lime" d="M-7 74h14l-7 10z"/></g></g>
+  <rect class="wm-h" x="50" y="343" width="22" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="82" y="355">{{ L[2] | default: "Known spell" | escape }}</text>
+  <rect class="wm-ln wm-ln--white wm-ln--dash" x="330" y="343" width="22" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="362" y="355">{{ L[3] | default: "Open boundary" | escape }}</text>
+</svg>

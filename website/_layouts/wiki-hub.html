@@ -1,0 +1,339 @@
+---
+layout: default
+---
+{%- comment -%}
+  Knowledge hub for `collection_index`. Three modes, documented in README-SITE.md, chapter "Wiki pages":
+    families: true                 one large animated card per `groups` item, featured entries, "find a page"
+    only_group + family: true      a family page: explanation first, then the family's entries, then its neighbours
+    (neither)                      every entry, grouped by `group`, with a filter bar
+  All of it works without JavaScript.
+{%- endcomment -%}
+{%- assign cidx = page.collection_index -%}
+{%- assign section = nil -%}
+{%- assign docs = "" | split: "" -%}
+{%- assign hubs = "" | split: "" -%}
+{%- if cidx and site[cidx] -%}
+  {%- assign section = site.sections | where: "collection", cidx | first -%}
+  {%- assign docs = site[cidx] | where_exp: "d", "d.layout != 'wiki-hub'" | where_exp: "d", "d.template != true" -%}
+  {%- assign hubs = site.pages | where: "layout", "wiki-hub" | where: "collection_index", cidx -%}
+  {%- assign doc_hubs = site[cidx] | where: "layout", "wiki-hub" -%}
+  {%- assign hubs = hubs | concat: doc_hubs -%}
+{%- elsif cidx -%}
+  {%- assign section = site.sections | where: "collection", cidx | first -%}
+  {%- assign hubs = site.pages | where: "layout", "wiki-hub" | where: "collection_index", cidx -%}
+{%- endif -%}
+{%- if page.only_group -%}{%- assign docs = docs | where: "group", page.only_group -%}{%- endif -%}
+
+{%- assign families_mode = false -%}
+{%- assign family_page = false -%}
+{%- if page.only_group -%}
+  {%- if page.family -%}{%- assign family_page = true -%}{%- endif -%}
+{%- elsif page.families -%}
+  {%- assign families_mode = true -%}
+{%- endif -%}
+
+{%- comment -%} The hub above a category or family page, and this family's neighbours in its `groups`. {%- endcomment -%}
+{%- assign parent = hubs | where_exp: "h", "h.only_group == nil" | first -%}
+{%- if page.parent -%}
+  {%- assign parent_path = page.parent -%}
+  {%- assign parent_last = parent_path | slice: -1 -%}
+  {%- unless parent_last == "/" -%}{%- assign parent_path = parent_path | append: "/" -%}{%- endunless -%}
+  {%- assign parent_page = site.pages | where: "url", parent_path | first -%}
+  {%- if parent_page -%}{%- assign parent = parent_page -%}{%- endif -%}
+{%- endif -%}
+{%- assign parent_url = parent.url | default: section.url -%}
+{%- assign fam_meta = nil -%}
+{%- assign fam_prev = nil -%}
+{%- assign fam_next = nil -%}
+{%- if page.only_group and parent.groups -%}
+  {%- assign fam_i = -1 -%}
+  {%- for g in parent.groups -%}
+    {%- if g.key == page.only_group -%}{%- assign fam_i = forloop.index0 -%}{%- assign fam_meta = g -%}{%- endif -%}
+  {%- endfor -%}
+  {%- if fam_i >= 0 -%}
+    {%- assign fam_before = fam_i | minus: 1 -%}
+    {%- assign fam_after = fam_i | plus: 1 -%}
+    {%- if fam_before >= 0 -%}{%- assign fam_prev = parent.groups[fam_before] -%}{%- endif -%}
+    {%- if fam_after < parent.groups.size -%}{%- assign fam_next = parent.groups[fam_after] -%}{%- endif -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- comment -%} Default mode: declared groups in order, then undeclared keys found on entries, then entries without a group. {%- endcomment -%}
+{%- assign declared = page.groups | map: "key" -%}
+{%- assign extra_keys = "" | split: "" -%}
+{%- assign found_keys = docs | map: "group" | compact | uniq | sort -%}
+{%- for key in found_keys -%}
+  {%- unless declared contains key -%}
+    {%- assign one = key | append: "" | split: "|||" -%}
+    {%- assign extra_keys = extra_keys | concat: one -%}
+  {%- endunless -%}
+{%- endfor -%}
+{%- assign loose = docs | where_exp: "d", "d.group == nil" -%}
+{%- assign grouped = false -%}
+{%- unless page.only_group or families_mode -%}
+  {%- if found_keys.size > 0 -%}{%- assign grouped = true -%}{%- endif -%}
+{%- endunless -%}
+
+{%- assign title = page.title | default: fam_meta.title | default: section.title -%}
+{%- assign title_size = title | size -%}
+{%- assign lede = page.summary | default: fam_meta.blurb -%}
+{%- unless lede or page.only_group -%}{%- assign lede = section.blurb -%}{%- endunless -%}
+{%- assign hero_motif = page.motif | default: fam_meta.motif -%}
+{%- assign hero_labels = page.motif_labels | default: fam_meta.motif_labels -%}
+{%- assign intro = content | strip -%}
+{%- assign count_token = "count" | prepend: "{" | append: "}" -%}
+<link rel="stylesheet" href="{{ '/assets/wiki/wiki.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+<article class="wk wk-hub{% if families_mode %} wk-hub--families{% elsif family_page %} wk-hub--family{% endif %}">
+  <header class="page-hero wk-hero">
+    <div class="container wk-hero__grid{% if hero_motif %} wk-hero__grid--motif{% endif %}">
+      <div class="page-hero__inner">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="{{ '/' | relative_url }}">Home</a></li>
+            {%- if page.only_group and section %}
+            <li><a href="{{ parent_url | relative_url }}">{{ section.title }}</a></li>
+            {%- endif %}
+            <li><span aria-current="page">{{ title }}</span></li>
+          </ol>
+        </nav>
+        <p class="kicker">
+          {%- if section %}<span class="kicker__num">{{ section.kicker }}</span>{% endif -%}
+          {%- if page.kicker %}{{ page.kicker }}{% elsif family_page and section %}{{ section.title }} family{% elsif page.only_group and section %}{{ section.title }}{% else %}Section{% endif -%}
+        </p>
+        <h1 class="page-title wk-title{% if title_size > 30 %} wk-title--long{% elsif title_size < 13 %} wk-title--xl{% endif %}">{{ title }}</h1>
+        {%- if lede %}
+        <p class="lede">{{ lede }}</p>
+        {%- endif %}
+        {%- if page.chips %}
+        <ul class="wk-chips" role="list" aria-label="Tags">
+          {%- for chip in page.chips %}
+          <li>{{ chip }}</li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+      </div>
+      {%- if hero_motif %}
+      {% include wiki/motif.html id=hero_motif labels=hero_labels caption=page.motif_caption uid="wk-hero" %}
+      {%- endif %}
+    </div>
+  </header>
+
+  {%- if page.stats %}
+  <div class="container">
+    <ul class="facts wk-stats" role="list">
+      {%- for stat in page.stats %}
+      <li class="glass"><span class="facts__value" data-wk-count>{{ stat.value | replace: count_token, docs.size }}</span><span class="facts__label">{{ stat.label }}</span></li>
+      {%- endfor %}
+    </ul>
+  </div>
+  {%- endif %}
+
+  {%- if intro != "" %}
+  <div class="container wk-intro">
+    <div class="paper wk-body">
+      {%- unless family_page %}
+      <nav class="wk-toc" aria-label="On this page" data-wk-toc hidden>
+        <p class="wk-toc__title">On this page</p>
+        <ol></ol>
+      </nav>
+      {%- endunless %}
+      <div class="prose wk-prose">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+  {%- endif %}
+
+  {%- if families_mode %}
+  <section class="container wk-families" aria-labelledby="wk-families-title">
+    <h2 class="wk-h" id="wk-families-title">{{ page.families_title | default: "The families" }}</h2>
+    <ol class="wk-families__list" role="list">
+      {%- for g in page.groups %}
+      {%- assign g_docs = docs | where: "group", g.key -%}
+      {%- assign g_url = g.url -%}
+      {%- unless g_url -%}{%- assign g_hub = hubs | where: "only_group", g.key | first -%}{%- assign g_url = g_hub.url -%}{%- endunless -%}
+      {%- capture g_uid -%}wk-fam-{{ forloop.index }}{%- endcapture %}
+      <li class="wk-family">
+        <div class="wk-family__art">
+          {% include wiki/motif.html id=g.motif labels=g.motif_labels uid=g_uid %}
+        </div>
+        <div class="wk-family__body">
+          <p class="wk-family__num"><b>{{ forloop.index | prepend: "0" | slice: -2, 2 }}</b> of {{ forloop.length | prepend: "0" | slice: -2, 2 }}</p>
+          <h3 class="wk-family__title">{% if g_url %}<a href="{{ g_url | relative_url }}">{{ g.title | default: g.key }}</a>{% else %}{{ g.title | default: g.key }}{% endif %}</h3>
+          {%- if g.blurb %}
+          <p class="wk-family__blurb">{{ g.blurb }}</p>
+          {%- endif %}
+          {%- if g.points %}
+          <ul class="wk-family__points" role="list">
+            {%- for point in g.points limit: 3 %}
+            <li>{{ point }}</li>
+            {%- endfor %}
+          </ul>
+          {%- endif %}
+          <p class="wk-family__foot">
+            {%- if g_docs.size > 0 %}<span class="wk-family__count"><b>{{ g_docs.size }}</b> {% if g_docs.size == 1 %}entry{% else %}entries{% endif %}</span>{% endif -%}
+            {%- if g_url %}<span class="wk-family__go" aria-hidden="true">{{ g.cta | default: "Open the family" }} <span>&rarr;</span></span>{% endif -%}
+          </p>
+        </div>
+      </li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endif %}
+
+  {%- if docs.size == 0 %}
+  {%- unless families_mode and page.groups %}
+  <div class="container">
+    {% include coming-soon.html title=title text=section.soon %}
+  </div>
+  {%- endunless %}
+  {%- else %}
+
+  {%- if page.featured %}
+  {%- capture featured_cards -%}
+    {%- for item in page.featured -%}
+      {%- assign f_url = item.url | default: item -%}
+      {%- assign f_last = f_url | slice: -1 -%}
+      {%- unless f_last == "/" -%}{%- assign f_url = f_url | append: "/" -%}{%- endunless -%}
+      {%- assign f_doc = site.documents | where: "url", f_url | first -%}
+      {%- if f_doc %}
+        {% include wiki/card.html doc=f_doc featured=true static=true %}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- assign featured_cards = featured_cards | strip -%}
+  {%- if featured_cards != "" %}
+  <section class="container wk-featured" aria-labelledby="wk-featured-title">
+    <h2 class="wk-h" id="wk-featured-title">{{ page.featured_title | default: "Start here" }}</h2>
+    <ul class="wk-cards" role="list">
+      {{ featured_cards }}
+    </ul>
+  </section>
+  {%- endif %}
+  {%- endif %}
+
+  {%- if families_mode %}
+  <section class="container wk-find-wrap" aria-labelledby="wk-find-title">
+    <div class="wk-find" data-wk-find>
+      <div class="wk-find__head">
+        <h2 class="wk-find__title" id="wk-find-title">Find a page</h2>
+        <label class="wk-search" data-wk-search-box hidden>
+          <span class="visually-hidden">Search all {{ docs.size }} pages of {{ title }} by name, summary or tag</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+          <input type="search" placeholder="Type a name, a method, a tag" autocomplete="off" spellcheck="false" data-wk-search>
+        </label>
+        <p class="wk-filter__out" data-wk-out role="status" hidden></p>
+      </div>
+      <details class="wk-find__all">
+        <summary>All {{ docs.size }} pages</summary>
+        <ul class="wk-find__list" role="list">
+          {%- for g in page.groups %}
+            {%- assign g_docs = docs | where: "group", g.key -%}
+            {%- include wiki/sort.html docs=g_docs -%}
+            {%- for doc in wiki_sorted %}
+          {% include wiki/find-item.html doc=doc label=g.title %}
+            {%- endfor %}
+          {%- endfor %}
+          {%- for doc in docs %}
+            {%- unless declared contains doc.group %}
+          {% include wiki/find-item.html doc=doc %}
+            {%- endunless %}
+          {%- endfor %}
+        </ul>
+      </details>
+    </div>
+  </section>
+  {%- else %}
+
+  <div class="container wk-list" id="entries"{% unless family_page %} data-wk-list{% endunless %}>
+    {%- if family_page %}
+    <h2 class="wk-h">{{ page.entries_title | default: "In this family" }}<span class="wk-h__count">{{ docs.size }}</span></h2>
+    {%- else %}
+    <div class="wk-filter" data-wk-filter{% unless grouped %} hidden{% endunless %}>
+      {%- if grouped %}
+      <nav class="wk-filter__groups" aria-label="Groups">
+        <a class="wk-filter__chip is-active" href="#entries" data-wk-group="">All <span>{{ docs.size }}</span></a>
+        {%- for g in page.groups %}
+        {%- assign g_docs = docs | where: "group", g.key -%}
+        {%- if g_docs.size > 0 %}
+        <a class="wk-filter__chip" href="#group-{{ g.key | slugify }}" data-wk-group="{{ g.key | escape }}">{{ g.short | default: g.title | default: g.key }} <span>{{ g_docs.size }}</span></a>
+        {%- endif %}
+        {%- endfor %}
+        {%- for key in extra_keys %}
+        {%- assign g_docs = docs | where: "group", key %}
+        <a class="wk-filter__chip" href="#group-{{ key | slugify }}" data-wk-group="{{ key | escape }}">{{ key | replace: "-", " " | replace: "_", " " | capitalize }} <span>{{ g_docs.size }}</span></a>
+        {%- endfor %}
+        {%- if loose.size > 0 %}
+        <a class="wk-filter__chip" href="#group-other" data-wk-group="other">Other <span>{{ loose.size }}</span></a>
+        {%- endif %}
+      </nav>
+      {%- endif %}
+      <label class="wk-search" data-wk-search-box hidden>
+        <span class="visually-hidden">Filter {{ title }} by name, summary or tag</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+        <input type="search" placeholder="Filter by name or tag" autocomplete="off" spellcheck="false" data-wk-search>
+      </label>
+      <p class="wk-filter__out" data-wk-out role="status" hidden></p>
+    </div>
+    {%- endif %}
+
+    {%- if grouped %}
+      {%- for g in page.groups %}
+        {%- assign g_docs = docs | where: "group", g.key -%}
+        {%- if g_docs.size > 0 %}
+          {%- assign g_url = g.url -%}
+          {%- unless g_url -%}{%- assign g_hub = hubs | where: "only_group", g.key | first -%}{%- assign g_url = g_hub.url -%}{%- endunless %}
+    {% include wiki/hub-group.html key=g.key title=g.title blurb=g.blurb motif=g.motif url=g_url docs=g_docs %}
+        {%- endif %}
+      {%- endfor %}
+      {%- for key in extra_keys %}
+        {%- assign g_docs = docs | where: "group", key -%}
+        {%- assign g_hub = hubs | where: "only_group", key | first -%}
+        {%- assign g_title = key | replace: "-", " " | replace: "_", " " | capitalize %}
+    {% include wiki/hub-group.html key=key title=g_title url=g_hub.url docs=g_docs %}
+      {%- endfor %}
+      {%- if loose.size > 0 %}
+    {% include wiki/hub-group.html key="other" title="Other" docs=loose %}
+      {%- endif %}
+    {%- else %}
+      {%- include wiki/sort.html docs=docs %}
+    {%- unless family_page %}
+    <h2 class="visually-hidden">All entries</h2>
+    {%- endunless %}
+    <ul class="wk-cards" role="list">
+      {%- for doc in wiki_sorted %}
+      {% include wiki/card.html doc=doc group=doc.group static=family_page %}
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+
+    {%- unless family_page %}
+    <p class="wk-empty" data-wk-empty hidden>Nothing matches that filter.<button type="button" data-wk-reset>Show everything</button></p>
+    {%- endunless %}
+  </div>
+  {%- endif %}
+  {%- endif %}
+
+  {%- if page.only_group %}
+  {%- if fam_prev or fam_next %}
+  <nav class="container pager" aria-label="Other families in {{ section.title }}">
+    {%- if fam_prev %}
+    {%- assign fam_url = fam_prev.url -%}
+    {%- unless fam_url -%}{%- assign fam_hub = hubs | where: "only_group", fam_prev.key | first -%}{%- assign fam_url = fam_hub.url -%}{%- endunless %}
+    <a class="pager__link pager__link--prev" href="{{ fam_url | default: parent_url | relative_url }}"><span class="pager__dir">&larr; Previous family</span><span class="pager__title">{{ fam_prev.title | default: fam_prev.key }}</span></a>
+    {%- else %}<span></span>{% endif %}
+    {%- if fam_next %}
+    {%- assign fam_url = fam_next.url -%}
+    {%- unless fam_url -%}{%- assign fam_hub = hubs | where: "only_group", fam_next.key | first -%}{%- assign fam_url = fam_hub.url -%}{%- endunless %}
+    <a class="pager__link pager__link--next" href="{{ fam_url | default: parent_url | relative_url }}"><span class="pager__dir">Next family &rarr;</span><span class="pager__title">{{ fam_next.title | default: fam_next.key }}</span></a>
+    {%- endif %}
+  </nav>
+  {%- endif %}
+  {%- if parent_url %}
+  <div class="container wk-foot">
+    <a class="button button--ghost" href="{{ parent_url | relative_url }}"><span aria-hidden="true">&larr;</span> All {{ section.title | default: "families" }}</a>
+  </div>
+  {%- endif %}
+  {%- endif %}
+</article>
+<script src="{{ '/assets/wiki/wiki.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

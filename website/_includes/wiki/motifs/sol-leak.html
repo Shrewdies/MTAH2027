@@ -1,0 +1,17 @@
+{%- comment -%} Solutions family "readers and formats": the leak a loader makes easy. Event-derived columns sit beside tracking columns in one table. A method under test may read the measured columns and must never read the ones derived from the answer. Synthetic. {%- endcomment -%}
+{%- assign cols = "50,Ball x,t|150,Ball y,t|250,Players,t|370,Event,e|470,Team,e" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text class="wm-t--s" x="50" y="52">Measured</text><text class="wm-t--s" x="370" y="52">Derived from the answer</text>
+  {%- for c in cols %}{% assign v = c | split: "," %}{% assign x = v[0] | plus: 0 %}
+  <rect class="wm-panel" x="{{ x }}" y="64" width="92" height="160" rx="8"/>
+  {%- if v[2] == "e" %}<rect class="wm-a" x="{{ x }}" y="64" width="92" height="160" rx="8" opacity=".28"/>{% endif %}
+  <text class="wm-t--xs" x="{{ x | plus: 46 }}" y="86" text-anchor="middle">{{ v[1] }}</text>
+  <g opacity=".6"><rect class="{% if v[2] == 'e' %}wm-a{% else %}wm-white{% endif %}" x="{{ x | plus: 16 }}" y="104" width="60" height="10" rx="5"/><rect class="{% if v[2] == 'e' %}wm-a{% else %}wm-white{% endif %}" x="{{ x | plus: 16 }}" y="134" width="46" height="10" rx="5"/><rect class="{% if v[2] == 'e' %}wm-a{% else %}wm-white{% endif %}" x="{{ x | plus: 16 }}" y="164" width="60" height="10" rx="5"/><rect class="{% if v[2] == 'e' %}wm-a{% else %}wm-white{% endif %}" x="{{ x | plus: 16 }}" y="194" width="38" height="10" rx="5"/></g>
+  {%- endfor %}
+  <path class="wm-ln wm-ln--lime" d="M96 224C96 270 220 262 230 300M196 224C196 262 280 262 290 300M296 224C296 262 340 262 350 300"/>
+  <path class="wm-flow" pathLength="100" d="M96 224C96 270 220 262 230 300"/><path class="wm-flow" pathLength="100" d="M196 224C196 262 280 262 290 300" style="--delay:-.9s"/><path class="wm-flow" pathLength="100" d="M296 224C296 262 340 262 350 300" style="--delay:-1.7s"/>
+  <path class="wm-ln wm-ln--a wm-ln--dash" d="M416 224C416 250 408 262 404 274M516 224C516 262 450 268 434 280"/>
+  <g class="wm-pulse" style="--lo:.45"><path class="wm-ln wm-ln--white wm-ln--bold" d="M406 270l22 22M428 270l-22 22"/></g>
+  <rect class="wm-box" x="170" y="300" width="260" height="48" rx="10"/><text class="wm-t--s" x="300" y="329" text-anchor="middle">Method under test</text>
+  <text class="wm-t--xs wm-t--lime" x="452" y="316">Remove before</text><text class="wm-t--xs wm-t--lime" x="452" y="332">scoring</text>
+</svg>

@@ -1,0 +1,49 @@
+{%- comment -%}
+  Architecture motif: space is not time. Left: a camera ray through a ball in flight lands on the pitch plane far from
+  the ball's true ground position, while a boot on the grass maps exactly. Right: two gates, calibration and
+  synchronisation, and cross-view evidence passes only when both are open. Synthetic.
+  Motion: transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="40" class="wm-t--xs wm-t--dim">The flat-earth limit</text>
+  <path class="wm-panel" d="M70 300L130 170H360L400 300Z"/>
+  <path class="wm-ln" d="M235 170V300M100 235H380" stroke-width="1"/>
+
+  <path class="wm-node" d="M24 96h30l12 12v20H24z"/><circle class="wm-lime" cx="42" cy="112" r="6"/>
+  <text x="24" y="150" class="wm-t--xs">Camera</text>
+
+  <circle class="wm-h wm-edge" cx="170" cy="262" r="7"/>
+  <path class="wm-ln wm-ln--white" d="M60 118L170 262" stroke-width="1.5"/>
+  <text x="140" y="290" class="wm-t--xs">On the grass: exact</text>
+
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M60 116L262 150L352 212"/>
+  <path class="wm-flow" d="M60 116L262 150L352 212" pathLength="100" style="--dur:3s"/>
+  <path class="wm-ln wm-ln--dash" d="M262 156V226" stroke-width="1.5"/>
+  <g class="wm-float" style="--ty:-9px"><circle class="wm-white" cx="262" cy="150" r="8"/><circle class="wm-ring" cx="262" cy="150" r="13"/></g>
+  <ellipse class="wm-ink" cx="262" cy="230" rx="11" ry="4" opacity=".8"/>
+  <text x="212" y="250" class="wm-t--xs">True</text>
+  <circle class="wm-a wm-edge wm-pulse" cx="352" cy="212" r="8" style="--lo:.4"/>
+  <text x="330" y="196" class="wm-t--xs">Projected</text>
+  <path class="wm-ln wm-ln--a" d="M276 228L340 214" stroke-dasharray="3 5"/>
+  <text x="70" y="330" class="wm-t--xs wm-t--dim">Height is unseen, so the ball lands</text>
+  <text x="70" y="346" class="wm-t--xs wm-t--dim">in the wrong place on the plane</text>
+
+  <text x="440" y="40" class="wm-t--xs wm-t--dim">Two gates</text>
+  <rect class="wm-node" x="440" y="58" width="176" height="64" rx="10"/>
+  <text x="456" y="84" class="wm-t--xs">Space</text>
+  <text x="456" y="104" class="wm-t--xs wm-t--dim">Calibration error</text>
+  <circle class="wm-lime wm-light" cx="596" cy="80" r="7" style="--i:0;--step:1.5s;--dur:6s;--lo:.2"/>
+
+  <rect class="wm-node" x="440" y="146" width="176" height="64" rx="10"/>
+  <text x="456" y="172" class="wm-t--xs">Time</text>
+  <text x="456" y="192" class="wm-t--xs wm-t--dim">Same instant</text>
+  <circle class="wm-lime wm-light" cx="596" cy="168" r="7" style="--i:1;--step:1.5s;--dur:6s;--lo:.2"/>
+
+  <path class="wm-ln wm-ln--bold" d="M528 122V146M528 210V250M522 242l6 8 6-8"/>
+  <path class="wm-flow" d="M528 122V146" pathLength="100" style="--dur:3s"/>
+  <path class="wm-flow" d="M528 210V250" pathLength="100" style="--dur:3s;--delay:-1.5s"/>
+  <rect class="wm-box wm-light" x="440" y="254" width="176" height="56" rx="10" style="--i:2;--step:1.5s;--dur:6s;--lo:.3"/>
+  <text x="528" y="278" text-anchor="middle" class="wm-t--xs">Cross-view</text>
+  <text x="528" y="296" text-anchor="middle" class="wm-t--xs">evidence passes</text>
+  <text x="440" y="336" class="wm-t--xs wm-t--dim">Both open, or nothing</text>
+</svg>

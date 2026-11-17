@@ -1,0 +1,35 @@
+{%- comment -%}
+  Animated diagram in a framed stage.
+    {% include wiki/motif.html id=page.motif labels=page.motif_labels caption=page.motif_caption %}
+  id       a built-in id, or a custom id prefixed ds-, sol-, bp- or ch- with its file in wiki/motifs/
+  labels   up to six short labels, as a list or as one string separated by | (each motif has defaults)
+  caption  text under the stage
+  uid      prefix for SVG ids, set automatically; pass one only to pin it
+  Each motif file is one inline <svg>; it receives include.labels and include.uid.
+  Unknown ids draw the neutral pitch motif. Drawing and motion classes: assets/wiki/wiki.css.
+{%- endcomment -%}
+{%- assign wm_builtin = "graph,ribbon,decoder,boxes,tracks,homography,sync,field,trajectory,spikes,stack,pipeline,ensemble,pareto,tree,changepoint,matrix,camera,gauge,timeline,pitch" | split: "," -%}
+{%- assign wm_id = include.id | default: "pitch" | downcase | strip -%}
+{%- unless wm_builtin contains wm_id -%}
+  {%- assign wm_prefix = wm_id | split: "-" | first -%}
+  {%- assign wm_rest = wm_id | remove_first: wm_prefix | remove_first: "-" -%}
+  {%- assign wm_slug = wm_id | slugify -%}
+  {%- assign wm_ok = false -%}
+  {%- if wm_prefix == "ds" or wm_prefix == "sol" or wm_prefix == "bp" or wm_prefix == "ch" -%}
+    {%- if wm_rest != "" and wm_slug == wm_id -%}{%- assign wm_ok = true -%}{%- endif -%}
+  {%- endif -%}
+  {%- unless wm_ok -%}{%- assign wm_id = "pitch" -%}{%- endunless -%}
+{%- endunless -%}
+{%- capture wm_uid -%}{%- if include.uid -%}{{ include.uid }}{%- else -%}wm-{{ wm_id }}-{% increment wiki_motif_seq %}{%- endif -%}{%- endcapture -%}
+{%- assign wm_given = include.labels | join: "|" | split: "|" -%}
+{%- capture wm_joined -%}{%- for wm_l in wm_given limit: 6 -%}{{ wm_l | strip | truncate: 20, "" }}|{%- endfor -%}{%- endcapture -%}
+{%- assign wm_labels = wm_joined | split: "|" -%}
+{%- capture wm_file -%}wiki/motifs/{{ wm_id }}.html{%- endcapture -%}
+<figure class="wk-motif wk-motif--{{ wm_id }}" data-wk-motif>
+<div class="wk-stage">{% include {{ wm_file }} labels=wm_labels uid=wm_uid %}</div>
+{%- if include.caption %}
+<figcaption class="wk-motif__caption"><span>{{ include.caption }}</span></figcaption>
+{%- elsif wm_labels.size > 0 %}
+<figcaption class="visually-hidden">Diagram: {{ wm_labels | join: ", " | escape }}.</figcaption>
+{%- endif %}
+</figure>

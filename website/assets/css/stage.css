@@ -1,0 +1,219 @@
+/* The Shrewdies — floodlit background stage. Transform and opacity animations only. */
+
+.stage {
+  position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  background: var(--sh-grad-floodlit);
+  contain: strict;
+}
+.stage > * { position: absolute; }
+.stage__layer { inset: -6vmax; transform: translate3d(var(--px, 0px), var(--py, 0px), 0); transition: transform 1.2s var(--sh-ease-out); }
+
+/* ---------- Gradient mesh ---------- */
+.stage__blob { border-radius: 50%; will-change: transform; animation: stage-blob 26s ease-in-out infinite alternate; }
+.stage__blob--blue   { width: 78vmax; height: 78vmax; left: -22vmax; top: -30vmax; background: radial-gradient(closest-side, rgba(47, 134, 240, 0.95), rgba(47, 134, 240, 0)); }
+.stage__blob--violet { width: 70vmax; height: 70vmax; right: -24vmax; top: 4vh; background: radial-gradient(closest-side, rgba(126, 88, 190, 0.9), rgba(126, 88, 190, 0)); animation-duration: 32s; animation-delay: -8s; }
+.stage__blob--garnet { width: 74vmax; height: 74vmax; right: -14vmax; bottom: -34vmax; background: radial-gradient(closest-side, rgba(229, 51, 111, 0.8), rgba(229, 51, 111, 0)); animation-duration: 29s; animation-delay: -14s; }
+.stage__blob--mauve  { width: 60vmax; height: 60vmax; left: 22vw; top: -28vmax; background: radial-gradient(closest-side, rgba(205, 186, 234, 0.6), rgba(205, 186, 234, 0)); animation-duration: 36s; animation-delay: -4s; }
+.stage__blob--lime   { width: 54vmax; height: 54vmax; left: -16vmax; bottom: -26vmax; background: radial-gradient(closest-side, rgba(196, 240, 0, 0.42), rgba(196, 240, 0, 0)); animation-duration: 22s; animation-delay: -6s; }
+.stage__blob--spark  { width: 34vmax; height: 34vmax; left: 58vw; top: 38vh; background: radial-gradient(closest-side, rgba(196, 240, 0, 0.2), rgba(196, 240, 0, 0)); animation-duration: 19s; animation-delay: -11s; }
+@keyframes stage-blob {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(6vmax, 4vmax, 0) scale(1.12); }
+  100% { transform: translate3d(-4vmax, 7vmax, 0) scale(0.94); }
+}
+
+/* Broad diagonal sheen bands, a nod to stripes. */
+.stage__sheen {
+  top: -20%; left: -50%; width: 200%; height: 140%;
+  background: repeating-linear-gradient(112deg,
+    rgba(255, 255, 255, 0) 0 9vw, rgba(255, 255, 255, 0.06) 9vw 14vw, rgba(255, 255, 255, 0) 14vw 22vw,
+    rgba(196, 240, 0, 0.05) 22vw 23vw, rgba(255, 255, 255, 0) 23vw 34vw);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+  animation: stage-sheen 48s linear infinite;
+}
+@keyframes stage-sheen { from { transform: translate3d(-17vw, 0, 0); } to { transform: translate3d(17vw, 0, 0); } }
+
+/* ---------- Floodlights ---------- */
+.stage__beams { inset: 0; }
+.stage__beam {
+  top: -12vh; width: 46vw; height: 150vh; transform-origin: 50% 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(233, 237, 245, 0.12) 35%, rgba(233, 237, 245, 0) 78%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  animation: stage-beam-l 15s ease-in-out infinite alternate;
+}
+.stage__beam--l { left: -14vw; }
+.stage__beam--r { right: -14vw; animation-name: stage-beam-r; animation-duration: 18s; }
+@keyframes stage-beam-l { from { transform: rotate(-34deg); opacity: 0.7; } to { transform: rotate(-22deg); opacity: 1; } }
+@keyframes stage-beam-r { from { transform: rotate(33deg); opacity: 1; } to { transform: rotate(21deg); opacity: 0.65; } }
+.stage__lamp {
+  top: -9vmax; width: 24vmax; height: 24vmax; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.95), rgba(226, 255, 92, 0.45) 30%, rgba(196, 240, 0, 0) 70%);
+  animation: stage-lamp 5.5s ease-in-out infinite alternate;
+}
+.stage__lamp--l { left: -8vmax; }
+.stage__lamp--r { right: -8vmax; animation-delay: -2.7s; }
+@keyframes stage-lamp { from { opacity: 0.7; transform: scale(0.92); } to { opacity: 1; transform: scale(1.05); } }
+
+/* ---------- Pitch ---------- */
+.stage__pitch-wrap { inset: auto 0 0; height: 100%; perspective: 1100px; perspective-origin: 50% 0%; }
+.stage__pitch-drift {
+  position: absolute; left: 50%; bottom: -14vh; width: max(1400px, 140vw); margin-left: calc(max(1400px, 140vw) / -2);
+  transform-origin: 50% 100%; transform: rotateX(64deg);
+}
+.stage__pitch { display: block; width: 100%; height: auto; overflow: visible; animation: stage-pitch 64s ease-in-out infinite alternate; transform-origin: 50% 50%; }
+@keyframes stage-pitch {
+  from { transform: translate3d(-3%, 0, 0) rotate(-3deg); }
+  to   { transform: translate3d(3%, -2%, 0) rotate(3deg); }
+}
+.stage__lines { stroke: rgba(255, 255, 255, 0.36); stroke-width: 3; }
+.stage__lines--lime { stroke: rgba(196, 240, 0, 0.6); stroke-width: 4; }
+.stage__lines > * {
+  stroke-dasharray: 1 1; stroke-dashoffset: 0;
+  animation: stage-draw 3.4s var(--sh-ease-out) both; animation-delay: calc(var(--i, 0) * 0.22s + 0.2s);
+}
+@keyframes stage-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.stage__spots { fill: rgba(196, 240, 0, 0.85); }
+.stage__route { stroke: var(--sh-lime); stroke-width: 4; stroke-dasharray: 2 16; stroke-linecap: round; opacity: 0.65; }
+
+/* ---------- Curling ball ---------- */
+.stage__curl { left: 4vw; bottom: 24vh; width: 420px; height: 200px; }
+.stage__curl svg { width: 100%; height: 100%; overflow: visible; }
+.stage__curl path { stroke: rgba(196, 240, 0, 0.6); stroke-width: 3; stroke-dasharray: 3 12; stroke-linecap: round; }
+.stage__curl-ball {
+  position: absolute; left: 0; top: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, var(--sh-silver) 50%, var(--sh-silver-2));
+  box-shadow: 0 0 0 2px rgba(196, 240, 0, 0.9), 0 0 18px 4px rgba(196, 240, 0, 0.6);
+  offset-path: path("M10 180C90 40 250 0 410 70"); offset-rotate: 0deg;
+  animation: stage-curl 6s var(--sh-ease-out) infinite;
+}
+@keyframes stage-curl {
+  0%   { offset-distance: 0%; opacity: 0; transform: scale(0.6); }
+  8%   { opacity: 1; transform: scale(1); }
+  55%  { offset-distance: 100%; opacity: 1; transform: scale(0.8); }
+  65%, 100% { offset-distance: 100%; opacity: 0; transform: scale(0.5); }
+}
+
+/* ---------- Stud marks ---------- */
+.stage__studs { left: 12vw; bottom: 6vh; width: 34vw; height: 16vh; }
+.stage__studs span {
+  position: absolute; width: 30px; height: 18px;
+  left: calc(var(--i) * 12.5%); bottom: calc(var(--i) * 9%);
+  transform: rotate(-18deg);
+  background:
+    radial-gradient(circle at 12% 30%, var(--sh-lime) 0 2.6px, transparent 3.2px),
+    radial-gradient(circle at 12% 74%, var(--sh-lime) 0 2.6px, transparent 3.2px),
+    radial-gradient(circle at 45% 28%, var(--sh-lime) 0 2.6px, transparent 3.2px),
+    radial-gradient(circle at 45% 72%, var(--sh-lime) 0 2.6px, transparent 3.2px),
+    radial-gradient(circle at 82% 50%, var(--sh-lime) 0 3px, transparent 3.6px);
+  opacity: 0; animation: stage-stud 5.6s ease-out infinite; animation-delay: calc(var(--i) * 0.32s);
+}
+.stage__studs span:nth-child(even) { margin-bottom: 14px; }
+@keyframes stage-stud { 0% { opacity: 0; } 6% { opacity: 0.85; } 40% { opacity: 0.35; } 70%, 100% { opacity: 0; } }
+
+/* ---------- Boots ---------- */
+.stage__boot img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 18px rgba(20, 8, 60, 0.35)); }
+.stage__boot--a { right: 3vw; top: 22vh; width: clamp(110px, 11vw, 190px); animation: stage-drift-a 24s ease-in-out infinite alternate; }
+.stage__boot--a .stage__boot-move { transform-origin: 20% 70%; animation: stage-kick 4.8s var(--sh-ease-out) infinite; }
+@keyframes stage-drift-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-5vw, 14vh, 0); } }
+@keyframes stage-kick {
+  0%, 100% { transform: rotate(-26deg); }
+  18% { transform: rotate(-38deg); }
+  32% { transform: rotate(16deg); }
+  48% { transform: rotate(6deg); }
+  70% { transform: rotate(-20deg); }
+}
+.stage__trail {
+  position: absolute; right: 88%; top: 30%; width: 120%; height: 46%;
+  background:
+    linear-gradient(90deg, rgba(196, 240, 0, 0), rgba(196, 240, 0, 0.9)) 0 10% / 100% 4px no-repeat,
+    linear-gradient(90deg, rgba(196, 240, 0, 0), rgba(226, 255, 92, 0.75)) 30% 50% / 80% 3px no-repeat,
+    linear-gradient(90deg, rgba(196, 240, 0, 0), rgba(196, 240, 0, 0.8)) 60% 90% / 60% 4px no-repeat;
+  transform-origin: 100% 50%; animation: stage-trail 4.8s var(--sh-ease-out) infinite;
+}
+@keyframes stage-trail { 0%, 18% { opacity: 0; transform: scaleX(0.2); } 32% { opacity: 1; transform: scaleX(1); } 60%, 100% { opacity: 0; transform: scaleX(0.6); } }
+
+.stage__boot--b { left: 2vw; top: 46vh; width: clamp(90px, 8vw, 150px); opacity: 0.85; animation: stage-drift-b 30s ease-in-out infinite alternate; }
+.stage__boot--b .stage__boot-move { animation: stage-spin 22s linear infinite; }
+@keyframes stage-drift-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(4vw, -16vh, 0); } }
+@keyframes stage-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Bouncing ball ---------- */
+.stage__ballbox { right: 7vw; bottom: 8vh; width: clamp(48px, 5vw, 86px); aspect-ratio: 1; animation: stage-roll 17s ease-in-out infinite alternate; }
+@keyframes stage-roll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-9vw, 0, 0); } }
+.stage__ball-y { width: 100%; height: 100%; animation: stage-bounce 1.6s infinite; }
+.stage__ball-squash { width: 100%; height: 100%; transform-origin: 50% 100%; animation: stage-squash 1.6s infinite; }
+.stage__ball-img { display: block; width: 100%; height: 100%; animation: stage-spin 2.4s linear infinite; filter: drop-shadow(0 0 14px rgba(196, 240, 0, 0.35)); }
+.stage__ball-shadow {
+  left: 50%; bottom: -10%; width: 110%; height: 22%; margin-left: -55%; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(10, 20, 60, 0.55), rgba(10, 20, 60, 0));
+  animation: stage-shadow 1.6s infinite;
+}
+@keyframes stage-bounce {
+  0%, 100% { transform: translate3d(0, -30vh, 0); animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  50%      { transform: translate3d(0, 0, 0); animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+}
+@keyframes stage-squash {
+  0%, 38%, 66%, 100% { transform: scale(1, 1); }
+  46% { transform: scale(0.9, 1.12); }
+  50% { transform: scale(1.28, 0.72); }
+  56% { transform: scale(0.92, 1.1); }
+}
+@keyframes stage-shadow {
+  0%, 100% { transform: scale(0.35); opacity: 0.25; animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45); }
+  50%      { transform: scale(1.15); opacity: 0.9; animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1); }
+}
+
+/* ---------- Sparks ---------- */
+.stage__sparks { inset: 0; }
+.stage__sparks span {
+  position: absolute; width: 16px; height: 16px;
+  background: var(--sh-lime-bright);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  opacity: 0; animation: stage-spark 4.2s ease-in-out infinite; animation-delay: calc(var(--i) * -0.6s);
+}
+.stage__sparks span:nth-child(1) { left: 8vw;  top: 16vh; }
+.stage__sparks span:nth-child(2) { left: 91vw; top: 12vh; width: 22px; height: 22px; }
+.stage__sparks span:nth-child(3) { left: 84vw; top: 64vh; }
+.stage__sparks span:nth-child(4) { left: 4vw;  top: 72vh; width: 12px; height: 12px; }
+.stage__sparks span:nth-child(5) { left: 48vw; top: 6vh;  width: 12px; height: 12px; }
+.stage__sparks span:nth-child(6) { left: 96vw; top: 40vh; }
+.stage__sparks span:nth-child(7) { left: 22vw; top: 88vh; width: 20px; height: 20px; }
+@keyframes stage-spark { 0%, 100% { opacity: 0; transform: scale(0.3) rotate(0deg); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
+
+.stage__vignette {
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 120%, rgba(10, 31, 68, 0.45), rgba(10, 31, 68, 0) 60%),
+    radial-gradient(90% 60% at 50% -10%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 70%);
+}
+
+/* ---------- States ---------- */
+.stage.is-paused, .stage.is-paused * { animation-play-state: paused !important; }
+
+@media (max-width: 760px) {
+  .stage__blob--mauve, .stage__blob--spark, .stage__beam--r, .stage__lamp--r,
+  .stage__boot--b, .stage__curl, .stage__studs, .stage__sparks span:nth-child(n+4) { display: none; }
+  .stage__boot--a { top: auto; bottom: 20vh; right: -4vw; width: 110px; opacity: 0.8; }
+  .stage__ballbox { right: 10vw; bottom: 6vh; width: 46px; }
+  .stage__pitch-drift { bottom: -8vh; width: 230vw; margin-left: -115vw; }
+  .stage__beam { width: 90vw; }
+}
+
+/* Still composition when motion is reduced. */
+@media (prefers-reduced-motion: reduce) {
+  .stage *, .stage *::before, .stage *::after { animation: none !important; }
+  .stage__layer { transition: none; }
+  .stage__beam--l { transform: rotate(-28deg); }
+  .stage__beam--r { transform: rotate(27deg); }
+  .stage__pitch { transform: rotate(-2deg); }
+  .stage__boot--a .stage__boot-move { transform: rotate(-12deg); }
+  .stage__boot--b .stage__boot-move { transform: rotate(150deg); }
+  .stage__ball-y { transform: translate3d(0, -6vh, 0); }
+  .stage__ball-shadow { transform: scale(0.8); opacity: 0.55; }
+  .stage__curl-ball { offset-distance: 72%; }
+  .stage__studs span { opacity: 0.45; }
+  .stage__sparks span { opacity: 0.8; transform: scale(0.8) rotate(45deg); }
+  .stage__trail { opacity: 0.8; }
+}
+@media print { .stage { display: none; } }

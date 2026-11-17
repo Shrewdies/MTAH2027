@@ -1,0 +1,57 @@
+{%- comment -%}
+  Architecture motif: the approach map. Three observation sources feed two engines that write one sequence; the route
+  through tracking and evidence-plus-decoder is lit. Labels: three sources, two engines, the output.
+  Uses the kit's drawing classes; motion is stroke-dashoffset and opacity only, and the base state is the still frame.
+{%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="26" y="40" class="wm-t--xs wm-t--dim">Sources</text>
+  <text x="290" y="40" class="wm-t--xs wm-t--dim">Engines</text>
+  <text x="580" y="40" class="wm-t--xs wm-t--dim" text-anchor="middle">Sequence</text>
+
+  <g class="wm-ln">
+    <path d="M176 96C236 96 230 144 290 144"/>
+    <path d="M176 204C236 204 230 264 290 264"/>
+    <path d="M176 312C236 312 230 264 290 264"/>
+    <path d="M176 312C250 312 216 144 290 144"/>
+    <path d="M466 144C512 144 500 204 540 204"/>
+  </g>
+  <g style="--dur:5.2s" opacity=".55">
+    <path class="wm-flow wm-flow--white" d="M176 96C236 96 230 144 290 144" pathLength="100" style="--delay:-1.1s"/>
+    <path class="wm-flow wm-flow--white" d="M176 204C236 204 230 264 290 264" pathLength="100" style="--delay:-2.4s"/>
+    <path class="wm-flow wm-flow--white" d="M176 312C236 312 230 264 290 264" pathLength="100" style="--delay:-3.6s"/>
+    <path class="wm-flow wm-flow--white" d="M176 312C250 312 216 144 290 144" pathLength="100" style="--delay:-0.4s"/>
+    <path class="wm-flow wm-flow--white" d="M466 144C512 144 500 204 540 204" pathLength="100" style="--delay:-2.9s"/>
+  </g>
+
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M176 96C250 96 216 264 290 264"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M466 264C512 264 500 204 540 204"/>
+  <path class="wm-flow wm-flow--white" d="M176 96C250 96 216 264 290 264" pathLength="100" style="--dur:3s"/>
+  <path class="wm-flow wm-flow--white" d="M466 264C512 264 500 204 540 204" pathLength="100" style="--dur:3s;--delay:-1.5s"/>
+
+  <rect class="wm-node" x="26" y="71" width="150" height="50" rx="10"/>
+  <rect class="wm-ring wm-pulse" x="26" y="71" width="150" height="50" rx="10" style="--lo:.45"/>
+  <text x="101" y="101" text-anchor="middle" class="wm-t--s">{{ L[0] | default: "Tracking" | truncate: 14, "" | escape }}</text>
+  <rect class="wm-node" x="26" y="179" width="150" height="50" rx="10"/>
+  <text x="101" y="209" text-anchor="middle" class="wm-t--s">{{ L[1] | default: "Video" | truncate: 14, "" | escape }}</text>
+  <rect class="wm-node" x="26" y="287" width="150" height="50" rx="10"/>
+  <text x="101" y="317" text-anchor="middle" class="wm-t--s">{{ L[2] | default: "Hybrid" | truncate: 14, "" | escape }}</text>
+
+  <rect class="wm-node" x="290" y="119" width="176" height="50" rx="10"/>
+  <text x="378" y="149" text-anchor="middle" class="wm-t--s">{{ L[3] | default: "One classifier" | truncate: 18, "" | escape }}</text>
+  <rect class="wm-node" x="290" y="239" width="176" height="50" rx="10"/>
+  <rect class="wm-ring wm-pulse" x="290" y="239" width="176" height="50" rx="10" style="--lo:.45;--i:4"/>
+  <text x="378" y="269" text-anchor="middle" class="wm-t--s">{{ L[4] | default: "Evidence + decoder" | truncate: 18, "" | escape }}</text>
+
+  <circle class="wm-node" cx="580" cy="204" r="42"/>
+  <circle class="wm-ring" cx="580" cy="204" r="42"/>
+  <rect class="wm-h wm-light" x="558" y="179" width="44" height="13" rx="3" style="--i:0;--step:.9s;--dur:2.7s;--lo:.3"/>
+  <rect class="wm-a wm-light" x="558" y="197.5" width="44" height="13" rx="3" style="--i:1;--step:.9s;--dur:2.7s;--lo:.3"/>
+  <rect class="wm-d wm-light" x="558" y="216" width="44" height="13" rx="3" style="--i:2;--step:.9s;--dur:2.7s;--lo:.3"/>
+  <text x="580" y="276" text-anchor="middle" class="wm-t--s wm-t--lime">{{ L[5] | default: "H / A / D" | truncate: 10, "" | escape }}</text>
+
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M26 372H62"/>
+  <text x="72" y="377" class="wm-t--xs">Route fielded</text>
+  <path class="wm-ln" d="M236 372H272"/>
+  <text x="282" y="377" class="wm-t--xs wm-t--dim">Other routes</text>
+</svg>

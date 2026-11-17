@@ -1,0 +1,89 @@
+{%- comment -%}
+  Architecture motif: the single source of truth. Three witnesses of the ball over one stretch of play, each with
+  gaps: tactical tracking (the reference clock), broadcast tracking (part of the pitch, cuts and replays) and the
+  video frames themselves. Below them, one reconciled match state with no gap, each stretch tinted by the witness
+  that supplied it and tagged with its provenance. Synthetic.
+  Motion: transform, opacity and stroke-dashoffset only; the base state is the complete still frame.
+{%- endcomment -%}
+{%- assign fill = "170,130,t|300,50,b|350,42,v|392,88,t|480,40,b|520,20,v|540,76,t" | split: "|" -%}
+{%- assign lit = "0,1,2,3,9,10,11,17,18,19" | split: "," -%}
+<svg class="wm bp-tr" viewBox="0 0 640 420" aria-hidden="true" focusable="false">
+  <style>
+    .bp-tr .bp-tr__t { fill: var(--sh-blue-bright); }
+    .bp-tr .bp-tr__b { fill: var(--sh-mauve); }
+    .bp-tr .bp-tr__v { fill: var(--sh-lime); }
+    .bp-tr .bp-tr__gap { fill: rgba(229, 51, 111, .14); stroke: rgba(229, 51, 111, .6); stroke-width: 1.5; stroke-dasharray: 4 5; }
+    .bp-tr .bp-tr__ln-t { stroke: var(--sh-blue-bright); }
+    .bp-tr .bp-tr__ln-b { stroke: var(--sh-mauve); }
+    .bp-tr .bp-tr__ln-v { stroke: var(--sh-lime); }
+    .bp-tr__drop { animation: bp-tr-drop 9s var(--sh-ease-out) var(--delay, 0s) infinite both; }
+    @keyframes bp-tr-drop {
+      0% { transform: translateY(var(--fy, -200px)); opacity: 0; }
+      5% { transform: translateY(var(--fy, -200px)); opacity: 1; }
+      20%, 92% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(0); opacity: 0; }
+    }
+  </style>
+
+  <text x="24" y="34" class="wm-t--xs wm-t--dim">Three witnesses, each with gaps</text>
+
+  <text x="24" y="70" class="wm-t--xs">Tactical tracking</text>
+  <text x="24" y="86" class="wm-t--xs wm-t--dim">The master clock</text>
+  <rect class="bp-tr__t" x="170" y="56" width="128" height="28" rx="5"/>
+  <rect class="bp-tr__gap" x="300" y="56" width="90" height="28" rx="5"/>
+  <text x="345" y="75" text-anchor="middle" class="wm-t--xs wm-t--tight">Ball lost</text>
+  <rect class="bp-tr__t" x="392" y="56" width="86" height="28" rx="5"/>
+  <rect class="bp-tr__gap" x="480" y="56" width="58" height="28" rx="5"/>
+  <rect class="bp-tr__t" x="540" y="56" width="76" height="28" rx="5"/>
+
+  <text x="24" y="124" class="wm-t--xs">Broadcast tracking</text>
+  <text x="24" y="140" class="wm-t--xs wm-t--dim">Close, partial</text>
+  <rect class="bp-tr__gap" x="170" y="110" width="58" height="28" rx="5"/>
+  <rect class="bp-tr__b" x="230" y="110" width="118" height="28" rx="5"/>
+  <rect class="bp-tr__gap" x="350" y="110" width="68" height="28" rx="5"/>
+  <text x="384" y="129" text-anchor="middle" class="wm-t--xs wm-t--tight">Replay</text>
+  <rect class="bp-tr__b" x="420" y="110" width="98" height="28" rx="5"/>
+  <rect class="bp-tr__gap" x="520" y="110" width="96" height="28" rx="5"/>
+  <text x="568" y="129" text-anchor="middle" class="wm-t--xs wm-t--tight">Cut away</text>
+
+  <text x="24" y="178" class="wm-t--xs">Video frames</text>
+  <text x="24" y="194" class="wm-t--xs wm-t--dim">Pixels: ball seen</text>
+  {%- for i in (0..21) %}{% assign s = i | append: "" %}{% assign x = i | times: 20.3 | plus: 170 | round: 1 %}
+  {%- if lit contains s %}
+  <rect class="bp-tr__v wm-pulse" x="{{ x }}" y="164" width="17" height="28" rx="3" style="--i:{{ i }};--lo:.55"/>
+  {%- else %}
+  <rect class="wm-ln" x="{{ x }}" y="164" width="17" height="28" rx="3" stroke-width="1.5"/>
+  {%- endif %}
+  {%- endfor %}
+
+  <g fill="none" stroke-width="2" stroke-dasharray="3 5" opacity=".85">
+    <path class="bp-tr__ln-t" d="M234 88V268M436 88V268M578 88V268"/>
+    <path class="bp-tr__ln-b" d="M325 142V268M500 142V268"/>
+    <path class="bp-tr__ln-v" d="M371 196V268M530 196V268"/>
+  </g>
+  <path class="wm-ln wm-ln--bold" d="M150 232H132V288H150"/>
+  <text x="24" y="248" class="wm-t--xs wm-t--dim">One clock,</text>
+  <text x="24" y="264" class="wm-t--xs wm-t--dim">one pitch</text>
+
+  <text x="24" y="294" class="wm-t--xs wm-t--lime">One match state</text>
+  <text x="24" y="310" class="wm-t--xs wm-t--lime">No gap</text>
+  <rect class="wm-ln" x="166" y="268" width="454" height="44" rx="8" stroke-width="1.5"/>
+  {%- for f in fill %}{% assign v = f | split: "," %}{% assign x = v[0] | plus: 0 %}{% assign w = v[1] | plus: 0 %}{% assign fy = -212 %}{% if v[2] == "b" %}{% assign fy = -158 %}{% elsif v[2] == "v" %}{% assign fy = -104 %}{% endif %}
+  <g transform="translate({{ x }} 272)"><g class="bp-tr__drop" style="--fy:{{ fy }}px;--delay:{{ forloop.index0 | times: 0.35 }}s">
+    <rect class="bp-tr__{{ v[2] }}" width="{{ w | minus: 2 }}" height="36" rx="5"/>
+  </g></g>
+  {%- endfor %}
+  <rect class="wm-ring wm-late" x="166" y="268" width="454" height="44" rx="8" style="--dur:9s"/>
+
+  <text x="24" y="342" class="wm-t--xs wm-t--dim">Provenance</text>
+  {%- for f in fill %}{% assign v = f | split: "," %}{% assign x = v[0] | plus: 0 %}{% assign w = v[1] | plus: 0 %}{% assign mid = w | divided_by: 2 | plus: x %}
+  <path class="wm-ln" d="M{{ x | plus: 2 }} 322V330H{{ x | plus: w | minus: 4 }}V322" stroke-width="1.5"/>
+  <text x="{{ mid }}" y="346" text-anchor="middle" class="wm-t--xs wm-t--tight{% if v[2] == 'v' %} wm-t--lime{% endif %}">{% if v[2] == "t" %}T{% elsif v[2] == "b" %}B{% else %}V{% endif %}</text>
+  {%- endfor %}
+
+  <rect class="bp-tr__t" x="170" y="378" width="12" height="12" rx="3"/><text x="190" y="389" class="wm-t--xs wm-t--dim">T tactical</text>
+  <rect class="bp-tr__b" x="300" y="378" width="12" height="12" rx="3"/><text x="320" y="389" class="wm-t--xs wm-t--dim">B broadcast</text>
+  <rect class="bp-tr__v" x="436" y="378" width="12" height="12" rx="3"/><text x="456" y="389" class="wm-t--xs wm-t--dim">V video frames</text>
+
+  <g transform="translate(616 0)"><g class="wm-travel" style="--fx:-446px;--dur:8s"><path class="wm-ln wm-ln--white" stroke-width="2.5" d="M0 48V318"/></g></g>
+</svg>

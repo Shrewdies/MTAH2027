@@ -1,0 +1,25 @@
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Restricted match data must never be committed (see initial-challenge/.gitignore for the full list)
+private_data/
+
+# Local secrets and environments
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# Python temporary files
+__pycache__/
+*.pyc
+
+# Local and generated outputs
+output/
+outputs/
+
+# Office lock files
+~$*

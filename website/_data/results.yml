@@ -1,0 +1,29 @@
+# External validation on open DFL data (TECHNICAL.md section 7): match J03WOH, official metric,
+# as delivered ("clean") and degraded to resemble the competition tracking.
+truth_possessions_degraded: 402
+rows:
+  - method: Organiser baseline method (smooth50)
+    spell_clean: 0.301
+    macro_clean: 0.385
+    spell_degraded: 0.235
+    macro_degraded: 0.383
+    possessions_degraded: 570
+  - method: Ours, hand-reasoned
+    spell_clean: 0.442
+    macro_clean: 0.835
+    spell_degraded: 0.249
+    macro_degraded: 0.661
+    possessions_degraded: 166
+  - method: Ours, balanced
+    spell_clean: 0.448
+    macro_clean: 0.855
+    spell_degraded: 0.286
+    macro_degraded: 0.686
+    possessions_degraded: 186
+  - method: Ours, macro (submitted)
+    spell_clean: 0.482
+    macro_clean: 0.856
+    spell_degraded: 0.340
+    macro_degraded: 0.693
+    possessions_degraded: 249
+    submitted: true

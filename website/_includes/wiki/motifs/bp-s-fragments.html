@@ -1,0 +1,45 @@
+{%- comment -%}
+  Architecture study motif (players without names): the two routes side by side. One player's true path, the same
+  path as the tracker delivers it (fragments with different slot numbers through a crowded box), and the repair
+  route that links the fragments, where one wrong link makes every later frame another player. Synthetic.
+  Motion: stroke-dashoffset, opacity and transform only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect x="290" y="30" width="120" height="252" rx="8" fill="rgba(229,51,111,.1)" stroke="rgba(229,51,111,.5)" stroke-width="1.5" stroke-dasharray="5 6"/>
+  <text x="350" y="50" text-anchor="middle" class="wm-t--xs">Crowded box</text>
+
+  <text x="24" y="86" class="wm-t--xs wm-t--dim">True path</text>
+  <path class="wm-ln wm-ln--white wm-ln--bold wm-draw" d="M150 90C230 60 300 110 350 84S480 60 600 92" pathLength="100" style="--dur:8s;--ease:linear"/>
+  <text x="600" y="76" text-anchor="end" class="wm-t--xs wm-t--dim">One player</text>
+
+  <text x="24" y="156" class="wm-t--xs">As tracked</text>
+  <g fill="none" stroke-width="5" stroke-linecap="round">
+    <path d="M150 160C200 142 250 150 284 160" stroke="#2F86F0"/>
+    <path d="M298 164C310 168 318 166 326 160" stroke="#B9A2D8"/>
+    <path d="M340 156C352 152 362 154 372 158" stroke="#E9EDF5"/>
+    <path d="M386 160C396 162 404 160 410 156" stroke="#B9A2D8"/>
+    <path d="M424 152C480 136 540 146 600 162" stroke="#2F86F0"/>
+  </g>
+  <text x="216" y="140" text-anchor="middle" class="wm-t--xs">07</text>
+  <text x="312" y="184" text-anchor="middle" class="wm-t--xs">31</text>
+  <text x="356" y="140" text-anchor="middle" class="wm-t--xs">18</text>
+  <text x="398" y="184" text-anchor="middle" class="wm-t--xs">22</text>
+  <text x="512" y="130" text-anchor="middle" class="wm-t--xs">14</text>
+
+  <text x="24" y="236" class="wm-t--xs">Repair route</text>
+  <g fill="none" stroke-width="5" stroke-linecap="round" stroke="rgba(233,237,245,.5)">
+    <path d="M150 240C200 222 250 230 284 240"/><path d="M298 244C310 248 318 246 326 240"/><path d="M340 236C352 232 362 234 372 238"/><path d="M386 240C396 242 404 240 410 236"/><path d="M424 232C480 216 540 226 600 242"/>
+  </g>
+  <g class="wm-lime"><circle class="wm-pop" cx="291" cy="242" r="6" style="--i:0;--step:.8s;--dur:8s"/><circle class="wm-pop" cx="333" cy="238" r="6" style="--i:1;--step:.8s;--dur:8s"/><circle class="wm-pop" cx="417" cy="234" r="6" style="--i:3;--step:.8s;--dur:8s"/></g>
+  <circle class="wm-a wm-edge wm-pop" cx="379" cy="239" r="8" style="--i:2;--step:.8s;--dur:8s"/>
+  <path class="wm-ln wm-ln--a wm-ln--bold wm-late" d="M386 262H600" style="--dur:8s"/>
+  <text x="379" y="268" text-anchor="end" class="wm-t--xs">Wrong link</text>
+  <text x="600" y="282" text-anchor="end" class="wm-t--xs wm-t--dim">Every frame after it is another player</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 304H616" stroke-width="1.5"/>
+  <text x="24" y="334" class="wm-t--xs wm-t--lime">Invariant route</text>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M150 330H600"/>
+  <path class="wm-flow wm-flow--white" d="M150 330H600" pathLength="100" style="--dur:4s"/>
+  <text x="150" y="358" class="wm-t--xs wm-t--dim">Asks only which team is near the ball. It never needed the links.</text>
+  <text x="150" y="380" class="wm-t--xs wm-t--dim">Four links to repair one run through one box, and each one is a bet.</text>
+</svg>

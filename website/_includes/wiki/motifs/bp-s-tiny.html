@@ -1,0 +1,34 @@
+{%- comment -%}
+  Architecture study motif (video-only): the ball is tiny. A wide tactical frame, and the same patch of it at pixel
+  scale: the ball is a couple of bright cells, and so are a penalty spot and a white boot. Synthetic.
+  Motion: opacity and transform only.
+{%- endcomment -%}
+{%- assign lit = "20|21|29|30|44|58|59|67" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="34" class="wm-t--xs wm-t--dim">The wide frame</text>
+  <rect class="wm-panel" x="24" y="48" width="300" height="190" rx="8"/>
+  <path class="wm-ln" d="M40 210L308 196M40 84L308 76M174 80V204" stroke-width="1.5"/>
+  <g fill="#E9EDF5" opacity=".8"><rect x="70" y="120" width="5" height="12" rx="1"/><rect x="118" y="150" width="5" height="12" rx="1"/><rect x="150" y="104" width="5" height="12" rx="1"/><rect x="214" y="136" width="5" height="12" rx="1"/><rect x="236" y="162" width="5" height="12" rx="1"/><rect x="262" y="112" width="5" height="12" rx="1"/><rect x="198" y="176" width="5" height="12" rx="1"/></g>
+  <rect class="wm-box wm-pulse" x="204" y="126" width="28" height="28" rx="3" style="--lo:.5"/>
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M232 126L372 60M232 154L372 240"/>
+  <text x="24" y="262" class="wm-t--xs">Twenty-two players and a ball,</text>
+  <text x="24" y="278" class="wm-t--xs">all in one picture</text>
+
+  <text x="372" y="34" class="wm-t--xs wm-t--lime">The same patch, at pixel scale</text>
+  <rect class="wm-node" x="372" y="60" width="180" height="180" rx="4"/>
+  {%- for i in (0..80) %}{% assign s = i | append: "" %}{% assign col = i | modulo: 9 %}{% assign row = i | divided_by: 9 %}
+  {%- if lit contains s %}
+  <rect class="wm-white wm-pulse" x="{{ col | times: 20 | plus: 373 }}" y="{{ row | times: 20 | plus: 61 }}" width="18" height="18" rx="2" style="--i:{{ i | modulo: 5 }};--lo:.6"/>
+  {%- else %}
+  <rect x="{{ col | times: 20 | plus: 373 }}" y="{{ row | times: 20 | plus: 61 }}" width="18" height="18" rx="2" fill="rgba(233,237,245,.05)"/>
+  {%- endif %}
+  {%- endfor %}
+  <path class="wm-ln wm-ln--lime" d="M436 110H562"/><text x="568" y="106" class="wm-t--xs wm-t--lime">Ball</text><text x="568" y="122" class="wm-t--xs wm-t--lime">A few px</text>
+  <path class="wm-ln" d="M552 150H562"/><text x="568" y="154" class="wm-t--xs">Spot</text>
+  <path class="wm-ln" d="M494 190H562"/><text x="568" y="194" class="wm-t--xs">Boot</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 304H616" stroke-width="1.5"/>
+  <text x="24" y="336" class="wm-t--xs">Three bright blobs, one of them the ball.</text>
+  <text x="24" y="358" class="wm-t--xs wm-t--dim">A detector decides from a handful of pixels, then loses even those behind a body.</text>
+  <text x="24" y="380" class="wm-t--xs wm-t--dim">Motion across frames helps to separate them. A single picture often cannot.</text>
+</svg>

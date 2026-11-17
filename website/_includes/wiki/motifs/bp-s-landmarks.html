@@ -1,0 +1,37 @@
+{%- comment -%}
+  Architecture study motif (space is not time): why calibration quality varies shot by shot. A wide shot shows many
+  pitch landmarks and the camera is pinned down; a tight shot shows two, and the projected pitch is free to swing.
+  The landmark counts are those drawn here. Synthetic. Motion: transform (swing), opacity only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="34" class="wm-t--xs wm-t--lime">Wide shot</text>
+  <rect class="wm-panel" x="24" y="46" width="284" height="170" rx="8"/>
+  <path class="wm-ln wm-ln--white" d="M52 190L88 76H244L280 190ZM166 76V190M70 133H262M128 76L110 110H222L204 76" stroke-width="1.5"/>
+  <circle class="wm-ln wm-ln--white" cx="166" cy="133" r="20" stroke-width="1.5"/>
+  <g class="wm-lime">
+    {%- assign kp = "52,190|88,76|244,76|280,190|166,76|166,190|70,133|262,133|110,110|222,110" | split: "|" -%}
+    {%- for p in kp %}{% assign v = p | split: "," %}<circle class="wm-pop" cx="{{ v[0] }}" cy="{{ v[1] }}" r="5" style="--i:{{ forloop.index0 }};--step:.25s;--dur:7s"/>{% endfor %}
+  </g>
+  <text x="24" y="240" class="wm-t--xs">Ten landmarks in view</text>
+  <text x="24" y="258" class="wm-t--xs wm-t--dim">The camera is pinned down</text>
+  <rect class="wm-ln" x="24" y="272" width="200" height="14" rx="5" stroke-width="1.5"/>
+  <rect class="wm-lime" x="26" y="274" width="26" height="10" rx="4"/>
+  <text x="234" y="284" class="wm-t--xs wm-t--dim">Error</text>
+
+  <text x="332" y="34" class="wm-t--xs">Tight shot</text>
+  <rect class="wm-panel" x="332" y="46" width="284" height="170" rx="8"/>
+  <path class="wm-ln wm-ln--white" d="M344 176L604 150" stroke-width="1.5"/>
+  <circle class="wm-h wm-edge" cx="450" cy="120" r="10"/><circle class="wm-a wm-edge" cx="486" cy="134" r="10"/><circle class="wm-lime" cx="468" cy="146" r="5"/>
+  <g class="wm-lime"><circle cx="372" cy="173" r="5"/><circle cx="580" cy="152" r="5"/></g>
+  <g transform="translate(474 163)"><g class="wm-swing" style="--from:-9deg;--to:9deg;--dur:3s"><path class="wm-ln wm-ln--a wm-ln--dash" d="M-128 -58H128V40H-128Z" stroke-width="2"/></g></g>
+  <text x="332" y="240" class="wm-t--xs">Two landmarks in view</text>
+  <text x="332" y="258" class="wm-t--xs wm-t--dim">The projected pitch is free to swing</text>
+  <rect class="wm-ln" x="332" y="272" width="200" height="14" rx="5" stroke-width="1.5"/>
+  <rect class="wm-a wm-pulse" x="334" y="274" width="150" height="10" rx="4" style="--lo:.5"/>
+  <text x="542" y="284" class="wm-t--xs wm-t--dim">Error</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 312H616" stroke-width="1.5"/>
+  <text x="24" y="342" class="wm-t--xs">The tight shot is the one that shows the ball best.</text>
+  <text x="24" y="364" class="wm-t--xs wm-t--dim">So calibration is worst exactly where a second camera has the most to add,</text>
+  <text x="24" y="382" class="wm-t--xs wm-t--dim">and every calibrated frame needs its own validity flag.</text>
+</svg>

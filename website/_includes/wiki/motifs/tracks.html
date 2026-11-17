@@ -1,0 +1,15 @@
+{%- comment -%} Moving dots with identity labels and trails. Labels: track id, trail. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign tracks = "470,112,-300,44,h,07,0|520,252,-250,-72,h,10,-1.4|150,268,236,44,a,04,-2.6|310,98,170,-6,a,23,-3.4|384,318,-250,-22,h,09,-0.8" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  {% include wiki/pitch-lines.html x=40 y=50 %}
+  {%- for track in tracks %}{% assign v = track | split: "," %}{% assign sx = v[0] | plus: v[2] %}{% assign sy = v[1] | plus: v[3] %}
+  <path class="wm-ln wm-ln--dash" d="M{{ sx }} {{ sy }}L{{ v[0] }} {{ v[1] }}" opacity=".55"/>
+  <path class="wm-trail wm-ln--{{ v[4] }}" d="M{{ sx }} {{ sy }}L{{ v[0] }} {{ v[1] }}" pathLength="100" style="--delay:{{ v[6] }}s"/>
+  <g transform="translate({{ v[0] }} {{ v[1] }})"><g class="wm-travel" style="--fx:{{ v[2] }}px;--fy:{{ v[3] }}px;--delay:{{ v[6] }}s"><circle class="wm-{{ v[4] }} wm-edge" r="10"/><text class="wm-t--s" y="-17" text-anchor="middle">{{ v[5] }}</text></g></g>
+  {%- endfor %}
+  <path class="wm-trail" d="M214 268L330 204" pathLength="100" style="--delay:-2s;--dur:3.4s"/>
+  <g transform="translate(330 204)"><g class="wm-travel" style="--fx:-116px;--fy:64px;--delay:-2s;--dur:3.4s"><circle class="wm-lime" r="6"/></g></g>
+  <circle class="wm-h wm-edge" cx="50" cy="371" r="8"/><text x="68" y="377" class="wm-t--s">{{ L[0] | default: "Track ID" | escape }}</text>
+  <path class="wm-ln wm-ln--dash wm-ln--white" d="M330 372H366"/><text x="376" y="377" class="wm-t--s">{{ L[1] | default: "Trail" | escape }}</text>
+</svg>

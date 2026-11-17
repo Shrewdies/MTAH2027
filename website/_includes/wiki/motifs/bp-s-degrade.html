@@ -1,0 +1,42 @@
+{%- comment -%}
+  Architecture study motif (two metrics, one verdict): degrade the labelled match to the target. An open match
+  arrives clean, with the ball always tracked and players identified; three filters make it look like the fixture.
+  The four spellF1 values are the published ones (baseline method 0.301 clean, 0.235 degraded; fielded decoder
+  0.482 clean, 0.340 degraded); bars are to scale. Motion: transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="32" class="wm-t--xs wm-t--dim">An open, labelled match</text>
+  <rect class="wm-panel" x="24" y="44" width="150" height="88" rx="8"/>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M38 70C70 54 110 84 160 66"/>
+  <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="56" cy="108" r="8"/><circle cx="98" cy="104" r="8"/></g><circle class="wm-a wm-edge" cx="140" cy="110" r="8" stroke-width="1.5"/>
+  <text x="56" y="112" text-anchor="middle" class="wm-t--xs wm-t--tight" style="font-size:9px">7</text><text x="98" y="108" text-anchor="middle" class="wm-t--xs wm-t--tight" style="font-size:9px">10</text><text x="140" y="114" text-anchor="middle" class="wm-t--xs wm-t--tight" style="font-size:9px">4</text>
+  <text x="24" y="152" class="wm-t--xs">Clean</text>
+
+  <path class="wm-ln wm-ln--bold" d="M174 88H466"/>
+  <path class="wm-flow" d="M174 88H466" pathLength="100" style="--dur:3.4s"/>
+  {%- assign f = "Hide ball|to 41%|Strip|identities|Keep|25 fps" | split: "|" -%}
+  {%- for i in (0..2) %}{% assign k = i | times: 2 %}{% assign k1 = k | plus: 1 %}{% assign x = i | times: 94 | plus: 190 %}
+  <rect class="wm-node" x="{{ x }}" y="62" width="84" height="52" rx="9"/>
+  <rect class="wm-ring wm-lit" x="{{ x }}" y="62" width="84" height="52" rx="9" style="--p:{{ i | times: 0.33 }};--lo:0;--dur:3.4s"/>
+  <text x="{{ x | plus: 42 }}" y="84" text-anchor="middle" class="wm-t--xs wm-t--tight">{{ f[k] }}</text>
+  <text x="{{ x | plus: 42 }}" y="100" text-anchor="middle" class="wm-t--xs wm-t--tight">{{ f[k1] }}</text>
+  {%- endfor %}
+
+  <text x="466" y="32" class="wm-t--xs wm-t--lime">Looks like the fixture</text>
+  <rect class="wm-panel" x="466" y="44" width="150" height="88" rx="8" style="stroke:var(--sh-lime)"/>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M480 70C496 62 508 66 520 70"/><path class="wm-ln wm-ln--dash" d="M520 70C540 78 560 76 574 70"/><path class="wm-ln wm-ln--white wm-ln--bold" d="M574 70C586 66 594 66 602 66"/>
+  <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="498" cy="108" r="8"/><circle cx="540" cy="104" r="8"/></g><circle class="wm-a wm-edge" cx="582" cy="110" r="8" stroke-width="1.5"/>
+  <text x="466" y="152" class="wm-t--xs wm-t--lime">Degraded</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 176H616" stroke-width="1.5"/>
+  <text x="24" y="204" class="wm-t--xs wm-t--dim">spellF1, same match, both ways</text>
+  <text x="24" y="246" class="wm-t--xs">Baseline method</text>
+  <rect class="wm-white wm-wipe" x="190" y="226" width="181" height="14" rx="4" opacity=".75" style="--dur:7s"/><text x="379" y="238" class="wm-t--xs wm-t--dim">0.301 clean</text>
+  <rect class="wm-white wm-wipe" x="190" y="246" width="141" height="14" rx="4" opacity=".45" style="--dur:7s"/><text x="339" y="258" class="wm-t--xs wm-t--dim">0.235 degraded</text>
+  <text x="24" y="306" class="wm-t--xs wm-t--lime">Fielded decoder</text>
+  <rect class="wm-lime wm-wipe" x="190" y="286" width="289" height="14" rx="4" style="--dur:7s"/><text x="487" y="298" class="wm-t--xs wm-t--lime">0.482 clean</text>
+  <rect class="wm-lime wm-wipe" x="190" y="306" width="204" height="14" rx="4" opacity=".6" style="--dur:7s"/><text x="402" y="318" class="wm-t--xs wm-t--lime">0.340 degraded</text>
+
+  <text x="24" y="356" class="wm-t--xs wm-t--dim">Clean data flatters every design. Only the degraded score speaks for</text>
+  <text x="24" y="376" class="wm-t--xs wm-t--dim">the fixture, so it is the only one a profile is chosen on.</text>
+</svg>

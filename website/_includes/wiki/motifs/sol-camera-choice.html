@@ -1,0 +1,17 @@
+{%- comment -%} Solutions family "vision and calibration": choose by camera first. A fixed tactical camera holds the whole pitch and is calibrated once. A broadcast camera pans across part of it and must be calibrated on every frame. Synthetic. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="40" y="54">Tactical camera</text><text x="340" y="54">Broadcast camera</text>
+  <path class="wm-ln wm-ln--dash" d="M320 40V344" opacity=".5"/>
+  <rect class="wm-pitch" x="80" y="80" width="180" height="96" rx="3"/><path class="wm-pitch" d="M170 80V176"/><circle class="wm-pitch" cx="170" cy="128" r="16"/>
+  <path d="M170 236L74 76H266Z" fill="rgba(196,240,0,.12)" stroke="#C4F000" stroke-width="1.5"/>
+  <rect class="wm-lime" x="158" y="230" width="24" height="14" rx="3"/>
+  <rect class="wm-pitch" x="380" y="80" width="180" height="96" rx="3"/><path class="wm-pitch" d="M470 80V176"/><circle class="wm-pitch" cx="470" cy="128" r="16"/>
+  <g class="wm-swing" style="transform-origin:470px 236px;--from:-22deg;--to:22deg;--dur:3.6s"><path d="M470 236L442 76H498Z" fill="rgba(196,240,0,.16)" stroke="#C4F000" stroke-width="1.5"/></g>
+  <rect class="wm-lime" x="458" y="230" width="24" height="14" rx="3"/>
+  <circle class="wm-lime" cx="46" cy="278" r="4"/><text class="wm-t--s" x="58" y="283">Calibrate once</text>
+  <circle class="wm-lime" cx="46" cy="302" r="4"/><text class="wm-t--s" x="58" y="307">Motion-only tracking</text>
+  <circle class="wm-a" cx="46" cy="326" r="4"/><text class="wm-t--s wm-t--dim" x="58" y="331">A tiny ball</text>
+  <circle class="wm-lime" cx="346" cy="278" r="4"/><text class="wm-t--s" x="358" y="283">Calibrate every frame</text>
+  <circle class="wm-lime" cx="346" cy="302" r="4"/><text class="wm-t--s" x="358" y="307">Motion compensation</text>
+  <circle class="wm-a" cx="346" cy="326" r="4"/><text class="wm-t--s wm-t--dim" x="358" y="331">Cuts and replays</text>
+</svg>

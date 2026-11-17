@@ -1,0 +1,45 @@
+---
+layout: default
+---
+{%- assign section = site.sections | where: "collection", page.collection_index | first -%}
+{%- assign docs = site[page.collection_index] | sort: "order" | where_exp: "d", "d.nav_exclude != true" | where_exp: "d", "d.template != true" -%}
+{%- assign intro = content | strip -%}
+<article class="section-page">
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="{{ '/' | relative_url }}">Home</a></li>
+          <li><span aria-current="page">{{ section.title }}</span></li>
+        </ol>
+      </nav>
+      <p class="kicker"><span class="kicker__num">{{ section.kicker }}</span>Section</p>
+      <h1 class="page-title">{{ page.title | default: section.title }}</h1>
+      <p class="lede">{{ page.summary | default: section.blurb }}</p>
+    </div>
+  </header>
+
+  {%- if intro != "" %}
+  <div class="container page-body">
+    <div class="paper page-body__paper"><div class="prose">{{ content }}</div></div>
+  </div>
+  {%- endif %}
+
+  <div class="container">
+    {%- if docs.size == 0 %}
+    {% include coming-soon.html title=section.title text=section.soon %}
+    {%- else %}
+    <ol class="card-grid" role="list">
+      {%- for doc in docs %}
+      <li class="card">
+        <span class="card__num" aria-hidden="true">{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
+        <h2 class="card__title"><a href="{{ doc.url | relative_url }}">{{ doc.nav_title | default: doc.title }}</a></h2>
+        {%- if doc.summary %}<p class="card__text">{{ doc.summary }}</p>{% endif %}
+        {%- if doc.status %}<span class="status status--{{ doc.status | slugify }}">{{ doc.status }}</span>{% endif %}
+        <span class="card__arrow" aria-hidden="true">&rarr;</span>
+      </li>
+      {%- endfor %}
+    </ol>
+    {%- endif %}
+  </div>
+</article>

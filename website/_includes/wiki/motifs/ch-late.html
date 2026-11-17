@@ -1,0 +1,20 @@
+{%- comment -%} Challenge read "the ball goes missing": a turnover hidden inside a gap in the ball track. Reading the gap as dead invents a stoppage. Holding the last team is right until the turnover and late until the ball reappears. Synthetic. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln wm-ln--dash" d="M330 60V306M470 60V306" opacity=".6"/>
+  <text x="40" y="90">Ball track</text>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M200 84H330M470 84H590"/><path class="wm-ln wm-ln--dash" d="M330 84H470"/>
+  <path class="wm-flow wm-flow--white" pathLength="100" d="M200 84H330"/><path class="wm-flow wm-flow--white" pathLength="100" d="M470 84H590" style="--delay:-1.3s"/>
+  <text class="wm-t--xs wm-t--dim" x="400" y="70" text-anchor="middle">Untracked</text>
+  <text x="40" y="150">Truth</text>
+  <rect class="wm-h" x="200" y="130" width="198" height="28" rx="6"/><rect class="wm-a" x="402" y="130" width="188" height="28" rx="6"/>
+  <path class="wm-lime wm-pulse" d="M393 124h14l-7 -11z" style="--lo:.4"/><text class="wm-t--xs wm-t--lime" x="412" y="122">Hidden turnover</text>
+  <text x="40" y="216">Read as dead</text><text class="wm-t--xs wm-t--dim" x="40" y="234">A stoppage invented</text>
+  <rect class="wm-h" x="200" y="198" width="128" height="28" rx="6"/><rect class="wm-d wm-pulse" x="332" y="198" width="136" height="28" rx="6" style="--lo:.5"/><rect class="wm-a" x="472" y="198" width="118" height="28" rx="6"/>
+  <text x="40" y="284">Held</text><text class="wm-t--xs wm-t--dim" x="40" y="302">Right, then late</text>
+  <rect class="wm-h" x="200" y="266" width="268" height="28" rx="6"/><rect class="wm-a" x="472" y="266" width="118" height="28" rx="6"/>
+  <rect class="wm-ring wm-pulse" x="400" y="262" width="70" height="36" rx="8" style="--lo:.35"/>
+  <rect class="wm-h" x="200" y="344" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="222" y="356">Home</text>
+  <rect class="wm-a" x="300" y="344" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="322" y="356">Away</text>
+  <rect class="wm-d" x="400" y="344" width="14" height="14" rx="3"/><text class="wm-t--s wm-t--dim" x="422" y="356">Dead ball</text>
+  <rect class="wm-ring" x="526" y="342" width="18" height="18" rx="5"/><text class="wm-t--s wm-t--dim" x="552" y="356">Late</text>
+</svg>

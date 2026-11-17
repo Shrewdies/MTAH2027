@@ -1,0 +1,48 @@
+{%- comment -%}
+  Architecture motif: two metrics, one verdict. Three stages of selection: explore on simulated matches (a Pareto
+  front and three frozen profiles), decide on open labels (spellF1 of each profile on the open DFL match, with the
+  organisers' baseline method as the dashed line), and a public window that only checks. The four spellF1 values are
+  the published ones (0.235, 0.249, 0.286, 0.340); the scatter is illustrative.
+  Motion: transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="36" class="wm-t--disp wm-t--lime" style="font-size:20px">01</text>
+  <text x="54" y="36" class="wm-t--xs">Explore: simulated</text>
+  <path class="wm-ln" d="M40 60V250H250"/>
+  <text x="250" y="270" text-anchor="end" class="wm-t--xs wm-t--dim">macroF1</text>
+  <text x="46" y="72" class="wm-t--xs wm-t--dim">spellF1</text>
+  <g fill="#E9EDF5" opacity=".45">
+    <circle cx="78" cy="214" r="4"/><circle cx="96" cy="182" r="4"/><circle cx="118" cy="204" r="4"/><circle cx="132" cy="160" r="4"/><circle cx="150" cy="190" r="4"/><circle cx="164" cy="222" r="4"/><circle cx="178" cy="168" r="4"/><circle cx="92" cy="232" r="4"/><circle cx="196" cy="206" r="4"/><circle cx="140" cy="226" r="4"/><circle cx="208" cy="184" r="4"/><circle cx="112" cy="146" r="4"/>
+  </g>
+  <path class="wm-ln wm-ln--lime wm-ln--bold wm-draw" d="M84 112C130 104 196 116 226 176" pathLength="100" style="--dur:8s"/>
+  <g class="wm-pop" style="--i:0;--step:.5s;--dur:8s"><circle class="wm-white" cx="100" cy="110" r="7"/></g>
+  <g class="wm-pop" style="--i:1;--step:.5s;--dur:8s"><circle class="wm-white" cx="160" cy="112" r="7"/></g>
+  <g class="wm-pop" style="--i:2;--step:.5s;--dur:8s"><circle class="wm-lime wm-edge" cx="208" cy="142" r="8"/></g>
+  <text x="40" y="296" class="wm-t--xs wm-t--dim">A front, three profiles</text>
+
+  <path class="wm-ln wm-ln--bold" d="M262 160H300M292 154l8 6-8 6"/>
+  <path class="wm-flow" d="M262 160H300" pathLength="100" style="--dur:2.4s"/>
+
+  <text x="312" y="36" class="wm-t--disp wm-t--lime" style="font-size:20px">02</text>
+  <text x="342" y="36" class="wm-t--xs">Decide: open labels</text>
+  <path class="wm-ln" d="M316 250H616"/>
+  <path class="wm-ln wm-ln--a wm-ln--dash" d="M316 133H616"/>
+  <text x="616" y="124" text-anchor="end" class="wm-t--xs">Baseline 0.235</text>
+  <rect class="wm-white wm-grow" x="336" y="126" width="58" height="124" rx="5" opacity=".8" style="--i:2;--step:.5s;--dur:8s"/>
+  <rect class="wm-white wm-grow" x="430" y="107" width="58" height="143" rx="5" opacity=".8" style="--i:3;--step:.5s;--dur:8s"/>
+  <rect class="wm-lime wm-grow" x="524" y="80" width="58" height="170" rx="5" style="--i:4;--step:.5s;--dur:8s"/>
+  <text x="365" y="118" text-anchor="middle" class="wm-t--xs">0.249</text>
+  <text x="459" y="98" text-anchor="middle" class="wm-t--xs">0.286</text>
+  <text x="553" y="70" text-anchor="middle" class="wm-t--s wm-t--lime">0.340</text>
+  <text x="365" y="270" text-anchor="middle" class="wm-t--xs wm-t--dim">Reasoned</text>
+  <text x="459" y="270" text-anchor="middle" class="wm-t--xs wm-t--dim">Balanced</text>
+  <text x="553" y="270" text-anchor="middle" class="wm-t--xs wm-t--lime">Fielded</text>
+  <text x="316" y="296" class="wm-t--xs wm-t--dim">spellF1 on a real, labelled match</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 318H616" stroke-width="1.5"/>
+  <text x="24" y="352" class="wm-t--disp wm-t--lime" style="font-size:20px">03</text>
+  <text x="54" y="352" class="wm-t--xs">Check: the public window</text>
+  <rect class="wm-node" x="316" y="332" width="300" height="34" rx="8"/>
+  <path class="wm-ln wm-ln--white" d="M334 349v-5a6 6 0 0 1 12 0v5M330 349h20v10h-20z" stroke-width="1.5"/>
+  <text x="362" y="354" class="wm-t--xs">Format, alignment, sides only</text>
+</svg>

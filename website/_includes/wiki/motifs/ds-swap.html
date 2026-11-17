@@ -1,0 +1,20 @@
+{%- comment -%} Datasets family "tracking": an identity swap between two opponents reads as a turnover. Two tracks cross, the tracker exchanges their numbers, and the nearest-player team flips for a few frames. Synthetic. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln wm-ln--h" stroke-width="3" d="M50 96C220 96 300 176 590 176"/>
+  <path class="wm-ln wm-ln--a" stroke-width="3" d="M50 176C220 176 300 96 590 96"/>
+  <path class="wm-flow wm-flow--white" pathLength="100" d="M50 96C220 96 300 176 590 176" style="--dur:4s"/>
+  <path class="wm-flow wm-flow--white" pathLength="100" d="M50 176C220 176 300 96 590 96" style="--dur:4s"/>
+  <circle class="wm-h wm-edge" cx="96" cy="97" r="10"/><text class="wm-t--s" x="50" y="78">ID 7</text>
+  <circle class="wm-a wm-edge" cx="96" cy="175" r="10"/><text class="wm-t--s" x="50" y="204">ID 12</text>
+  <circle class="wm-h wm-edge" cx="548" cy="175" r="10"/><text class="wm-t--s wm-t--lime wm-pulse" x="590" y="204" text-anchor="end" style="--lo:.4">ID 12</text>
+  <circle class="wm-a wm-edge" cx="548" cy="97" r="10"/><text class="wm-t--s wm-t--lime wm-pulse" x="590" y="78" text-anchor="end" style="--lo:.4">ID 7</text>
+  <circle class="wm-ln wm-ln--white wm-ln--dash wm-breathe" cx="296" cy="136" r="24"/>
+  <text class="wm-t--xs wm-t--dim" x="296" y="98" text-anchor="middle">ID swap</text>
+  <circle class="wm-ring wm-ping" cx="322" cy="152" r="8"/><circle class="wm-lime" cx="322" cy="152" r="6"/>
+  <path class="wm-ln wm-ln--dash" d="M320 164V246" opacity=".8"/>
+  <text class="wm-t--s" x="50" y="238">Nearest-player team</text>
+  <rect class="wm-h" x="50" y="246" width="250" height="26" rx="6"/><rect class="wm-a wm-pulse" x="302" y="246" width="36" height="26" rx="6" style="--lo:.45"/><rect class="wm-h" x="340" y="246" width="250" height="26" rx="6"/>
+  <text class="wm-t--s" x="50" y="312">After a switch cost</text>
+  <rect class="wm-h" x="50" y="320" width="540" height="26" rx="6"/>
+  <text class="wm-t--xs wm-t--dim" x="590" y="372" text-anchor="end">No football happened</text>
+</svg>

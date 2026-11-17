@@ -1,0 +1,33 @@
+---
+layout: default
+title: Page not found
+permalink: /404.html
+summary: That address is not on this site. The page may have moved, or the link may be mistyped.
+noindex: true
+sitemap: false
+---
+{%- assign visible_sections = site.sections | where_exp: "s", "s.hidden != true" -%}
+<article class="page">
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <p class="kicker"><span class="kicker__num">404</span>{{ site.title }}</p>
+      <h1 class="page-title">{{ page.title }}</h1>
+      <p class="lede">{{ page.summary }}</p>
+      <div class="actions">
+        <a class="button" href="{{ '/' | relative_url }}">Back to home <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <ol class="card-grid" role="list">
+      {%- for section in visible_sections %}
+      <li class="card">
+        <span class="card__num" aria-hidden="true">{{ section.kicker }}</span>
+        <h2 class="card__title"><a href="{{ section.url | relative_url }}">{{ section.title }}</a></h2>
+        <p class="card__text">{{ section.blurb }}</p>
+        <span class="card__arrow" aria-hidden="true">&rarr;</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</article>

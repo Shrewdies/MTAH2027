@@ -1,0 +1,28 @@
+{%- comment -%}
+  Patent portfolio summary. Params: patents { title, figure, label, lede, areas: [{title, text}], note }.
+{%- endcomment -%}
+{%- assign pt = include.patents -%}
+<section class="container mb-patents" aria-labelledby="mb-pt-title">
+  <div class="mb-patents__card" data-reveal-group>
+    <div class="mb-patents__lead">
+      <h2 id="mb-pt-title" class="mb-section-title">{{ pt.title | default: "Patents" }}</h2>
+      <p class="mb-patents__total"><span>{{ pt.figure }}</span><span class="mb-patents__total-label">{{ pt.label }}</span></p>
+      <div class="mb-patents__stack" aria-hidden="true">
+        {%- for n in (1..20) %}<i style="--i: {{ forloop.index0 }}"></i>{% endfor %}<b style="--i: 20">+</b>
+      </div>
+      {%- if pt.lede %}<p class="mb-patents__lede">{{ pt.lede }}</p>{% endif %}
+    </div>
+    <div class="mb-patents__themes">
+      <p class="mb-patents__sub">What his patents cover</p>
+      <ul class="mb-areas" role="list">
+        {%- for a in pt.areas %}
+        <li class="mb-area" style="--i: {{ forloop.index0 }}">
+          <span class="mb-area__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5L19 19M19 5l-2.5 2.5M7.5 16.5L5 19"/></svg></span>
+          <span class="mb-area__text"><b>{{ a.title }}</b>{% if a.text %}<span>{{ a.text }}</span>{% endif %}</span>
+        </li>
+        {%- endfor %}
+      </ul>
+      {%- if pt.note %}<p class="mb-patents__note">{{ pt.note }}</p>{% endif %}
+    </div>
+  </div>
+</section>

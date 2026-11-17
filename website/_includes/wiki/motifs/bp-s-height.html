@@ -1,0 +1,28 @@
+{%- comment -%}
+  Architecture study motif (geospatial-only): height is invisible. The same lofted pass seen from the side, where
+  it clears the defender, and on the ground plane, where coordinates put it at his feet. Synthetic.
+  Motion: transform and opacity only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="34" class="wm-t--xs wm-t--dim">From the side: what happened</text>
+  <path class="wm-ln wm-ln--bold" d="M40 176H600"/>
+  <path class="wm-ln wm-ln--dash" d="M90 170Q320 -20 550 170"/>
+  <g class="wm-h"><circle cx="90" cy="150" r="9"/><rect x="84" y="158" width="12" height="18" rx="3"/></g>
+  <g class="wm-a"><circle cx="320" cy="134" r="9"/><rect x="314" y="142" width="12" height="34" rx="3"/></g>
+  <g class="wm-h"><circle cx="550" cy="150" r="9"/><rect x="544" y="158" width="12" height="18" rx="3"/></g>
+  <text x="320" y="118" text-anchor="middle" class="wm-t--xs">Defender</text>
+  <g transform="translate(90 170)"><g class="wm-slide" style="--fx:0px;--tx:460px;--dur:4s"><g class="wm-lob" style="--fy:0px;--py:-96px;--dur:4s"><circle class="wm-white" r="7"/><circle class="wm-ring" r="11"/></g></g></g>
+  <text x="600" y="60" text-anchor="end" class="wm-t--xs wm-t--lime">Over his head</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 206H616" stroke-width="1.5"/>
+  <text x="24" y="236" class="wm-t--xs wm-t--dim">On the ground plane: what coordinates see</text>
+  <rect class="wm-pitch" x="40" y="250" width="560" height="90" rx="4"/>
+  <path class="wm-ln wm-ln--dash" d="M90 295H550"/>
+  <circle class="wm-h wm-edge" cx="90" cy="295" r="8"/>
+  <circle class="wm-h wm-edge" cx="550" cy="295" r="8"/>
+  <circle class="wm-box wm-pulse" cx="320" cy="295" r="36" stroke="#E5336F" fill="rgba(229,51,111,.14)" stroke-dasharray="4 5" style="--lo:.5"/>
+  <circle class="wm-a wm-edge" cx="320" cy="295" r="8"/>
+  <g transform="translate(90 295)"><g class="wm-slide" style="--fx:0px;--tx:460px;--dur:4s"><circle class="wm-white" r="6"/></g></g>
+  <text x="320" y="364" text-anchor="middle" class="wm-t--xs">Inside his reach: evidence for the wrong team</text>
+  <text x="24" y="388" class="wm-t--xs wm-t--dim">A speed test rejects a fast pass. A slow chip still crosses his feet.</text>
+</svg>

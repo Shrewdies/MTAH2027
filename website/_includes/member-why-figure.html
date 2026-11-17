@@ -1,0 +1,62 @@
+{%- comment -%}
+  Body figures for a "Why our specialization matters" article. Param: id (wiring | readings | proof).
+  Data comes from the article's front matter (page.wiring, page.readings, page.proof). Styles: assets/members/why.css.
+{%- endcomment -%}
+{%- case include.id -%}
+{%- when "wiring" -%}
+{%- assign w = page.wiring -%}
+<figure class="wy-fig wy-wiring">
+<div class="wy-wiring__grid">
+<ul class="wy-wiring__parts" role="list">{% for p in w.parts %}<li><b>{{ p.name }}</b><span>{{ p.says }}</span></li>{% endfor %}</ul>
+<div class="wy-wiring__mid">
+<svg class="wy-wiring__wires" viewBox="0 0 100 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+{%- for p in w.parts %}{% assign y1 = forloop.index0 | times: 30 | plus: 15 %}{% for t in p.to %}{% assign y2 = t | times: 20 | minus: 10 %}
+<path d="M0 {{ y1 }}C50 {{ y1 }} 50 {{ y2 }} 100 {{ y2 }}" style="--i: {{ forloop.parentloop.index0 }}"/>
+{%- endfor %}{% endfor %}
+</svg>
+<span class="wy-wiring__spine">{{ w.spine }}</span>
+</div>
+<ol class="wy-wiring__layers" role="list">{% for l in w.layers %}<li{% if l.lands %} class="is-fed"{% endif %}><b>{{ l.name }}</b><span>{{ l.lands | default: l.does }}</span></li>{% endfor %}</ol>
+</div>
+<figcaption>{{ w.caption }}</figcaption>
+</figure>
+{%- when "readings" -%}
+{%- assign r = page.readings -%}
+<figure class="wy-fig wy-readings">
+<svg viewBox="0 0 510 190" aria-hidden="true" focusable="false">
+<text class="wy-readings__cap" x="0" y="12">{{ r.before }}</text>
+{%- assign rows = "22:14,9,30,7,18,26,8,12,40,6,22,10,31,9,16,28,7,13,35,11,20,8,27,12,19,9,33,10,15,24|48:26,12,8,34,10,22,7,29,13,9,38,11,17,25,8,14,30,6,21,36,9,12,28,10,18,23,7,15,32,8|74:9,33,11,16,27,8,13,24,7,36,10,19,29,6,12,31,14,8,22,37,9,26,11,17,7,30,13,20,10,25|100:20,8,25,12,7,31,15,9,28,10,35,6,13,23,11,18,8,29,14,33,7,16,26,9,21,12,30,10,24,8" | split: "|" -%}
+{%- for row in rows %}{% assign rp = row | split: ":" %}{% assign ws = rp[1] | split: "," %}{% assign x = 0 %}
+<g class="wy-readings__noisy" style="--i: {{ forloop.index0 }}">
+{%- for wd in ws %}{% assign wn = wd | plus: 0 %}{% assign k = forloop.index | plus: forloop.parentloop.index | modulo: 3 %}{% if x < 510 %}
+<rect class="is-{% if k == 0 %}h{% elsif k == 1 %}a{% else %}d{% endif %}" x="{{ x }}" y="{{ rp[0] }}" width="{{ wn | minus: 1.5 }}" height="18" rx="2"/>
+{%- endif %}{% assign x = x | plus: wn %}{% endfor %}
+</g>
+{%- endfor %}
+<path class="wy-readings__join" d="M255 122V146M247 138L255 146L263 138"/>
+<text class="wy-readings__cap" x="0" y="160">{{ r.after }}</text>
+<g class="wy-readings__clean">
+<rect class="is-h" x="0" y="168" width="126" height="20" rx="3"/><rect class="is-d" x="128" y="168" width="32" height="20" rx="3"/>
+<rect class="is-a" x="162" y="168" width="106" height="20" rx="3"/><rect class="is-h" x="270" y="168" width="82" height="20" rx="3"/>
+<rect class="is-d" x="354" y="168" width="26" height="20" rx="3"/><rect class="is-a" x="382" y="168" width="128" height="20" rx="3"/>
+</g>
+<rect class="wy-readings__scan" x="0" y="18" width="3" height="172" rx="1.5"/>
+</svg>
+<ul class="wy-key" role="list"><li class="is-h">Home</li><li class="is-a">Away</li><li class="is-d">Dead ball</li></ul>
+<figcaption>{{ r.caption }}</figcaption>
+</figure>
+{%- when "proof" -%}
+{%- assign pf = page.proof -%}
+<figure class="wy-fig wy-proof">
+<ul class="wy-proof__rows" role="list">
+{%- for m in pf.metrics %}
+<li>
+<p class="wy-proof__metric">{{ m.name }}</p>
+<div class="wy-proof__track" style="--ours: {{ m.ours | times: 100 }}%; --base: {{ m.base | times: 100 }}%" title="{{ m.name }}: {{ pf.ours }} {{ m.ours }}, {{ pf.base }} {{ m.base }}"><span class="wy-proof__fill"></span><span class="wy-proof__mark"></span></div>
+<p class="wy-proof__values"><span><b>{{ m.ours }}</b>{{ pf.ours }}</span><span><b>{{ m.base }}</b>{{ pf.base }}</span></p>
+</li>
+{%- endfor %}
+</ul>
+<figcaption>{{ pf.caption }}</figcaption>
+</figure>
+{%- endcase -%}

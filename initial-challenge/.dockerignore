@@ -1,0 +1,5 @@
+# The image holds Python and the pinned dependencies only. Source and data are mounted at run time,
+# so nothing else from this folder may enter the build context.
+*
+!requirements-solution.txt
+!wheels/

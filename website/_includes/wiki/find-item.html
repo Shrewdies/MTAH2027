@@ -1,0 +1,4 @@
+{%- comment -%} One line of a hub's "find a page" list. Params: doc, label (family name, optional). {%- endcomment -%}
+{%- assign fi = include.doc -%}
+{%- capture fi_search -%}{{ fi.title }} {{ fi.kicker }} {{ fi.summary }} {{ fi.chips | join: " " }} {{ include.label }}{%- endcapture -%}
+<li data-wk-find-item data-search="{{ fi_search | strip_html | normalize_whitespace | downcase | escape }}"><a href="{{ fi.url | relative_url }}"><span class="wk-find__name">{{ fi.nav_title | default: fi.title }}</span>{% if include.label %}<span class="wk-find__meta">{{ include.label }}</span>{% endif %}</a></li>

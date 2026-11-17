@@ -1,0 +1,40 @@
+{%- comment -%}
+  Kit, back view. Params: uid (unique per page), label (tiny caps), name, number, title (accessible name).
+{%- endcomment -%}
+{%- assign u = include.uid | default: "kit" -%}
+{%- assign kit_label = include.label | default: "SHREWDIE" -%}
+{%- assign kit_name = include.name | default: "THE SHREWDIES" -%}
+{%- assign kit_number = include.number | default: "2027" -%}
+{%- assign display = "'Big Shoulders Display', 'Bahnschrift Condensed', 'Arial Narrow', Impact, sans-serif" -%}
+<svg class="jersey" viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="{{ include.title | default: 'Team kit, back view' }}" focusable="false">
+  <defs>
+    <clipPath id="{{ u }}-cut">
+      <path d="M160 38C175 46 225 46 240 38L305 60C330 70 352 92 372 128L334 172L290 148L291 405C236 419 164 419 109 405L110 148L66 172L28 128C48 92 70 70 95 60Z"/>
+    </clipPath>
+    <linearGradient id="{{ u }}-form" x1="0" x2="1">
+      <stop offset="0" stop-color="#0A1F44" stop-opacity=".45"/>
+      <stop offset=".3" stop-color="#0A1F44" stop-opacity="0"/>
+      <stop offset=".45" stop-color="#FFFFFF" stop-opacity=".12"/>
+      <stop offset=".7" stop-color="#0A1F44" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0A1F44" stop-opacity=".45"/>
+    </linearGradient>
+  </defs>
+
+  <g clip-path="url(#{{ u }}-cut)">
+    <rect width="400" height="440" fill="#004D98"/>
+    <rect x="170" width="60" height="440" fill="#A50044"/>
+    <path fill="#00397A" d="M165 42L95 60C70 70 48 92 28 128L66 172L110 148C118 110 140 70 165 42ZM235 42L305 60C330 70 352 92 372 128L334 172L290 148C282 110 260 70 235 42Z"/>
+    <path fill="#C4F000" d="M28 128L66 172L74 163L36 119ZM372 128L334 172L326 163L364 119Z"/>
+    <rect width="400" height="440" fill="url(#{{ u }}-form)"/>
+  </g>
+
+  <path d="M160 38C180 27 220 27 240 38C225 46 175 46 160 38Z" fill="#0A1F44"/>
+  <path d="M158 38C176 50 224 50 242 38" fill="none" stroke="#C4F000" stroke-width="7" stroke-linecap="round"/>
+
+  <g font-family="{{ display }}" text-anchor="middle" fill="#FFFFFF">
+    <text x="200" y="110" font-size="12" font-weight="700" letter-spacing="5" fill-opacity=".85">{{ kit_label }}</text>
+    <text x="200" y="140" font-size="26" font-weight="800" letter-spacing="1.5">{{ kit_name }}</text>
+    <text x="203" y="335" font-size="196" font-weight="900" fill="#C4F000">{{ kit_number }}</text>
+    <text x="200" y="332" font-size="196" font-weight="900" stroke="#0A1F44" stroke-width="5" stroke-linejoin="round" paint-order="stroke">{{ kit_number }}</text>
+  </g>
+</svg>

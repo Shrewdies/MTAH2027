@@ -1,0 +1,17 @@
+{%- comment -%} Player-interaction graph: a carrier node and a pass edge in motion. Labels: carrier, pass, receiver. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M300 200L92 204M300 200L196 100M300 200L214 306M300 200L446 304M92 204L196 100M92 204L214 306M196 100L452 112M214 306L446 304M452 112L446 304"/>
+  <path class="wm-ln wm-ln--a wm-ln--dash" d="M300 200L392 262M452 112L522 206M300 200L330 76M446 304L548 318M452 112L566 96M214 306L130 318"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M300 200L452 112" opacity=".5"/>
+  <path class="wm-flow" d="M300 200L452 112" pathLength="100" style="--dur:2.2s"/>
+  <g class="wm-a wm-edge"><circle cx="392" cy="262" r="11"/><circle cx="522" cy="206" r="11"/><circle cx="330" cy="76" r="11"/><circle cx="566" cy="96" r="11"/><circle cx="548" cy="318" r="11"/><circle cx="130" cy="318" r="11"/></g>
+  <g class="wm-h wm-edge"><circle cx="92" cy="204" r="12"/><circle cx="196" cy="100" r="12"/><circle cx="214" cy="306" r="12"/><circle cx="446" cy="304" r="12"/><circle cx="452" cy="112" r="13"/></g>
+  <circle class="wm-ring wm-ln--white wm-breathe" cx="452" cy="112" r="21" style="--s:1.18"/>
+  <circle class="wm-ring wm-ping" cx="300" cy="200" r="19"/>
+  <circle class="wm-lime wm-edge" cx="300" cy="200" r="15" stroke-width="3"/>
+  <g transform="translate(434 122)"><circle class="wm-white wm-travel" r="6" style="--fx:-116px;--fy:67px;--dur:2.2s"/></g>
+  <text x="300" y="246" text-anchor="middle" class="wm-t--lime">{{ L[0] | default: "Carrier" | escape }}</text>
+  <text x="364" y="140" text-anchor="end" class="wm-t--s wm-t--dim">{{ L[1] | default: "Pass" | escape }}</text>
+  <text x="452" y="78" text-anchor="middle">{{ L[2] | default: "Receiver" | escape }}</text>
+</svg>

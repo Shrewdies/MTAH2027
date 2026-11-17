@@ -1,0 +1,20 @@
+{%- comment -%} Datasets family "tracking": what each of the four datasets actually measures. Full dot: measured. Half dot: partial or derived. Dashed ring: absent. Values follow the family table. {%- endcomment -%}
+{%- assign rows = "Metrica sample;f,f,p,n|SoccerTrack v2;f,p,f,f|TeamTrack;f,n,p,f|Alfheim;p,n,f,f" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text class="wm-t--s" x="300" y="60" text-anchor="middle">Players</text><text class="wm-t--s" x="390" y="60" text-anchor="middle">Ball</text>
+  <text class="wm-t--s" x="480" y="60" text-anchor="middle">Metres</text><text class="wm-t--s" x="570" y="60" text-anchor="middle">Video</text>
+  <path class="wm-ln" d="M40 78H600M40 140H600M40 200H600M40 260H600M40 320H600" opacity=".4"/>
+  {%- for r in rows %}{% assign parts = r | split: ";" %}{% assign cells = parts[1] | split: "," %}{% assign y = forloop.index0 | times: 60 | plus: 110 %}
+  <g class="wm-light" style="--i:{{ forloop.index0 }};--step:1.2s;--lo:.55">
+    <text x="40" y="{{ y | plus: 6 }}">{{ parts[0] }}</text>
+    {%- for c in cells %}{% assign x = forloop.index0 | times: 90 | plus: 300 %}
+    {%- if c == "f" %}<circle class="wm-lime" cx="{{ x }}" cy="{{ y }}" r="13"/>
+    {%- elsif c == "p" %}<circle class="wm-ring" cx="{{ x }}" cy="{{ y }}" r="13"/><path class="wm-lime" d="M{{ x }} {{ y | minus: 13 }}A13 13 0 0 0 {{ x }} {{ y | plus: 13 }}Z"/>
+    {%- else %}<circle class="wm-ln wm-ln--dash" cx="{{ x }}" cy="{{ y }}" r="13"/>{% endif %}
+    {%- endfor %}
+  </g>
+  {%- endfor %}
+  <circle class="wm-lime" cx="203" cy="352" r="8"/><text class="wm-t--s wm-t--dim" x="220" y="357">Measured</text>
+  <circle class="wm-ring" cx="330" cy="352" r="8"/><path class="wm-lime" d="M330 344A8 8 0 0 0 330 360Z"/><text class="wm-t--s wm-t--dim" x="347" y="357">Partial or derived</text>
+  <circle class="wm-ln wm-ln--dash" cx="540" cy="352" r="8"/><text class="wm-t--s wm-t--dim" x="557" y="357">Absent</text>
+</svg>

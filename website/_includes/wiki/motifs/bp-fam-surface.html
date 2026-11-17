@@ -1,0 +1,36 @@
+{%- comment -%}
+  Architecture family motif (The engine): the trade-off surface of the family. Every engine option placed by what
+  it needs in labels (across) and what it can guarantee about the sequence (up). The left column is the only one a
+  design without labels on the match can field. Positions are architectural judgements, not measurements.
+  Motion: opacity and transform only.
+{%- endcomment -%}
+{%- assign pts = "156|96|Viterbi|1|156|252|Majority filter|0|286|96|HSMM|0|264|176|HMM|0|404|170|CRF|0|450|258|Learned gate|0|540|278|One model|0|560|232|Neural refiner|0" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect x="112" y="56" width="92" height="262" rx="8" fill="rgba(196,240,0,.1)" stroke="rgba(196,240,0,.55)" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <text x="158" y="46" text-anchor="middle" class="wm-t--xs wm-t--lime">Needs no labels</text>
+  <path class="wm-ln" d="M100 56V318H610"/>
+  <path class="wm-ln" d="M94 64l6-8 6 8M602 312l8 6-8 6"/>
+  <text x="100" y="342" class="wm-t--xs wm-t--dim">None</text>
+  <text x="610" y="342" text-anchor="end" class="wm-t--xs wm-t--dim">Many</text>
+  <text x="356" y="366" text-anchor="middle" class="wm-t--xs">Labels it needs</text>
+  <text x="24" y="70" class="wm-t--xs wm-t--dim">Exact</text>
+  <text x="24" y="316" class="wm-t--xs wm-t--dim">None</text>
+  <text x="24" y="182" class="wm-t--xs">Guarantee</text>
+  <text x="24" y="198" class="wm-t--xs">it states</text>
+
+  {%- for i in (0..7) %}{% assign k = i | times: 4 %}{% assign k1 = k | plus: 1 %}{% assign k2 = k | plus: 2 %}{% assign k3 = k | plus: 3 %}{% assign x = pts[k] | plus: 0 %}{% assign y = pts[k1] | plus: 0 %}
+  <g class="wm-pop" style="--i:{{ i }};--step:.45s;--dur:9s">
+    {%- if pts[k3] == "1" %}
+    <circle class="wm-ring wm-ping" cx="{{ x }}" cy="{{ y }}" r="10" style="--dur:3s"/>
+    <circle class="wm-lime wm-edge" cx="{{ x }}" cy="{{ y }}" r="10"/>
+    <text x="{{ x }}" y="{{ y | minus: 18 }}" text-anchor="middle" class="wm-t--xs wm-t--lime">{{ pts[k2] }}: fielded</text>
+    {%- else %}
+    <circle class="wm-node" cx="{{ x }}" cy="{{ y }}" r="8"/>
+    <text x="{{ x }}" y="{{ y | plus: 24 }}" text-anchor="middle" class="wm-t--xs wm-t--tight">{{ pts[k2] }}</text>
+    {%- endif %}
+  </g>
+  {%- endfor %}
+  <path class="wm-ln wm-ln--dash wm-ln--white" d="M210 110C330 130 440 200 590 300" opacity=".5"/>
+  <text x="604" y="196" text-anchor="end" class="wm-t--xs wm-t--dim">More capacity,</text>
+  <text x="604" y="212" text-anchor="end" class="wm-t--xs wm-t--dim">less you can promise</text>
+</svg>

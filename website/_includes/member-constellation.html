@@ -1,0 +1,27 @@
+{%- comment -%}
+  Focus-area constellation: up to six labels on a hexagon around the shirt number.
+  Params: items (list of strings), number.
+{%- endcomment -%}
+{%- assign xs = "50,84,84,50,16,16" | split: "," -%}
+{%- assign ys = "12,31,69,88,69,31" | split: "," -%}
+{%- assign items = include.items | slice: 0, 6 -%}
+<div class="mb-const" data-reveal-group>
+  <svg class="mb-const__art" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+    <circle class="mb-const__orbit mb-const__orbit--a" cx="50" cy="50" r="44"/>
+    <circle class="mb-const__orbit mb-const__orbit--b" cx="50" cy="50" r="30"/>
+    <polygon class="mb-const__hex" points="{% for it in items %}{{ xs[forloop.index0] }},{{ ys[forloop.index0] }} {% endfor %}"/>
+    {%- for it in items %}
+    <line class="mb-const__ray" style="--i: {{ forloop.index0 }}" x1="50" y1="50" x2="{{ xs[forloop.index0] }}" y2="{{ ys[forloop.index0] }}" pathLength="1"/>
+    <line class="mb-const__flow" style="--i: {{ forloop.index0 }}" x1="50" y1="50" x2="{{ xs[forloop.index0] }}" y2="{{ ys[forloop.index0] }}"/>
+    <circle class="mb-const__node" style="--i: {{ forloop.index0 }}" cx="{{ xs[forloop.index0] }}" cy="{{ ys[forloop.index0] }}" r="1.6"/>
+    {%- endfor %}
+    <circle class="mb-const__core-glow" cx="50" cy="50" r="15"/>
+    <circle class="mb-const__core" cx="50" cy="50" r="11"/>
+    <text class="mb-const__num" x="50" y="50" text-anchor="middle" dominant-baseline="central">{{ include.number }}</text>
+  </svg>
+  <ul class="mb-const__labels" role="list">
+    {%- for it in items %}
+    <li style="--i: {{ forloop.index0 }}; left: {{ xs[forloop.index0] }}%; top: {{ ys[forloop.index0] }}%">{{ it }}</li>
+    {%- endfor %}
+  </ul>
+</div>

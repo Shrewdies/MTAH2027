@@ -1,0 +1,29 @@
+{%- comment -%}
+  The analyst's desk: a grid of craft outputs with line icons. Params: data { title, lede, items: [{icon, title, text}] }.
+  Icons: report, profile, video, setpiece, press, review.
+{%- endcomment -%}
+{%- assign d = include.data -%}
+<section class="container mb-kit" aria-labelledby="mb-kit-title">
+  <h2 id="mb-kit-title" class="mb-section-title">{{ d.title | default: "Toolkit" }}</h2>
+  {%- if d.lede %}<p class="mb-kit__lede">{{ d.lede }}</p>{% endif %}
+  <ul class="mb-kit__grid" role="list">
+    {%- for it in d.items %}
+    <li class="mb-kit__item" style="--i: {{ forloop.index0 }}" data-reveal-item>
+      <span class="mb-kit__icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="30" height="30" focusable="false">
+        {%- case it.icon -%}
+        {%- when "report" %}<rect x="7" y="4" width="18" height="24" rx="2"/><path d="M11 11h10M11 16h10M11 21h6"/>
+        {%- when "profile" %}<circle cx="16" cy="11" r="5"/><path d="M6 27c1.5-6 5.5-8 10-8s8.5 2 10 8"/>
+        {%- when "video" %}<rect x="4" y="8" width="18" height="16" rx="2"/><path d="M22 13l6-3v12l-6-3z"/><path d="M9 20l3-4 3 2 3-5"/>
+        {%- when "setpiece" %}<path d="M4 4h24v24"/><path d="M28 4A5 5 0 0 1 23 9"/><circle cx="12" cy="20" r="2.5"/><path d="M26 6Q10 6 12 17" stroke-dasharray="2 2"/>
+        {%- when "press" %}<circle cx="16" cy="16" r="3"/><circle cx="6" cy="8" r="2"/><circle cx="26" cy="9" r="2"/><circle cx="8" cy="26" r="2"/><path d="M8 10l5 4M24 11l-5 3M10 24l4-5"/>
+        {%- else %}<path d="M5 16a11 11 0 1 0 3.2-7.8"/><path d="M5 5v6h6"/><path d="M16 10v6l4 3"/>
+        {%- endcase %}
+        </svg>
+      </span>
+      <h3 class="mb-kit__title">{{ it.title }}</h3>
+      <p class="mb-kit__text">{{ it.text }}</p>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>

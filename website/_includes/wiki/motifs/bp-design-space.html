@@ -1,0 +1,125 @@
+{%- comment -%}
+  Architecture signature motif: the whole design space on one board. Four columns (sources of evidence, engines, the
+  hard parts, proof), each a link to its family page; the third source, the single source of truth, links to its own
+  study. The route the squad fielded is lit and flows into the decoded sequence at the bottom. Hovering or focusing
+  a column dims the others. Synthetic.
+  Motion: stroke-dashoffset and opacity only; the base state is the still frame.
+{%- endcomment -%}
+{%- assign src = "Tracking,Video" | split: "," -%}
+{%- assign eng = "One model,Evidence + decoder,Experts + gate,Segment referee" | split: "," -%}
+{%- assign hard = "One clock,Cameras,Identities,Missing ball,Stoppages,Events" | split: "," -%}
+{%- assign hard_lit = "0,0,1,1,1,1" | split: "," -%}
+{%- assign prf = "Two metrics,Confidence,Open frontiers" | split: "," -%}
+<svg class="wm bp-ds" viewBox="0 0 960 470" role="group" aria-label="The design space of possession inference: sources of evidence, engines, the hard parts and proof, with the fielded route highlighted. Each column links to its family page.">
+  <style>
+    .bp-ds__col { transition: opacity .25s ease; cursor: pointer; }
+    .bp-ds__cols:hover .bp-ds__col, .bp-ds__cols:focus-within .bp-ds__col { opacity: .38; }
+    .bp-ds__cols .bp-ds__col:hover, .bp-ds__cols .bp-ds__col:focus { opacity: 1; }
+    .bp-ds__col:hover .bp-ds__frame, .bp-ds__col:focus .bp-ds__frame { stroke: var(--sh-lime); stroke-opacity: 1; }
+    .bp-ds__col:focus { outline: none; }
+    .bp-ds__frame { fill: rgba(255, 255, 255, .035); stroke: rgba(233, 237, 245, .28); stroke-width: 1.5; transition: stroke .25s ease; }
+    .bp-ds__hit { fill: transparent; pointer-events: all; }
+    .bp-ds__truth { cursor: pointer; }
+    .bp-ds__truth-box { stroke: var(--sh-lime); transition: fill .25s ease; }
+    .bp-ds__truth:hover .bp-ds__truth-box, .bp-ds__truth:focus .bp-ds__truth-box { fill: rgba(196, 240, 0, .18); }
+    .bp-ds__truth:focus { outline: none; }
+  </style>
+
+  <g class="wm-ln" stroke-width="1.5">
+    <path d="M196 148C226 148 216 132 246 132M196 208C226 208 216 132 246 132M196 268C226 268 216 252 246 252M196 268C226 268 216 312 246 312"/>
+    <path d="M430 132C452 132 446 190 468 190M430 252C452 252 446 190 468 190M430 312C452 312 446 190 468 190"/>
+    <path d="M706 190C730 190 722 192 746 192M706 190C730 190 722 252 746 252"/>
+  </g>
+
+  <g class="bp-ds__cols">
+    <a class="bp-ds__col" href="{{ '/architecture/map/' | relative_url }}" aria-label="The map: where the evidence comes from">
+      <rect class="bp-ds__hit" x="20" y="24" width="190" height="326"/>
+      <rect class="bp-ds__frame" x="26" y="30" width="178" height="314" rx="14"/>
+      <text x="42" y="60" class="wm-t--disp wm-t--lime" style="font-size:20px">01</text>
+      <text x="74" y="60" class="wm-t--s">The map</text>
+      <text x="42" y="82" class="wm-t--xs wm-t--dim">Where evidence</text>
+      <text x="42" y="97" class="wm-t--xs wm-t--dim">comes from</text>
+      {%- for n in src %}{% assign y = forloop.index0 | times: 60 | plus: 128 %}
+      <rect class="wm-node" x="40" y="{{ y }}" width="150" height="40" rx="9"/>
+      <text x="115" y="{{ y | plus: 25 }}" text-anchor="middle" class="wm-t--s">{{ n }}</text>
+      {%- endfor %}
+    </a>
+
+    <a class="bp-ds__col" href="{{ '/architecture/engine/' | relative_url }}" aria-label="The engine: how evidence becomes a sequence">
+      <rect class="bp-ds__hit" x="232" y="24" width="212" height="326"/>
+      <rect class="bp-ds__frame" x="238" y="30" width="200" height="314" rx="14"/>
+      <text x="254" y="60" class="wm-t--disp wm-t--lime" style="font-size:20px">02</text>
+      <text x="286" y="60" class="wm-t--s">The engine</text>
+      <text x="254" y="82" class="wm-t--xs wm-t--dim">How evidence becomes</text>
+      <text x="254" y="97" class="wm-t--xs wm-t--dim">one sequence</text>
+      {%- for n in eng %}{% assign y = forloop.index0 | times: 60 | plus: 112 %}
+      <rect class="wm-node" x="250" y="{{ y }}" width="176" height="40" rx="9"/>
+      <text x="338" y="{{ y | plus: 25 }}" text-anchor="middle" class="wm-t--xs">{{ n }}</text>
+      {%- endfor %}
+    </a>
+
+    <a class="bp-ds__col" href="{{ '/architecture/hard-parts/' | relative_url }}" aria-label="The hard parts: what breaks a design in a real match">
+      <rect class="bp-ds__hit" x="460" y="24" width="252" height="326"/>
+      <rect class="bp-ds__frame" x="466" y="30" width="240" height="314" rx="14"/>
+      <text x="482" y="60" class="wm-t--disp wm-t--lime" style="font-size:20px">03</text>
+      <text x="514" y="60" class="wm-t--s">The hard parts</text>
+      <text x="482" y="82" class="wm-t--xs wm-t--dim">What breaks a design</text>
+      <text x="482" y="97" class="wm-t--xs wm-t--dim">in a real match</text>
+      {%- for n in hard %}{% assign col = forloop.index0 | modulo: 2 %}{% assign row = forloop.index0 | divided_by: 2 %}{% assign x = col | times: 112 | plus: 478 %}{% assign y = row | times: 60 | plus: 128 %}
+      <rect class="wm-node" x="{{ x }}" y="{{ y }}" width="104" height="40" rx="9"/>
+      <text x="{{ x | plus: 52 }}" y="{{ y | plus: 24 }}" text-anchor="middle" class="wm-t--xs wm-t--tight">{{ n }}</text>
+      {%- endfor %}
+    </a>
+
+    <a class="bp-ds__col" href="{{ '/architecture/proof/' | relative_url }}" aria-label="Proof: how a design earns belief">
+      <rect class="bp-ds__hit" x="734" y="24" width="206" height="326"/>
+      <rect class="bp-ds__frame" x="740" y="30" width="194" height="314" rx="14"/>
+      <text x="756" y="60" class="wm-t--disp wm-t--lime" style="font-size:20px">04</text>
+      <text x="788" y="60" class="wm-t--s">Proof</text>
+      <text x="756" y="82" class="wm-t--xs wm-t--dim">How a design</text>
+      <text x="756" y="97" class="wm-t--xs wm-t--dim">earns belief</text>
+      {%- for n in prf %}{% assign y = forloop.index0 | times: 60 | plus: 112 %}
+      <rect class="wm-node" x="754" y="{{ y }}" width="166" height="40" rx="9"/>
+      <text x="837" y="{{ y | plus: 25 }}" text-anchor="middle" class="wm-t--xs">{{ n }}</text>
+      {%- endfor %}
+    </a>
+  </g>
+
+  <a class="bp-ds__truth" href="{{ '/architecture/single-source-of-truth/' | relative_url }}" aria-label="The single source of truth: video frames and both tracking feeds reconciled into one match state">
+    <rect class="wm-node bp-ds__truth-box" x="40" y="248" width="150" height="56" rx="9" stroke-dasharray="5 5"/>
+    <text x="115" y="272" text-anchor="middle" class="wm-t--xs wm-t--tight wm-t--lime">One source</text>
+    <text x="115" y="290" text-anchor="middle" class="wm-t--xs wm-t--tight wm-t--lime">of truth</text>
+  </a>
+
+  <g pointer-events="none">
+    <path class="wm-ln wm-ln--lime wm-ln--bold" d="M190 148C226 148 214 192 250 192"/>
+    <path class="wm-ln wm-ln--lime wm-ln--bold" d="M426 192C450 192 452 208 478 208"/>
+    <path class="wm-ln wm-ln--lime wm-ln--bold" d="M694 208C722 208 726 132 754 132"/>
+    <path class="wm-ln wm-ln--lime wm-ln--bold" d="M920 132H944V396"/>
+    <path class="wm-flow wm-flow--white" d="M190 148C226 148 214 192 250 192" pathLength="100" style="--dur:2.6s"/>
+    <path class="wm-flow wm-flow--white" d="M426 192C450 192 452 208 478 208" pathLength="100" style="--dur:2.6s;--delay:-.65s"/>
+    <path class="wm-flow wm-flow--white" d="M694 208C722 208 726 132 754 132" pathLength="100" style="--dur:2.6s;--delay:-1.3s"/>
+    <path class="wm-flow wm-flow--white" d="M920 132H944V396" pathLength="100" style="--dur:2.6s;--delay:-1.95s"/>
+
+    <rect class="wm-ring wm-pulse" x="40" y="128" width="150" height="40" rx="9" style="--lo:.5;--i:0"/>
+    <rect class="wm-ring wm-pulse" x="250" y="172" width="176" height="40" rx="9" style="--lo:.5;--i:2"/>
+    {%- for n in hard %}{% if hard_lit[forloop.index0] == "1" %}{% assign col = forloop.index0 | modulo: 2 %}{% assign row = forloop.index0 | divided_by: 2 %}{% assign x = col | times: 112 | plus: 478 %}{% assign y = row | times: 60 | plus: 128 %}
+    <rect class="wm-ring wm-pulse" x="{{ x }}" y="{{ y }}" width="104" height="40" rx="9" style="--lo:.5;--i:{{ forloop.index0 | plus: 3 }}"/>
+    {%- endif %}{% endfor %}
+    <rect class="wm-ring wm-pulse" x="754" y="112" width="166" height="40" rx="9" style="--lo:.5;--i:9"/>
+  </g>
+
+  <a href="{{ '/architecture/fielded/' | relative_url }}" aria-label="On the pitch: the route the squad fielded">
+    <rect class="bp-ds__hit" x="20" y="366" width="924" height="84"/>
+    <path class="wm-ln wm-ln--lime wm-ln--bold" d="M40 384H76"/>
+    <text x="86" y="389" class="wm-t--xs wm-t--lime">On the pitch: the route we fielded</text>
+    <text x="930" y="389" text-anchor="end" class="wm-t--xs wm-t--dim">One state on every frame</text>
+    <rect class="wm-h" x="40" y="404" width="262" height="34" rx="6"/>
+    <rect class="wm-d" x="304" y="404" width="92" height="34" rx="6"/>
+    <rect class="wm-a" x="398" y="404" width="198" height="34" rx="6"/>
+    <rect class="wm-h" x="598" y="404" width="118" height="34" rx="6"/>
+    <rect class="wm-d" x="718" y="404" width="50" height="34" rx="6"/>
+    <rect class="wm-a" x="770" y="404" width="164" height="34" rx="6"/>
+    <g transform="translate(934 0)"><g class="wm-travel" style="--fx:-894px;--dur:7s"><path class="wm-ln wm-ln--white" stroke-width="3" d="M0 398V444"/></g></g>
+  </a>
+</svg>

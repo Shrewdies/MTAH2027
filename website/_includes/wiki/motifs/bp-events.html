@@ -1,0 +1,30 @@
+{%- comment -%}
+  Architecture motif: events are not possession. Sparse events drop onto a dense possession strip. Three of them change
+  its colour; three do not. The bracket shows how wide a one-second spotting tolerance is at 25 frames a second.
+  Synthetic. Motion: transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+{%- assign ev = "92|Touch|0|176|Deflection|0|262|Tackle|1|356|Header|0|446|Ball out|1|540|Restart|1" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="40" class="wm-t--xs wm-t--dim">Events: moments</text>
+  {%- for i in (0..5) %}{% assign k = i | times: 3 %}{% assign x = ev[k] | plus: 0 %}{% assign k1 = k | plus: 1 %}{% assign k2 = k | plus: 2 %}
+  <g class="wm-pop" style="--i:{{ i }};--step:.8s;--dur:8s">
+    <path class="wm-ln {% if ev[k2] == '1' %}wm-ln--lime{% else %}wm-ln--dash{% endif %}" d="M{{ x }} 96V{% if ev[k2] == '1' %}232{% else %}176{% endif %}"/>
+    <circle class="{% if ev[k2] == '1' %}wm-lime{% else %}wm-node{% endif %}" cx="{{ x }}" cy="84" r="11"/>
+    <text x="{{ x }}" y="64" text-anchor="middle" class="wm-t--xs{% if ev[k2] == '1' %} wm-t--lime{% endif %}">{{ ev[k1] }}</text>
+    {%- unless ev[k2] == '1' %}
+    <text x="{{ x }}" y="196" text-anchor="middle" class="wm-t--xs wm-t--dim">No change</text>
+    {%- endunless %}
+  </g>
+  {%- endfor %}
+
+  <text x="24" y="226" class="wm-t--xs wm-t--dim">Possession: every frame</text>
+  <rect class="wm-h" x="24" y="236" width="236" height="40" rx="6"/>
+  <rect class="wm-a" x="262" y="236" width="182" height="40" rx="6"/>
+  <rect class="wm-d" x="446" y="236" width="92" height="40" rx="6"/>
+  <rect class="wm-a" x="540" y="236" width="76" height="40" rx="6"/>
+  <g transform="translate(616 0)"><g class="wm-travel" style="--fx:-592px;--dur:8s"><path class="wm-ln wm-ln--white" stroke-width="3" d="M0 230V282"/></g></g>
+
+  <path class="wm-ln wm-ln--lime" d="M212 300V312H312V300M262 312V326"/>
+  <text x="262" y="344" text-anchor="middle" class="wm-t--xs wm-t--lime">&#177; 1 s = 50 frames</text>
+  <text x="24" y="374" class="wm-t--xs wm-t--dim">A spotter names the second. The boundary is one frame inside it.</text>
+</svg>

@@ -1,0 +1,38 @@
+{%- comment -%}
+  Architecture motif: the pixel pipeline. Five stages between a video frame and a pitch coordinate; the bar above
+  each stage shows certainty draining stage by stage, and the last step, from a ball position to a possession state,
+  is still open. Bar heights are illustrative, not measurements. Motion: transform, opacity, stroke-dashoffset only.
+{%- endcomment -%}
+{%- assign stages = "Detect|Track|Calibrate|Project|Spot" | split: "|" -%}
+{%- assign hs = "104|88|70|54|40" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="40" class="wm-t--xs wm-t--dim">Certainty left after each stage</text>
+
+  <rect class="wm-panel" x="24" y="196" width="84" height="64" rx="8"/>
+  <path class="wm-ln" d="M32 240L100 222M32 216L100 206" stroke-width="1.5"/>
+  <rect class="wm-box" x="48" y="212" width="16" height="26" rx="2" stroke-width="2"/>
+  <rect class="wm-box" x="76" y="224" width="9" height="9" rx="2" stroke="#fff" stroke-width="2"/>
+  <text x="66" y="282" text-anchor="middle" class="wm-t--xs">Frame</text>
+
+  <path class="wm-ln wm-ln--bold" d="M108 228H536"/>
+  <path class="wm-flow" d="M108 228H536" pathLength="100" style="--dur:4.5s"/>
+
+  {%- for s in stages %}{% assign x = forloop.index0 | times: 84 | plus: 150 %}{% assign hh = hs[forloop.index0] | plus: 0 %}
+  <rect class="wm-ln" x="{{ x | minus: 14 }}" y="60" width="28" height="104" rx="5" stroke-width="1.5"/>
+  <rect class="{% if forloop.index0 < 2 %}wm-lime{% elsif forloop.index0 < 4 %}wm-white{% else %}wm-a{% endif %} wm-grow" x="{{ x | minus: 14 }}" y="{{ 164 | minus: hh }}" width="28" height="{{ hh }}" rx="5" style="--i:{{ forloop.index0 }};--step:.55s;--dur:7s"/>
+  <circle class="wm-node" cx="{{ x }}" cy="228" r="24"/>
+  <circle class="wm-ring wm-lit" cx="{{ x }}" cy="228" r="24" stroke-width="3" style="--p:{{ forloop.index0 | times: 0.2 }};--lo:0;--dur:4.5s"/>
+  <text x="{{ x }}" y="236" text-anchor="middle" class="wm-t--disp wm-t--num" style="font-size:20px">{{ forloop.index | prepend: "0" }}</text>
+  <text x="{{ x }}" y="282" text-anchor="middle" class="wm-t--xs">{{ s }}</text>
+  {%- endfor %}
+
+  <rect class="wm-panel" x="536" y="196" width="84" height="64" rx="8"/>
+  <path class="wm-ln" d="M578 196V260" stroke-width="1.5"/><circle class="wm-ln" cx="578" cy="228" r="11" stroke-width="1.5"/>
+  <circle class="wm-lime wm-pulse" cx="596" cy="216" r="5" style="--lo:.3"/>
+  <text x="578" y="282" text-anchor="middle" class="wm-t--xs">Pitch point</text>
+
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M578 290V326M572 318l6 8 6-8"/>
+  <rect class="wm-ln wm-ln--dash" x="24" y="330" width="596" height="44" rx="8"/>
+  <text x="40" y="357" class="wm-t--xs">A ball position is not a possession state</text>
+  <text x="604" y="358" text-anchor="end" class="wm-t--s wm-t--lime wm-blink">H ? A ? D</text>
+</svg>

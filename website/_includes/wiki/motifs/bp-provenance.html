@@ -1,0 +1,43 @@
+{%- comment -%}
+  Architecture motif: confidence and provenance. Three dials that are never averaged (observation, alignment, model)
+  write into one frame record; an answer-bearing field is walled off from the features. Synthetic.
+  Motion: transform (needle swing), opacity and stroke-dashoffset only.
+{%- endcomment -%}
+{%- assign dials = "Observation|Was it seen?|-58|-38|Alignment|Same instant?|8|30|Model|Which state?|-20|52" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="24" y="36" class="wm-t--xs wm-t--dim">Three doubts, never averaged</text>
+  {%- for i in (0..2) %}{% assign k = i | times: 4 %}{% assign k1 = k | plus: 1 %}{% assign k2 = k | plus: 2 %}{% assign k3 = k | plus: 3 %}{% assign cx = i | times: 124 | plus: 78 %}
+  <path class="wm-ln wm-ln--bold" d="M{{ cx | minus: 46 }} 120A46 46 0 0 1 {{ cx | plus: 46 }} 120"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M{{ cx | minus: 46 }} 120A46 46 0 0 1 {{ cx }} 74" opacity=".8"/>
+  <g transform="translate({{ cx }} 120)"><g class="wm-swing" style="--from:{{ dials[k2] }}deg;--to:{{ dials[k3] }}deg;--dur:{{ i | plus: 3 }}s"><path class="wm-ln wm-ln--white wm-ln--bold" d="M0 0V-38"/></g><circle class="wm-white" r="6"/></g>
+  <text x="{{ cx }}" y="148" text-anchor="middle" class="wm-t--xs">{{ dials[k] }}</text>
+  <text x="{{ cx }}" y="166" text-anchor="middle" class="wm-t--xs wm-t--dim">{{ dials[k1] }}</text>
+  <path class="wm-ln" d="M{{ cx }} 176V196H400"/>
+  <path class="wm-flow" d="M{{ cx }} 176V196H400" pathLength="100" style="--dur:3s;--delay:-{{ i }}s"/>
+  {%- endfor %}
+
+  <text x="400" y="36" class="wm-t--xs wm-t--lime">One frame, on record</text>
+  <rect class="wm-node" x="400" y="50" width="216" height="182" rx="10"/>
+  {%- assign rec = "Source|Tracking|Native frame|Kept|Observed?|Imputed|Clock error|Carried|Model|Scores" | split: "|" -%}
+  {%- for i in (0..4) %}{% assign k = i | times: 2 %}{% assign k1 = k | plus: 1 %}{% assign y = i | times: 32 | plus: 78 %}
+  <text x="414" y="{{ y }}" class="wm-t--xs wm-t--dim">{{ rec[k] }}</text>
+  <text x="602" y="{{ y }}" text-anchor="end" class="wm-t--xs{% if i == 2 %} wm-t--lime{% endif %}">{{ rec[k1] }}</text>
+  {%- unless forloop.last %}<path class="wm-ln" d="M414 {{ y | plus: 10 }}H602" stroke-width="1"/>{% endunless %}
+  {%- endfor %}
+
+  <rect class="wm-panel" x="24" y="226" width="356" height="72" rx="9"/>
+  <text x="44" y="256" class="wm-t--xs">This frame</text>
+  <text x="44" y="281" class="wm-t--s wm-t--lime wm-blink">Ambiguous</text>
+  <text x="176" y="280" class="wm-t--xs wm-t--dim">Flagged, not rounded up</text>
+  <path class="wm-ln" d="M508 232V262H380M388 256l-8 6 8 6"/>
+  <path class="wm-flow" d="M508 232V262H380" pathLength="100" style="--dur:3s"/>
+
+  <path class="wm-ln wm-ln--dash" d="M24 322H616" stroke-width="1.5"/>
+  <rect class="wm-node" x="24" y="340" width="176" height="38" rx="8" style="stroke:var(--sh-garnet-bright)"/>
+  <text x="112" y="364" text-anchor="middle" class="wm-t--xs">Answer fields</text>
+  <path class="wm-ln wm-ln--dash" d="M200 359H400"/>
+  <path class="wm-ln wm-ln--a wm-ln--bold" d="M300 334V384"/>
+  <text x="312" y="346" class="wm-t--xs wm-t--dim">The wall</text>
+  <rect class="wm-node" x="440" y="340" width="176" height="38" rx="8"/>
+  <text x="528" y="364" text-anchor="middle" class="wm-t--xs">Features</text>
+</svg>

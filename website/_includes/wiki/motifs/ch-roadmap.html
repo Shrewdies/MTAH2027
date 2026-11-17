@@ -1,0 +1,128 @@
+{%- comment -%}
+  Challenges motif: the roadmap route. Three bands (shipped, in development, on the horizon), twelve stations and a
+  ball running the route. Self-contained inline SVG. Motion uses transform, opacity and stroke-dashoffset only; with
+  reduced motion the still frame shows the ball parked at "now".
+    {% include wiki/motifs/ch-roadmap.html %}
+{%- endcomment -%}
+<figure class="ch-rm">
+<style>
+.ch-rm { margin: 0; }
+.ch-rm svg { display: block; width: 100%; height: auto; border-radius: var(--sh-radius-m, 14px); }
+.ch-rm text { font-family: var(--sh-font-mono, ui-monospace, Consolas, monospace); fill: #FFFFFF; }
+.ch-rm .ch-rm__band { font-family: var(--sh-font-display, "Arial Narrow", sans-serif); font-weight: 800; font-size: 22px; letter-spacing: 0.06em; }
+.ch-rm .ch-rm__band--now { fill: #C4F000; }
+.ch-rm .ch-rm__sub { font-size: 9.5px; letter-spacing: 0.14em; opacity: 0.78; }
+.ch-rm .ch-rm__lbl { font-size: 10.5px; letter-spacing: 0.02em; }
+.ch-rm .ch-rm__now { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; fill: #0A1F44; }
+.ch-rm__march { animation: ch-rm-march 1.6s linear infinite; }
+.ch-rm__ring { transform-box: fill-box; transform-origin: center; animation: ch-rm-ring 2.8s ease-out infinite; animation-delay: calc(var(--i) * 0.45s); opacity: 0; }
+.ch-rm__core { animation: ch-rm-core 2.8s ease-in-out infinite; animation-delay: calc(var(--i) * 0.45s); }
+.ch-rm__far { animation: ch-rm-far 4.5s ease-in-out infinite; animation-delay: calc(var(--i) * 0.7s); }
+.ch-rm__runner { animation: ch-rm-run 9s cubic-bezier(0.45, 0, 0.3, 1) infinite; }
+.ch-rm__tick { stroke-dasharray: 14; stroke-dashoffset: 0; animation: ch-rm-tick 9s ease-out infinite; animation-delay: calc(var(--i) * 0.28s); }
+.ch-rm__cap { margin: 0.7rem 0.5rem 0.25rem; color: var(--sh-white, #fff); font-size: var(--sh-step--1, 0.88rem); }
+@keyframes ch-rm-march { to { stroke-dashoffset: -36; } }
+@keyframes ch-rm-ring { 0% { transform: scale(0.6); opacity: 0.9; } 70%, 100% { transform: scale(2.3); opacity: 0; } }
+@keyframes ch-rm-core { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes ch-rm-far { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+@keyframes ch-rm-run {
+  0% { transform: translateX(-300px); opacity: 0; }
+  6% { opacity: 1; }
+  34% { transform: translateX(0); opacity: 1; }
+  82% { transform: translateX(262px); opacity: 1; }
+  92%, 100% { transform: translateX(300px); opacity: 0; }
+}
+@keyframes ch-rm-tick { 0% { stroke-dashoffset: 14; } 6%, 100% { stroke-dashoffset: 0; } }
+@media (max-width: 620px) { .ch-rm .ch-rm__lbl { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .ch-rm__march, .ch-rm__ring, .ch-rm__core, .ch-rm__far, .ch-rm__runner, .ch-rm__tick { animation: none !important; }
+}
+</style>
+<svg viewBox="0 0 800 330" role="img" aria-labelledby="ch-rm-title ch-rm-desc" focusable="false">
+  <title id="ch-rm-title">The Shrewdies roadmap</title>
+  <desc id="ch-rm-desc">A route in three bands. Shipped: evidence decoder, external validation, pinned container, technical report, knowledge hub. In development: the hidden ball, on-device vision, learned evidence, duration-aware decoding. On the horizon: confidence and provenance, labels to language, interactive timelines. A ball runs the shipped stretch and pushes into the stretch in development.</desc>
+  <defs>
+    <linearGradient id="ch-rm-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#004D98"/><stop offset="0.55" stop-color="#4D44A6"/><stop offset="1" stop-color="#A50044"/>
+    </linearGradient>
+    <radialGradient id="ch-rm-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#E2FF5C" stop-opacity="0.9"/><stop offset="1" stop-color="#C4F000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="330" rx="14" fill="url(#ch-rm-bg)"/>
+  <g fill="none" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="2">
+    <rect x="14" y="14" width="772" height="302" rx="6"/>
+    <path d="M400 14V316"/><circle cx="400" cy="165" r="62"/>
+    <path d="M14 95H74V235H14M786 95H726V235H786"/>
+  </g>
+  <rect x="14" y="14" width="321" height="302" fill="#0A1F44" fill-opacity="0.34"/>
+  <rect x="335" y="14" width="275" height="302" fill="#0A1F44" fill-opacity="0.18"/>
+
+  <text class="ch-rm__band" x="38" y="58">SHIPPED</text>
+  <text class="ch-rm__sub" x="38" y="76">ON THE PITCH</text>
+  <text class="ch-rm__band ch-rm__band--now" x="356" y="58">IN DEVELOPMENT</text>
+  <text class="ch-rm__sub" x="356" y="76">ENGINES WARMING UP</text>
+  <text class="ch-rm__band" x="630" y="58">HORIZON</text>
+  <text class="ch-rm__sub" x="630" y="76">NEXT IN LINE</text>
+
+  <path d="M335 92V300M610 92V300" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="1.5" stroke-dasharray="3 7" fill="none"/>
+
+  <path d="M35 185H335" stroke="#C4F000" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path class="ch-rm__march" d="M335 185H610" stroke="#C4F000" stroke-width="4" stroke-dasharray="10 8" fill="none"/>
+  <path d="M610 185H772" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="3" stroke-dasharray="1 9" stroke-linecap="round" fill="none"/>
+  <path d="M764 177l10 8-10 8" stroke="#FFFFFF" stroke-opacity="0.7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+  <g>
+    <g transform="translate(55 185)"><circle r="10" fill="#C4F000"/><path class="ch-rm__tick" style="--i:0" d="M-4.5 0.5l3 3.2 6-6.6" stroke="#0A1F44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+    <g transform="translate(118 185)"><circle r="10" fill="#C4F000"/><path class="ch-rm__tick" style="--i:1" d="M-4.5 0.5l3 3.2 6-6.6" stroke="#0A1F44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+    <g transform="translate(181 185)"><circle r="10" fill="#C4F000"/><path class="ch-rm__tick" style="--i:2" d="M-4.5 0.5l3 3.2 6-6.6" stroke="#0A1F44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+    <g transform="translate(244 185)"><circle r="10" fill="#C4F000"/><path class="ch-rm__tick" style="--i:3" d="M-4.5 0.5l3 3.2 6-6.6" stroke="#0A1F44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+    <g transform="translate(307 185)"><circle r="10" fill="#C4F000"/><path class="ch-rm__tick" style="--i:4" d="M-4.5 0.5l3 3.2 6-6.6" stroke="#0A1F44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+  </g>
+  <g>
+    <text class="ch-rm__lbl" x="55" y="160" text-anchor="middle">Decoder</text>
+    <text class="ch-rm__lbl" x="118" y="218" text-anchor="middle">Validation</text>
+    <text class="ch-rm__lbl" x="181" y="160" text-anchor="middle">Container</text>
+    <text class="ch-rm__lbl" x="244" y="218" text-anchor="middle">Report</text>
+    <text class="ch-rm__lbl" x="307" y="160" text-anchor="middle">Hub</text>
+  </g>
+
+  <g>
+    <g transform="translate(378 185)"><circle class="ch-rm__ring" style="--i:0" r="10" fill="none" stroke="#C4F000" stroke-width="2"/><circle r="10" fill="#0A1F44" stroke="#C4F000" stroke-width="3"/><circle class="ch-rm__core" style="--i:0" r="4" fill="#C4F000"/></g>
+    <g transform="translate(443 185)"><circle class="ch-rm__ring" style="--i:1" r="10" fill="none" stroke="#C4F000" stroke-width="2"/><circle r="10" fill="#0A1F44" stroke="#C4F000" stroke-width="3"/><circle class="ch-rm__core" style="--i:1" r="4" fill="#C4F000"/></g>
+    <g transform="translate(508 185)"><circle class="ch-rm__ring" style="--i:2" r="10" fill="none" stroke="#C4F000" stroke-width="2"/><circle r="10" fill="#0A1F44" stroke="#C4F000" stroke-width="3"/><circle class="ch-rm__core" style="--i:2" r="4" fill="#C4F000"/></g>
+    <g transform="translate(573 185)"><circle class="ch-rm__ring" style="--i:3" r="10" fill="none" stroke="#C4F000" stroke-width="2"/><circle r="10" fill="#0A1F44" stroke="#C4F000" stroke-width="3"/><circle class="ch-rm__core" style="--i:3" r="4" fill="#C4F000"/></g>
+  </g>
+  <g>
+    <text class="ch-rm__lbl" x="378" y="160" text-anchor="middle">Hidden ball</text>
+    <text class="ch-rm__lbl" x="443" y="218" text-anchor="middle">On-device vision</text>
+    <text class="ch-rm__lbl" x="508" y="160" text-anchor="middle">Learned evidence</text>
+    <text class="ch-rm__lbl" x="573" y="218" text-anchor="middle">Duration decode</text>
+  </g>
+
+  <g fill="#0A1F44" fill-opacity="0.55" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="3 3.3">
+    <circle class="ch-rm__far" style="--i:0" cx="646" cy="185" r="9"/>
+    <circle class="ch-rm__far" style="--i:1" cx="696" cy="185" r="9"/>
+    <circle class="ch-rm__far" style="--i:2" cx="746" cy="185" r="9"/>
+  </g>
+  <g>
+    <text class="ch-rm__lbl" x="646" y="160" text-anchor="middle">Confidence</text>
+    <text class="ch-rm__lbl" x="696" y="218" text-anchor="middle">Language</text>
+    <text class="ch-rm__lbl" x="746" y="160" text-anchor="middle">Timelines</text>
+  </g>
+
+  <g transform="translate(335 185)">
+    <g transform="translate(0 78)">
+      <path d="M0 -14l7 9h-14z" fill="#C4F000"/>
+      <rect x="-24" y="-5" width="48" height="19" rx="9.5" fill="#C4F000"/>
+      <text class="ch-rm__now" x="0" y="8.5" text-anchor="middle">NOW</text>
+    </g>
+    <g class="ch-rm__runner">
+      <circle r="20" fill="url(#ch-rm-glow)"/>
+      <circle r="7.5" fill="#FFFFFF" stroke="#0A1F44" stroke-opacity="0.35" stroke-width="1.5"/>
+      <path d="M-4.5 -1.5c2.6 2.4 6 2.4 9 -1" stroke="#C4F000" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    </g>
+  </g>
+</svg>
+<figcaption class="ch-rm__cap">Five pieces shipped, four engines in development, three on the horizon. The Innovative Challenge brief decides where the ball goes next.</figcaption>
+</figure>

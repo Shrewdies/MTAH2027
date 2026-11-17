@@ -1,0 +1,43 @@
+{%- comment -%}
+  The squad as link cards to each member page, in shirt-number order. Styles: assets/members/member.css.
+{%- endcomment -%}
+{%- assign team = site.data.team -%}
+{%- assign members = team.members | sort: "number" -%}
+{%- assign flag_dir = '/assets/flags/' | relative_url -%}
+<ol class="mh" role="list">
+  {%- for m in members %}
+  {%- assign photo_base = '/assets/team/' | append: m.slug -%}
+  {%- assign webp_path = photo_base | append: '.webp' -%}
+  {%- assign png_path = photo_base | append: '.png' -%}
+  {%- assign has_webp = site.static_files | where: "path", webp_path | first -%}
+  {%- assign has_png = site.static_files | where: "path", png_path | first %}
+  <li class="mh-card">
+    <span class="mh-card__num" aria-hidden="true">{{ m.number }}</span>
+    <div class="mh-card__photo" aria-hidden="true">
+      <span class="mh-card__ring"></span>
+      {%- if has_webp or has_png %}
+      <picture>
+        {%- if has_webp and has_png %}<source srcset="{{ webp_path | relative_url }}" type="image/webp">{% endif %}
+        <img src="{% if has_png %}{{ png_path | relative_url }}{% else %}{{ webp_path | relative_url }}{% endif %}" alt="" width="800" height="1000" loading="lazy" decoding="async">
+      </picture>
+      {%- else %}
+      <img src="{{ '/assets/team/placeholder.svg' | relative_url }}" alt="" width="600" height="750" loading="lazy">
+      {%- endif %}
+    </div>
+    <div class="mh-card__body">
+      <p class="mh-card__kicker"><b>{% if m.badge %}{{ m.badge }}{% else %}No. {{ m.number }}{% endif %}</b>{{ m.alias }}</p>
+      <h3 class="mh-card__name"><a href="{{ '/team/' | append: m.slug | append: '/' | relative_url }}">{{ m.name }}</a></h3>
+      <p class="mh-card__headline">{{ m.headline }}</p>
+      {%- if m.focus %}
+      <ul class="mh-card__tags" role="list">{% for f in m.focus %}<li>{{ f }}</li>{% endfor %}</ul>
+      {%- endif %}
+      <div class="mh-card__foot">
+        <span class="mh-card__flags"><span class="mh-card__flags-label">Cultures</span>
+          {%- for l in m.languages %}{% assign lang = team.languages[l] %}<img src="{{ flag_dir }}{{ lang.flag }}.svg" alt="{{ lang.name }}" title="{{ lang.name }}" width="22" height="16">{% endfor %}
+        </span>
+        <span class="mh-card__go" aria-hidden="true">View profile <span>&rarr;</span></span>
+      </div>
+    </div>
+  </li>
+  {%- endfor %}
+</ol>

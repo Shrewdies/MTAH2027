@@ -1,0 +1,16 @@
+{%- comment -%} Datasets family "detection, calibration and synthetic": the same pixel error is a different error in metres. In a wide view, two pixels near the camera are centimetres on the grass; two pixels at the far touchline are about a metre. Synthetic. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text class="wm-t--s" x="50" y="56">Image</text><text class="wm-t--s" x="380" y="56">Pitch</text>
+  <path class="wm-pitch" d="M50 280H310L250 100H110Z"/><path class="wm-pitch" d="M180 100V280M80 190H280"/>
+  <text class="wm-t--xs wm-t--dim" x="110" y="90">Far touchline</text>
+  <rect class="wm-box wm-pulse" x="172" y="104" width="12" height="12" style="--lo:.5"/><text class="wm-t--xs" x="194" y="115">2 px</text>
+  <rect class="wm-box wm-pulse" x="172" y="254" width="12" height="12" style="--lo:.5"/><text class="wm-t--xs" x="194" y="265">2 px</text>
+  <rect class="wm-pitch" x="380" y="80" width="220" height="200" rx="4"/><path class="wm-pitch" d="M380 180H600"/><circle class="wm-pitch" cx="490" cy="180" r="26"/>
+  <path class="wm-ln wm-ln--dash" d="M186 110C300 60 390 84 458 110M186 260C300 310 400 300 482 262"/>
+  <path class="wm-flow" pathLength="100" d="M186 110C300 60 390 84 458 110"/><path class="wm-flow" pathLength="100" d="M186 260C300 310 400 300 482 262" style="--delay:-1.3s"/>
+  <g class="wm-breathe" style="--s:1.08"><path class="wm-ln wm-ln--lime wm-ln--bold" d="M460 110H520M460 101V119M520 101V119"/></g>
+  <text class="wm-t--s wm-t--lime" x="490" y="142" text-anchor="middle">A metre</text>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M486 262H494"/>
+  <text class="wm-t--s" x="490" y="246" text-anchor="middle">Centimetres</text>
+  <text class="wm-t--s wm-t--dim" x="50" y="336">Same error in pixels</text><text class="wm-t--s wm-t--lime" x="380" y="336">Not the same in metres</text>
+</svg>

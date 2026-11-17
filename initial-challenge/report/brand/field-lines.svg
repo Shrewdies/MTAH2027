@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-labelledby="t d">
+  <title id="t">Field lines</title>
+  <desc id="d">A pitch seen at an angle, drawn in thin violet lines, with two passing lanes, a curved ball path and centre-circle echoes. Transparent background: works over dark or light.</desc>
+  <style>
+    .pitch { fill: none; stroke: #6E4C9F; stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+    .echo { fill: none; stroke: #B9A2D8; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .lane { fill: none; stroke: #C4F000; stroke-width: 2; stroke-dasharray: 4 9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .path { fill: none; stroke: #C4F000; stroke-width: 2.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .home { fill: #004D98; stroke: #B9A2D8; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+    .away { fill: #A50044; stroke: #B9A2D8; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+  </style>
+
+  <!-- Centre-circle echoes from the top-right corner -->
+  <g class="echo">
+    <circle cx="1600" cy="0" r="240" opacity=".5"/>
+    <circle cx="1600" cy="0" r="380" opacity=".32"/>
+    <circle cx="1600" cy="0" r="540" opacity=".18"/>
+    <circle cx="1600" cy="0" r="720" opacity=".1"/>
+  </g>
+
+  <!-- Pitch, 105 x 68 m at 10 units per metre, squashed and turned for an oblique view -->
+  <g transform="translate(800 480) rotate(-11) scale(1.18 .56)">
+    <g class="pitch">
+      <rect x="-525" y="-340" width="1050" height="680"/>
+      <path d="M0 -340V340"/>
+      <circle r="91.5"/>
+      <rect x="-525" y="-201.5" width="165" height="403"/>
+      <rect x="-525" y="-91.5" width="55" height="183"/>
+      <rect x="360" y="-201.5" width="165" height="403"/>
+      <rect x="470" y="-91.5" width="55" height="183"/>
+      <path d="M-360 -73.1A91.5 91.5 0 0 1 -360 73.1"/>
+      <path d="M360 -73.1A91.5 91.5 0 0 0 360 73.1"/>
+      <path d="M-525 -330A10 10 0 0 0 -515 -340M515 -340A10 10 0 0 0 525 -330M525 330A10 10 0 0 0 515 340M-515 340A10 10 0 0 0 -525 330"/>
+      <path d="M-525 -36.6H-549V36.6H-525M525 -36.6H549V36.6H525"/>
+    </g>
+    <circle r="4" fill="#B9A2D8"/>
+    <circle cx="-415" r="3.5" fill="#B9A2D8"/>
+    <circle cx="415" r="3.5" fill="#B9A2D8"/>
+
+    <!-- Passing lanes between three home players, then a long diagonal to the far side -->
+    <path class="lane" d="M-300 140L-120 -40L90 60"/>
+    <path class="path" d="M90 60C200 -260 330 -250 400 -120"/>
+    <circle class="home" cx="-300" cy="140" r="12"/>
+    <circle class="home" cx="-120" cy="-40" r="12"/>
+    <circle class="home" cx="90" cy="60" r="12"/>
+    <circle class="home" cx="400" cy="-120" r="12"/>
+    <circle class="away" cx="-40" cy="120" r="12"/>
+    <circle class="away" cx="180" cy="-60" r="12"/>
+    <circle class="away" cx="300" cy="-180" r="12"/>
+    <circle class="away" cx="440" cy="40" r="12"/>
+    <circle cx="400" cy="-120" r="6" fill="#C4F000"/>
+  </g>
+</svg>

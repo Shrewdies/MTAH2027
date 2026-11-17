@@ -1,0 +1,43 @@
+{%- assign links = site.team_links -%}
+<footer class="site-footer">
+  <div class="site-footer__stripes" aria-hidden="true"></div>
+  <div class="container site-footer__top">
+    <a class="site-footer__logo" href="{{ '/' | relative_url }}">
+      <span class="visually-hidden">{{ site.title }}, home</span>
+      <span aria-hidden="true">{% include logo.html variant="footer" %}</span>
+    </a>
+    <p class="site-footer__tag">{{ site.tagline }}. A football analytics team at More Than a Hack 2027.</p>
+  </div>
+  <div class="container site-footer__grid">
+    <div class="site-footer__col">
+      <h2 class="site-footer__h">Find us</h2>
+      <ul>
+        <li><span class="site-footer__label">Website</span><a href="{{ links.website }}">{{ links.website_label }}</a></li>
+        <li><span class="site-footer__label">GitHub</span><a href="{{ links.github }}">{{ links.github_label }}</a></li>
+        {%- if site.repository_url and site.repository_url != "" %}
+        <li><span class="site-footer__label">Code</span><a href="{{ site.repository_url }}">{{ site.repository_url | remove: "https://github.com/" }}</a></li>
+        {%- endif %}
+      </ul>
+    </div>
+    <nav class="site-footer__col" aria-label="Sections">
+      <h2 class="site-footer__h">Sections</h2>
+      <ul class="site-footer__sections">
+        {%- assign visible_sections = site.sections | where_exp: "s", "s.hidden != true" %}
+        {%- for section in visible_sections %}
+        <li><a href="{{ section.url | relative_url }}"><span aria-hidden="true">{{ section.kicker }}</span>{{ section.title }}</a></li>
+        {%- endfor %}
+        <li><a href="{{ '/brand/' | relative_url }}"><span aria-hidden="true">07</span>Brand</a></li>
+      </ul>
+    </nav>
+    <div class="site-footer__col">
+      <h2 class="site-footer__h">The hackathon</h2>
+      <ul>
+        <li><a href="{{ '/challenges/' | relative_url }}">Our challenge journey</a></li>
+        <li><a href="https://github.com/metrica-sports/more-than-a-hack-2027">More Than a Hack 2027 challenge repository</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container site-footer__legal">
+    <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}. Code under the MIT licence. Club colours are referenced as colour only; no club or company marks are used.</p>
+  </div>
+</footer>

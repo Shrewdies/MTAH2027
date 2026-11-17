@@ -1,0 +1,24 @@
+{%- comment -%}
+  Article cards for the "Why our specialization matters" hub. Articles are _team docs with `why_order`.
+{%- endcomment -%}
+{%- assign team = site.data.team -%}
+{%- assign reads = site.team | where_exp: "d", "d.why_order" | sort: "why_order" -%}
+<ol class="wy-grid" role="list">
+  {%- for r in reads %}
+  <li class="wy-card{% if r.wide %} wy-card--wide{% endif %}">
+    <div class="wy-card__art">{% include member-why-art.html art=r.art %}</div>
+    <div class="wy-card__body">
+      <span class="wy-card__num" aria-hidden="true">{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
+      <h2 class="wy-card__title"><a href="{{ r.url | relative_url }}">{{ r.title }}</a></h2>
+      <p class="wy-card__text">{{ r.summary }}</p>
+      <div class="wy-card__foot">
+        <span class="wy-card__who">
+          {%- for n in r.members %}{% assign m = team.members | where: "number", n | first %}<span title="{{ m.name }}">{{ n }}</span>{% endfor %}
+          <span class="visually-hidden">Brought by {% for n in r.members %}{% assign m = team.members | where: "number", n | first %}{{ m.name }}{% unless forloop.last %} and {% endunless %}{% endfor %}</span>
+        </span>
+        <span class="wy-card__go" aria-hidden="true">Read <span>&rarr;</span></span>
+      </div>
+    </div>
+  </li>
+  {%- endfor %}
+</ol>

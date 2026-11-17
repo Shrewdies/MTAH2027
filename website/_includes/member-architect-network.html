@@ -1,0 +1,35 @@
+{%- comment -%}
+  Autonomous network loop: traffic on the upper path, a node fails, the controller reroutes, the node is restored.
+  Phases: 1 observe, 2 diagnose, 3 act, 4 verify. Without scripts the verified state is shown.
+{%- endcomment -%}
+<svg class="ax-net" viewBox="0 0 420 270" aria-hidden="true" focusable="false">
+  <g class="ax-net__ctl">
+    <line x1="210" y1="135" x2="150" y2="70"/><line x1="210" y1="135" x2="270" y2="70"/>
+    <line x1="210" y1="135" x2="270" y2="200"/><line x1="210" y1="135" x2="150" y2="200"/>
+  </g>
+  <g class="ax-net__idle"><line x1="150" y1="70" x2="150" y2="200"/><line x1="270" y1="70" x2="270" y2="200"/></g>
+  <path class="ax-net__path ax-net__path--top" d="M36 135L150 70L270 70L384 135"/>
+  <path class="ax-net__path ax-net__path--bottom" d="M36 135L150 200L270 200L384 135"/>
+  <g class="ax-net__telemetry">
+    <circle cx="150" cy="70" r="3" style="--dx: 60px; --dy: 65px; --t: 0s"/>
+    <circle cx="270" cy="70" r="3" style="--dx: -60px; --dy: 65px; --t: -0.5s"/>
+    <circle cx="270" cy="200" r="3" style="--dx: -60px; --dy: -65px; --t: -1s"/>
+    <circle cx="150" cy="200" r="3" style="--dx: 60px; --dy: -65px; --t: -1.5s"/>
+  </g>
+  <g class="ax-net__nodes">
+    <circle cx="150" cy="70" r="11"/><circle cx="270" cy="200" r="11"/><circle cx="150" cy="200" r="11"/>
+    <circle class="ax-net__fault" cx="270" cy="70" r="11"/>
+  </g>
+  <circle class="ax-net__alarm" cx="270" cy="70" r="11"/>
+  <g class="ax-net__ok" transform="translate(286 54)"><circle r="8"/><path d="M-3.6 0L-1.2 2.8L3.6 -2.8"/></g>
+  <g class="ax-net__ends">
+    <rect x="18" y="119" width="36" height="32" rx="7"/><rect x="366" y="119" width="36" height="32" rx="7"/>
+    <text x="36" y="135" text-anchor="middle" dominant-baseline="central">IN</text>
+    <text x="384" y="135" text-anchor="middle" dominant-baseline="central">OUT</text>
+  </g>
+  <g class="ax-net__core">
+    <circle class="ax-net__halo" cx="210" cy="135" r="30"/>
+    <path d="M210 111L231 123V147L210 159L189 147V123Z"/>
+    <circle class="ax-net__eye" cx="210" cy="135" r="6"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+{%- comment -%} Event spikes rising along a timeline as the playhead passes. Labels: three event types. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign spikes = "90,60,p,.36|140,112,p,.8|196,72,w,1.3|250,152,s,1.78|300,52,p,2.22|352,92,p,2.68|410,176,s,3.2|458,66,w,3.63|510,122,p,4.09|556,82,p,4.5" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M50 150H590M50 225H590" stroke-dasharray="2 8" opacity=".6"/>
+  <path class="wm-ticks" d="M50 306H590" opacity=".6"/>
+  <path class="wm-ln wm-ln--white" d="M50 300H590"/>
+  {%- for spike in spikes %}{% assign v = spike | split: "," %}{% assign top = 300 | minus: v[1] %}
+  {%- case v[2] %}{% when "s" %}{% assign colour = "#C4F000" %}{% when "w" %}{% assign colour = "#E5336F" %}{% else %}{% assign colour = "#E9EDF5" %}{% endcase %}
+  <g class="wm-grow" style="--i:{{ v[3] }};--step:1s" fill="{{ colour }}"><rect x="{{ v[0] | minus: 2.5 }}" y="{{ top }}" width="5" height="{{ v[1] }}" rx="2.5"/><circle cx="{{ v[0] }}" cy="{{ top }}" r="7"/></g>
+  {%- endfor %}
+  <g transform="translate(590 0)"><g class="wm-travel" style="--fx:-540px;--dur:6s"><path class="wm-ln wm-ln--lime" stroke-width="2.5" d="M0 96V312"/><path class="wm-lime" d="M-7 86h14l-7 10z"/></g></g>
+  <circle cx="58" cy="353" r="7" fill="#E9EDF5"/><text x="74" y="359" class="wm-t--s">{{ L[0] | default: "Pass" | escape }}</text>
+  <circle class="wm-lime" cx="248" cy="353" r="7"/><text x="264" y="359" class="wm-t--s">{{ L[1] | default: "Shot" | escape }}</text>
+  <circle class="wm-a" cx="438" cy="353" r="7"/><text x="454" y="359" class="wm-t--s">{{ L[2] | default: "Whistle" | escape }}</text>
+</svg>

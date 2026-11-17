@@ -1,0 +1,18 @@
+{%- comment -%} Detection boxes locking on to players and the ball. Labels: player, ball. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign players = "112,268,1.2,h,.97,0|214,226,.92,a,.91,2|332,282,1.32,h,.95,1|448,218,.88,a,.88,3|548,258,1.1,h,.93,4" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M40 150H600M24 330H616M24 330L150 150M616 330L490 150M320 150V330" opacity=".7"/>
+  {%- for player in players %}{% assign v = player | split: "," %}
+  <g transform="translate({{ v[0] }} {{ v[1] }}) scale({{ v[2] }})">
+    <g class="wm-{{ v[3] }}"><circle cy="-62" r="9"/><rect x="-11" y="-51" width="22" height="31" rx="9"/><rect x="-10" y="-25" width="7.5" height="25" rx="3.7"/><rect x="2.5" y="-25" width="7.5" height="25" rx="3.7"/></g>
+    <g class="wm-pop" style="--i:{{ v[5] }};--step:.55s"><rect class="wm-box" x="-21" y="-78" width="42" height="84" rx="4"/><rect class="wm-lime" x="-21" y="-97" width="36" height="16" rx="3"/><text class="wm-t--xs wm-t--ink" x="-3" y="-85" text-anchor="middle">{{ v[4] }}</text></g>
+  </g>
+  {%- endfor %}
+  <g transform="translate(392 318)">
+    <circle class="wm-white" r="7.5"/>
+    <g class="wm-pop" style="--i:5;--step:.55s"><rect class="wm-box wm-ln--white" x="-14" y="-14" width="28" height="28" rx="4"/><rect class="wm-white" x="-14" y="-33" width="36" height="16" rx="3"/><text class="wm-t--xs wm-t--ink" x="4" y="-21" text-anchor="middle">.99</text></g>
+  </g>
+  <rect class="wm-box" x="40" y="352" width="18" height="18" rx="3"/><text x="68" y="367" class="wm-t--s">{{ L[0] | default: "Player" | escape }}</text>
+  <rect class="wm-box wm-ln--white" x="330" y="352" width="18" height="18" rx="3"/><text x="358" y="367" class="wm-t--s">{{ L[1] | default: "Ball" | escape }}</text>
+</svg>

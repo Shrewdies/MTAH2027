@@ -1,0 +1,74 @@
+{%- comment -%} Fixed, decorative background stage. Styles: assets/css/stage.css. Behaviour: assets/js/stage.js. {%- endcomment -%}
+<div class="stage" aria-hidden="true" data-stage>
+  <div class="stage__layer stage__mesh" data-depth="1">
+    <span class="stage__blob stage__blob--blue"></span>
+    <span class="stage__blob stage__blob--violet"></span>
+    <span class="stage__blob stage__blob--garnet"></span>
+    <span class="stage__blob stage__blob--mauve"></span>
+    <span class="stage__blob stage__blob--lime"></span>
+    <span class="stage__blob stage__blob--spark"></span>
+  </div>
+  <div class="stage__sheen"></div>
+  <div class="stage__beams">
+    <span class="stage__beam stage__beam--l"></span>
+    <span class="stage__beam stage__beam--r"></span>
+    <span class="stage__lamp stage__lamp--l"></span>
+    <span class="stage__lamp stage__lamp--r"></span>
+  </div>
+  <div class="stage__layer stage__pitch-wrap" data-depth="2">
+    <div class="stage__pitch-drift">
+      <svg class="stage__pitch" viewBox="0 0 1050 680" preserveAspectRatio="xMidYMid meet" focusable="false">
+        <g class="stage__lines" fill="none" stroke-linecap="round">
+          <rect x="5" y="5" width="1040" height="670" pathLength="1" style="--i:0"/>
+          <path d="M5 138.5H170V541.5H5" pathLength="1" style="--i:2"/>
+          <path d="M5 248H60V432H5" pathLength="1" style="--i:3"/>
+          <path d="M170 266.9A91.5 91.5 0 0 1 170 413.1" pathLength="1" style="--i:4"/>
+          <path d="M1045 138.5H880V541.5H1045" pathLength="1" style="--i:2"/>
+          <path d="M1045 248H990V432H1045" pathLength="1" style="--i:3"/>
+          <path d="M880 266.9A91.5 91.5 0 0 0 880 413.1" pathLength="1" style="--i:4"/>
+          <path d="M5 15A10 10 0 0 0 15 5M1035 5A10 10 0 0 0 1045 15M1045 665A10 10 0 0 0 1035 675M15 675A10 10 0 0 0 5 665" pathLength="1" style="--i:5"/>
+        </g>
+        <g class="stage__lines stage__lines--lime" fill="none" stroke-linecap="round">
+          <path d="M525 5V675" pathLength="1" style="--i:1"/>
+          <circle cx="525" cy="340" r="91.5" pathLength="1" style="--i:1"/>
+        </g>
+        <g class="stage__spots">
+          <circle cx="525" cy="340" r="5"/><circle cx="115" cy="340" r="4"/><circle cx="935" cy="340" r="4"/>
+        </g>
+        <path class="stage__route" d="M170 520C330 610 470 520 560 420S760 230 930 300" fill="none"/>
+      </svg>
+    </div>
+  </div>
+  <div class="stage__curl">
+    <svg viewBox="0 0 420 200" focusable="false"><path d="M10 180C90 40 250 0 410 70" fill="none"/></svg>
+    <span class="stage__curl-ball"></span>
+  </div>
+  <div class="stage__studs">
+    <span style="--i:0"></span><span style="--i:1"></span><span style="--i:2"></span><span style="--i:3"></span>
+    <span style="--i:4"></span><span style="--i:5"></span><span style="--i:6"></span><span style="--i:7"></span>
+  </div>
+  <div class="stage__boot stage__boot--a">
+    <div class="stage__boot-move">
+      <span class="stage__trail"></span>
+      <img src="{{ '/assets/brand/motif-boot.svg' | relative_url }}" alt="" width="220" height="124" decoding="async">
+    </div>
+  </div>
+  <div class="stage__boot stage__boot--b">
+    <div class="stage__boot-move">
+      <img src="{{ '/assets/brand/motif-boot.svg' | relative_url }}" alt="" width="220" height="124" decoding="async">
+    </div>
+  </div>
+  <div class="stage__ballbox">
+    <span class="stage__ball-shadow"></span>
+    <div class="stage__ball-y">
+      <div class="stage__ball-squash">
+        <img class="stage__ball-img" src="{{ '/assets/brand/motif-ball.svg' | relative_url }}" alt="" width="120" height="120" decoding="async">
+      </div>
+    </div>
+  </div>
+  <div class="stage__sparks">
+    <span style="--i:0"></span><span style="--i:1"></span><span style="--i:2"></span><span style="--i:3"></span>
+    <span style="--i:4"></span><span style="--i:5"></span><span style="--i:6"></span>
+  </div>
+  <div class="stage__vignette"></div>
+</div>

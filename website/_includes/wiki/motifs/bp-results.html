@@ -1,0 +1,38 @@
+{%- comment -%}
+  Architecture motif: the measurement. The fielded decoder against the organisers' baseline method on the open DFL
+  match, ball hidden on 41% of frames, official scorer. Values are the published ones: spellF1 0.340 / 0.235,
+  macroF1 0.693 / 0.383, possessions found 249 / 570 against a truth of 402. Bars are drawn to scale within each row.
+  Motion: transform (wipe) and opacity only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect class="wm-lime" x="24" y="22" width="14" height="14" rx="3"/><text x="46" y="34" class="wm-t--xs">The Shrewdies decoder</text>
+  <rect class="wm-white" x="262" y="22" width="14" height="14" rx="3" opacity=".7"/><text x="284" y="34" class="wm-t--xs wm-t--dim">Organisers' baseline method</text>
+
+  <text x="24" y="84" class="wm-t--s">spellF1</text>
+  <text x="24" y="102" class="wm-t--xs wm-t--dim">Ranking metric</text>
+  <rect class="wm-lime wm-wipe" x="176" y="66" width="153" height="18" rx="4" style="--dur:7s"/>
+  <text x="337" y="80" class="wm-t--xs wm-t--lime">0.340</text>
+  <rect class="wm-white wm-wipe" x="176" y="90" width="106" height="18" rx="4" opacity=".65" style="--dur:7s"/>
+  <text x="290" y="104" class="wm-t--xs wm-t--dim">0.235</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 132H616" stroke-width="1"/>
+  <text x="24" y="176" class="wm-t--s">macroF1</text>
+  <text x="24" y="194" class="wm-t--xs wm-t--dim">Tie-break</text>
+  <rect class="wm-lime wm-wipe" x="176" y="158" width="312" height="18" rx="4" style="--dur:7s"/>
+  <text x="496" y="172" class="wm-t--xs wm-t--lime">0.693</text>
+  <rect class="wm-white wm-wipe" x="176" y="182" width="172" height="18" rx="4" opacity=".65" style="--dur:7s"/>
+  <text x="356" y="196" class="wm-t--xs wm-t--dim">0.383</text>
+
+  <path class="wm-ln wm-ln--dash" d="M24 224H616" stroke-width="1"/>
+  <text x="24" y="268" class="wm-t--s">Possessions</text>
+  <text x="24" y="286" class="wm-t--xs wm-t--dim">Found in the match</text>
+  <rect class="wm-lime wm-wipe" x="176" y="250" width="149" height="18" rx="4" style="--dur:7s"/>
+  <text x="333" y="264" class="wm-t--xs wm-t--lime">249</text>
+  <rect class="wm-white wm-wipe" x="176" y="274" width="342" height="18" rx="4" opacity=".65" style="--dur:7s"/>
+  <text x="526" y="288" class="wm-t--xs wm-t--dim">570</text>
+  <path class="wm-ln wm-ln--lime wm-ln--dash" d="M417 240V302"/>
+  <text x="417" y="320" text-anchor="middle" class="wm-t--xs">Truth 402</text>
+
+  <text x="24" y="352" class="wm-t--xs wm-t--dim">Open DFL match, ball hidden on 41% of frames, official scorer.</text>
+  <text x="24" y="374" class="wm-t--xs wm-t--dim">The baseline invents possessions. The decoder finds turnovers late.</text>
+</svg>

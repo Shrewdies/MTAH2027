@@ -1,0 +1,52 @@
+{%- comment -%}
+  World footprint: equirectangular graticule (lon -130..160, lat 70..-40), arcs from the origin to each place.
+  Params: places (country codes in _data/team.yml geo), origin (country code).
+{%- endcomment -%}
+{%- assign team = site.data.team -%}
+{%- assign o = team.geo[include.origin] -%}
+{%- assign ox = o[1] | plus: 130 | times: 3.448 | round: 1 -%}
+{%- assign oy = 70 | minus: o[0] | times: 3.454 | round: 1 -%}
+<div class="mb-world" data-reveal-group>
+  <svg class="mb-world__art" viewBox="0 0 1000 380" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="mb-world-glow"><stop offset="0" stop-color="#C4F000" stop-opacity=".35"/><stop offset="1" stop-color="#C4F000" stop-opacity="0"/></radialGradient>
+      <pattern id="mb-world-dots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="4.5" cy="4.5" r="2.1"/></pattern>
+      <clipPath id="mb-world-frame"><rect width="1000" height="380" rx="14"/></clipPath>
+    </defs>
+    <path class="mb-world__land" clip-path="url(#mb-world-frame)" fill="url(#mb-world-dots)" d="M862 180L869 180L883 218L869 218L862 200ZM390 169L390 190L407 214L421 228L465 225L479 228L479 245L493 263L490 300L500 335L510 359L538 359L559 342L569 325L586 294L586 276L583 259L597 242L624 204L597 200L576 180L562 145L559 135L517 131L483 124L483 114L448 117L428 117L414 138L403 149ZM197 -28L379 -41L379 0L300 35L269 21L248 -17ZM172 214L183 214L200 200L234 207L269 225L276 242L328 259L328 276L314 294L307 318L283 332L265 359L248 373L224 383L221 401L214 421L200 428L190 404L197 370L203 338L207 304L186 290L169 263L172 245L179 235ZM900 245L934 252L965 276L934 273ZM824 238L852 218L859 238L848 256L828 252ZM776 225L786 228L814 263L800 256ZM414 62L428 62L428 52L421 52L414 55ZM431 69L452 66L455 59L441 48L438 41L431 41L428 48L438 55L431 62ZM-131 14L-110 0L-34 0L17 0L121 -7L172 -10L224 28L241 52L259 69L221 86L207 97L186 111L169 135L172 152L166 142L138 138L114 149L114 166L131 176L148 169L145 187L162 207L179 214L172 214L152 200L131 190L103 183L83 162L62 138L52 138L69 162L45 131L28 114L21 97L21 76L0 55L-34 35L-69 35L-103 41L-121 28ZM896 135L903 124L917 124L931 121L934 111L934 97L948 93L938 86L931 100L928 111L917 117L903 121ZM841 318L841 359L855 363L876 359L903 349L924 363L934 373L955 373L965 370L976 338L976 328L952 307L938 280L934 297L917 283L896 283L883 290L869 304ZM414 117L417 93L441 90L431 76L455 66L476 55L476 45L465 28L497 10L534 -3L586 7L655 0L724 -10L793 -24L862 -10L931 -7L1000 0L1069 7L1069 28L1010 35L986 66L941 38L914 52L934 76L896 97L890 121L869 104L869 135L852 159L821 169L814 207L793 197L803 238L786 214L786 187L765 166L752 166L724 190L714 214L700 173L679 155L645 155L641 149L621 138L614 142L624 155L641 155L652 166L628 187L597 200L583 169L569 145L565 135L572 117L552 117L541 114L538 104L528 117L517 104L493 83L510 104L503 111L490 97L476 90L459 93L448 107L431 117ZM600 328L610 328L621 294L617 283L600 300Z"/>
+    <g class="mb-world__grid">
+      {%- for lon in (0..9) %}{% assign gx = lon | times: 30 | minus: 120 | plus: 130 | times: 3.448 | round: 1 %}
+      <line x1="{{ gx }}" y1="0" x2="{{ gx }}" y2="380"/>
+      {%- endfor %}
+      {%- for lat in (0..3) %}{% assign gy = lat | times: 30 | plus: 10 | times: 3.454 | round: 1 %}
+      <line x1="0" y1="{{ gy }}" x2="1000" y2="{{ gy }}"{% if lat == 2 %} class="mb-world__equator"{% endif %}/>
+      {%- endfor %}
+    </g>
+    <circle cx="{{ ox }}" cy="{{ oy }}" r="90" fill="url(#mb-world-glow)"/>
+    {%- for c in include.places %}{% if c != include.origin %}
+      {%- assign p = team.geo[c] -%}
+      {%- assign x = p[1] | plus: 130 | times: 3.448 | round: 1 -%}
+      {%- assign y = 70 | minus: p[0] | times: 3.454 | round: 1 -%}
+      {%- assign dx = x | minus: ox | abs -%}
+      {%- assign top = oy -%}{% if y < oy %}{% assign top = y %}{% endif -%}
+      {%- assign lift = dx | times: 0.22 | plus: 18 -%}
+      {%- assign cx = x | plus: ox | divided_by: 2.0 | round: 1 -%}
+      {%- assign cy = top | minus: lift | round: 1 %}
+    <path class="mb-world__arc" style="--i: {{ forloop.index0 }}" d="M{{ ox }} {{ oy }}Q{{ cx }} {{ cy }} {{ x }} {{ y }}" pathLength="1"/>
+    {%- endif %}{% endfor %}
+    {%- for c in include.places %}
+      {%- assign p = team.geo[c] -%}
+      {%- assign x = p[1] | plus: 130 | times: 3.448 | round: 1 -%}
+      {%- assign y = 70 | minus: p[0] | times: 3.454 | round: 1 %}
+    <g class="mb-world__pin{% if c == include.origin %} is-origin{% endif %}" style="--i: {{ forloop.index0 }}">
+      <circle class="mb-world__pulse" cx="{{ x }}" cy="{{ y }}" r="7"/>
+      <circle class="mb-world__dot" cx="{{ x }}" cy="{{ y }}" r="{% if c == include.origin %}8{% else %}6{% endif %}"><title>{{ team.countries[c] }}</title></circle>
+    </g>
+    {%- endfor %}
+  </svg>
+  <ol class="mb-world__list" role="list">
+    {%- for c in include.places %}
+    <li style="--i: {{ forloop.index0 }}"{% if c == include.origin %} class="is-origin"{% endif %}><span aria-hidden="true">{{ c | upcase }}</span>{{ team.countries[c] }}</li>
+    {%- endfor %}
+  </ol>
+</div>

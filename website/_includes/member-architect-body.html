@@ -1,0 +1,99 @@
+{%- comment -%}
+  Animated blocks of the architect's profile: the design-space map, the layered architecture, two staged loops, football pitches, the Architecture
+  section as body of work, and professional journeys. Data: page.space, anatomy, loops, football, work, journeys.
+{%- endcomment -%}
+{%- if page.space %}
+{% include member-architect-space.html %}
+{%- endif %}
+
+{%- assign an = page.anatomy -%}
+{%- if an %}
+<section class="container ax-sec" aria-labelledby="ax-anatomy-title">
+  <div class="ax-anatomy" data-reveal-group>
+    <div class="ax-anatomy__art" aria-hidden="true">
+      <svg viewBox="0 0 360 440" focusable="false">
+        {%- for l in an.layers reversed %}
+          {%- assign y = forloop.index0 | times: -60 | plus: 372 %}
+        <g class="ax-plate ax-plate--{{ forloop.index0 }}" style="--i: {{ forloop.index0 }}">
+          <polygon class="ax-plate__left" points="40,{{ y }} 180,{{ y | plus: 40 }} 180,{{ y | plus: 52 }} 40,{{ y | plus: 12 }}"/>
+          <polygon class="ax-plate__right" points="180,{{ y | plus: 40 }} 320,{{ y }} 320,{{ y | plus: 12 }} 180,{{ y | plus: 52 }}"/>
+          <polygon class="ax-plate__top" points="180,{{ y | minus: 40 }} 320,{{ y }} 180,{{ y | plus: 40 }} 40,{{ y }}"/>
+          <ellipse class="ax-plate__port" cx="180" cy="{{ y }}" rx="20" ry="6"/>
+          <text transform="translate(47 {{ y | plus: 12.5 }}) skewY(15.9)">{{ forloop.index | prepend: "0" }}</text>
+        </g>
+        {%- endfor %}
+        <line class="ax-anatomy__beam" x1="180" y1="372" x2="180" y2="40"/>
+        <ellipse class="ax-anatomy__pulse" cx="180" cy="372" rx="26" ry="8"/>
+      </svg>
+    </div>
+    <div class="ax-anatomy__body">
+      <h2 id="ax-anatomy-title" class="mb-section-title">{{ an.title }}</h2>
+      <p class="ax-statement">{{ an.statement }}</p>
+      <ol class="ax-layers" role="list" reversed>
+        {%- for l in an.layers %}
+        <li style="--i: {{ an.layers.size | minus: forloop.index }}">
+          <span class="ax-layers__num" aria-hidden="true">{{ an.layers.size | minus: forloop.index0 | prepend: "0" }}</span>
+          <span class="ax-layers__text"><b>{{ l.name }}</b>{{ l.items }}</span>
+        </li>
+        {%- endfor %}
+      </ol>
+      {%- if an.note %}<p class="ax-note">{{ an.note }}</p>{% endif %}
+    </div>
+  </div>
+</section>
+{%- endif %}
+
+{%- if page.loops %}
+<div class="container ax-sec ax-duo">
+  {%- for lp in page.loops %}
+  <section class="ax-loop" aria-labelledby="ax-loop-{{ forloop.index }}" data-phases="{{ lp.steps.size }}" data-phase-steps="1,2,3,4" data-phase-ms="1700">
+    <h2 id="ax-loop-{{ forloop.index }}" class="mb-section-title">{{ lp.title }}</h2>
+    <p class="ax-statement ax-statement--s">{{ lp.statement }}</p>
+    <div class="ax-loop__art">{% include {{ lp.art }} %}</div>
+    <ol class="ax-steps ax-steps--row" role="list">
+      {%- for s in lp.steps %}
+      <li><span class="ax-steps__num" aria-hidden="true">{{ forloop.index }}</span><span class="ax-steps__text"><b>{{ s.title }}</b>{{ s.text }}</span></li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endfor %}
+</div>
+{%- endif %}
+
+{%- assign fb = page.football -%}
+{%- if fb %}
+<section class="container ax-sec ax-football" aria-labelledby="ax-fb-title">
+  <h2 id="ax-fb-title" class="mb-section-title">{{ fb.title }}</h2>
+  <p class="ax-statement">{{ fb.statement }}</p>
+  <ul class="ax-pitches" role="list">
+    {%- for c in fb.cards %}
+    <li class="ax-pitchcard" style="--i: {{ forloop.index0 }}" data-reveal-item>
+      <div class="ax-pitchcard__art">{% include member-architect-pitch.html art=c.art %}</div>
+      <h3 class="ax-pitchcard__title">{{ c.title }}</h3>
+      <p class="ax-pitchcard__text">{{ c.text }}</p>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endif %}
+
+{%- if page.work %}
+{% include member-architect-work.html work=page.work %}
+{%- endif %}
+
+{%- assign jr = page.journeys -%}
+{%- if jr %}
+<section class="container ax-sec" aria-labelledby="ax-jr-title">
+  <div class="ax-journeys">
+    <div class="ax-journeys__map">
+      <h2 id="ax-jr-title" class="mb-section-title">{{ jr.title }}</h2>
+      {% include member-map.html places=jr.places origin=jr.origin %}
+    </div>
+    <dl class="ax-journeys__facts">
+      {%- for f in jr.facts %}
+      <div><dt>{{ f.k }}</dt><dd>{{ f.v }}</dd></div>
+      {%- endfor %}
+    </dl>
+  </div>
+</section>
+{%- endif %}

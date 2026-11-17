@@ -1,0 +1,42 @@
+{%- comment -%}
+  Architecture motif: players without names. Two team-mates cross and leave with each other's slot numbers. A
+  feature read by slot jumps at the swap; the same feature read by team never moves. Synthetic.
+  Motion: transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm bp-sl" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <style>
+    .bp-sl__before { animation: bp-sl-before 6s linear infinite; }
+    .bp-sl__after { animation: bp-sl-after 6s linear infinite; }
+    @keyframes bp-sl-before { 0%, 46% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes bp-sl-after { 0%, 46% { opacity: 0; } 50%, 96% { opacity: 1; } 100% { opacity: 0; } }
+  </style>
+  <text x="24" y="40" class="wm-t--xs wm-t--dim">Two team-mates cross</text>
+  <path class="wm-ln wm-ln--dash" d="M60 80L580 180M60 180L580 80"/>
+  <circle class="wm-box wm-pulse" cx="320" cy="130" r="26" stroke-dasharray="4 5" style="--lo:.3"/>
+  <text x="320" y="186" text-anchor="middle" class="wm-t--xs wm-t--lime">Slots swap here</text>
+
+  <g transform="translate(60 80)"><g class="wm-slide" style="--fx:0px;--fy:0px;--tx:520px;--ty:100px;--dur:6s">
+    <circle class="wm-h wm-edge" r="11"/>
+    <text class="wm-t--s bp-sl__before" y="-18" text-anchor="middle">07</text>
+    <text class="wm-t--s wm-t--lime bp-sl__after" x="20" y="-14">&#8594; 12</text>
+  </g></g>
+  <g transform="translate(60 180)"><g class="wm-slide" style="--fx:0px;--fy:0px;--tx:520px;--ty:-100px;--dur:6s">
+    <circle class="wm-h wm-edge" r="11"/>
+    <text class="wm-t--s bp-sl__before" y="30" text-anchor="middle">12</text>
+    <text class="wm-t--s wm-t--lime bp-sl__after" x="20" y="26">&#8594; 07</text>
+  </g></g>
+
+  <path class="wm-ln wm-ln--dash" d="M320 196V372" stroke-width="1.5"/>
+
+  <text x="24" y="238" class="wm-t--xs">Feature by slot</text>
+  <rect class="wm-panel" x="170" y="216" width="446" height="56" rx="9"/>
+  <path class="wm-ln wm-ln--a wm-ln--bold wm-draw" d="M184 258H318V228H602" pathLength="100" style="--dur:6s;--ease:linear"/>
+  <text x="332" y="262" class="wm-t--xs wm-t--dim">Jumps. Nothing happened.</text>
+
+  <text x="24" y="318" class="wm-t--xs wm-t--lime">Feature by team</text>
+  <rect class="wm-panel" x="170" y="296" width="446" height="56" rx="9"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold wm-draw" d="M184 324H602" pathLength="100" style="--dur:6s;--ease:linear"/>
+  <text x="332" y="344" class="wm-t--xs wm-t--dim">Holds. Same football.</text>
+  <text x="24" y="382" class="wm-t--xs wm-t--dim">Time</text>
+  <path class="wm-ln" d="M170 378H616M608 372l8 6-8 6"/>
+</svg>

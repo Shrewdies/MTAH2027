@@ -1,0 +1,52 @@
+{%- comment -%}
+  Solutions motif: the vision chain. One camera frame is detected, tracked and projected to the pitch, and the error
+  budget grows at every stage. Labels: three stage names, then the three error names. Synthetic.
+  Uses the kit's drawing classes; motion is stroke-dashoffset, opacity and transform only.
+{%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign players = "62,178,h,0|104,152,a,1|150,196,h,2|84,214,a,3" | split: "|" -%}
+{%- assign tracks = "288,176,262,196,h,07|322,150,300,128,a,10|366,194,388,170,h,04|300,214,276,224,a,23" | split: "|" -%}
+{%- assign dots = "486,150,h,0|516,198,h,1|556,142,a,2|582,190,a,3" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <g text-anchor="middle">
+    <text x="108" y="60">{{ L[0] | default: "Detect" | truncate: 12, "" | escape }}</text>
+    <text x="320" y="60">{{ L[1] | default: "Track" | truncate: 12, "" | escape }}</text>
+    <text x="532" y="60">{{ L[2] | default: "Calibrate" | truncate: 12, "" | escape }}</text>
+  </g>
+  <rect class="wm-panel" x="20" y="78" width="176" height="176" rx="12"/>
+  <rect class="wm-panel" x="232" y="78" width="176" height="176" rx="12"/>
+  <rect class="wm-panel" x="444" y="78" width="176" height="176" rx="12"/>
+
+  <g class="wm-pitch"><path d="M56 112H160L186 240H30ZM108 112V240"/><path d="M268 112H372L398 240H242ZM320 112V240"/></g>
+  {%- for p in players %}{% assign v = p | split: "," %}
+  <g transform="translate({{ v[0] }} {{ v[1] }})">
+    <rect class="wm-{{ v[2] }}" x="-5" y="-22" width="10" height="22" rx="4"/><circle class="wm-{{ v[2] }}" cy="-28" r="5"/>
+    <rect class="wm-box wm-pop" x="-12" y="-38" width="24" height="42" rx="4" style="--i:{{ v[3] }};--step:.5s"/>
+  </g>
+  {%- endfor %}
+  <g transform="translate(128 222)"><circle class="wm-white" r="3.5"/><rect class="wm-box wm-pop" x="-9" y="-9" width="18" height="18" rx="3" stroke="#fff" style="--i:4;--step:.5s"/></g>
+
+  <path class="wm-ln" d="M200 166H226M219 160l8 6-8 6"/>
+  <path class="wm-flow" d="M200 166H226" pathLength="100" style="--dur:2s"/>
+  {%- for t in tracks %}{% assign v = t | split: "," %}
+  <path class="wm-trail" d="M{{ v[2] }} {{ v[3] }}L{{ v[0] }} {{ v[1] }}" pathLength="100" style="--delay:-{{ forloop.index0 | times: 0.4 }}s"/>
+  <circle class="wm-{{ v[4] }} wm-edge" cx="{{ v[0] }}" cy="{{ v[1] }}" r="8"/>
+  <text class="wm-t--xs" x="{{ v[0] }}" y="{{ v[1] | minus: 14 }}" text-anchor="middle">{{ v[5] }}</text>
+  {%- endfor %}
+
+  <path class="wm-ln" d="M412 166H438M431 160l8 6-8 6"/>
+  <path class="wm-flow" d="M412 166H438" pathLength="100" style="--dur:2s;--delay:-1s"/>
+  <g class="wm-pitch"><rect x="458" y="102" width="148" height="128" rx="3"/><path d="M532 102V230"/><circle cx="532" cy="166" r="18"/></g>
+  {%- for d in dots %}{% assign v = d | split: "," %}
+  <circle class="wm-{{ v[2] }} wm-edge wm-pop" cx="{{ v[0] }}" cy="{{ v[1] }}" r="7" style="--i:{{ v[3] }};--step:.5s"/>
+  {%- endfor %}
+  <circle class="wm-white wm-pulse" cx="540" cy="174" r="3.5" style="--lo:.3"/>
+
+  <rect class="wm-lime wm-wipe" x="20" y="286" width="38" height="8" rx="4"/>
+  <rect class="wm-d wm-wipe" x="232" y="286" width="88" height="8" rx="4"/>
+  <rect class="wm-a wm-wipe" x="444" y="286" width="150" height="8" rx="4"/>
+  <text x="20" y="318" class="wm-t--xs wm-t--dim">{{ L[3] | default: "Missed ball" | truncate: 18, "" | escape }}</text>
+  <text x="232" y="318" class="wm-t--xs wm-t--dim">{{ L[4] | default: "Identity switch" | truncate: 18, "" | escape }}</text>
+  <text x="444" y="318" class="wm-t--xs wm-t--dim">{{ L[5] | default: "Metres off" | truncate: 18, "" | escape }}</text>
+  <text x="20" y="360" class="wm-t--s wm-t--lime">Error adds up, stage by stage</text>
+</svg>

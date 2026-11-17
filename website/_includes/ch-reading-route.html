@@ -1,0 +1,97 @@
+{%- comment -%}
+  The reading route: every challenge insight page as a clickable tile with its own animated diagram, laid out as a
+  route in four legs (the problem, the scoring, the data, the rules). Tiles come from the insight pages' front matter
+  (group, order, motif, hook, route_label), so a new page joins the route by itself.
+    {% include ch-reading-route.html id="hub-route" num="B" kicker="The reading route" %}
+  id      prefix for element ids (unique per page)
+  num     the kicker chip (letter or number)
+  kicker  the small label above the title
+  Needs on the page: extra_css: [/assets/wiki/wiki.css, /assets/wiki/ch-route.css], extra_js: [/assets/wiki/ch-route.js]
+  Diagrams rest as stills and play on hover or keyboard focus (on touch screens, while in view).
+{%- endcomment -%}
+{%- assign rr_id = include.id | default: "ch-route" -%}
+{%- assign rr_all = site.challenges | where: "layout", "wiki-entry" | sort: "order" -%}
+{%- assign rr_legs = "problem|The problem|What is being asked;scoring|The scoring|How the answer is judged;data|The data|What the files can say;rules|The rules|What is allowed, and proven" | split: ";" -%}
+{%- assign rr_n = 0 -%}
+<section class="ch-route" id="{{ rr_id }}" aria-labelledby="{{ rr_id }}-title" data-ch-route>
+  <header class="ch-route__head">
+    <p class="kicker">{% if include.num %}<span class="kicker__num">{{ include.num }}</span>{% endif %}{{ include.kicker | default: "The reading route" }}</p>
+    <h2 class="canvas__title ch-route__title" id="{{ rr_id }}-title">How we read <em>the game</em></h2>
+    <p class="ch-route__lede">{{ rr_all.size }} reads in four legs, from the question to the proof.</p>
+    <p class="ch-route__hint" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.87l11-6.5a1 1 0 0 0 0-1.74l-11-6.5A1 1 0 0 0 8 5.5z"/></svg>
+      <span class="ch-route__hint-hover">Hover or focus a tile to play it</span>
+      <span class="ch-route__hint-touch">Diagrams play as you scroll</span>
+    </p>
+  </header>
+
+  <nav class="ch-route__map" aria-label="Legs of the reading route">
+    <svg class="ch-route__pitch" viewBox="0 0 1000 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <g class="ch-route__pitch-lines">
+        <rect x="8" y="8" width="984" height="134" rx="6"/>
+        <path d="M500 8V142M8 38H78V112H8M992 28H880V122H992M992 52H944V98H992"/>
+        <circle cx="500" cy="75" r="40"/>
+        <path d="M250 8V142M750 8V142" stroke-dasharray="3 9"/>
+      </g>
+      <path class="ch-route__pass" d="M125 92C190 40 300 30 375 58S550 122 625 96S800 44 875 62L984 75"/>
+      <path class="ch-route__pass-pulse" d="M125 92C190 40 300 30 375 58S550 122 625 96S800 44 875 62L984 75" pathLength="100"/>
+      <g class="ch-route__stops">
+        <circle cx="125" cy="92" r="9"/><circle cx="375" cy="58" r="9"/><circle cx="625" cy="96" r="9"/><circle cx="875" cy="62" r="9"/>
+      </g>
+      <circle class="ch-route__stop-ring" cx="875" cy="62" r="15"/>
+    </svg>
+    <ol class="ch-route__zones" role="list">
+      {%- for rr_leg in rr_legs %}
+      {%- assign rr_p = rr_leg | split: "|" -%}
+      {%- assign rr_docs = rr_all | where: "group", rr_p[0] -%}
+      {%- if forloop.last -%}{%- assign rr_ref = rr_all | where: "group", "reference" -%}{%- assign rr_docs = rr_docs | concat: rr_ref -%}{%- endif %}
+      <li class="ch-route__zone ch-route__zone--{{ rr_p[0] }}">
+        <a href="#{{ rr_id }}-{{ rr_p[0] }}">
+          <span class="ch-route__zone-num" aria-hidden="true">{{ forloop.index }}</span>
+          <span class="ch-route__zone-name"><span class="ch-route__zone-the">The </span>{{ rr_p[1] | remove_first: "The " }}</span>
+          <span class="ch-route__zone-count">{{ rr_docs.size }} reads</span>
+        </a>
+      </li>
+      {%- endfor %}
+    </ol>
+  </nav>
+
+  <div class="ch-route__legs">
+    <span class="ch-route__rail" aria-hidden="true"></span>
+    {%- for rr_leg in rr_legs %}
+    {%- assign rr_p = rr_leg | split: "|" -%}
+    {%- assign rr_docs = rr_all | where: "group", rr_p[0] -%}
+    {%- if forloop.last -%}{%- assign rr_ref = rr_all | where: "group", "reference" -%}{%- assign rr_docs = rr_docs | concat: rr_ref -%}{%- endif -%}
+    {%- assign rr_wide = false -%}
+    {%- if rr_docs.size == 2 -%}{%- assign rr_wide = true -%}{%- endif %}
+    <section class="ch-leg ch-leg--{{ rr_p[0] }}" id="{{ rr_id }}-{{ rr_p[0] }}" aria-labelledby="{{ rr_id }}-{{ rr_p[0] }}-h">
+      <div class="ch-leg__head">
+        <span class="ch-leg__marker" aria-hidden="true">{{ forloop.index }}</span>
+        <p class="ch-leg__step">Leg {{ forloop.index }}</p>
+        <h3 class="ch-leg__title" id="{{ rr_id }}-{{ rr_p[0] }}-h">{{ rr_p[1] }}</h3>
+        <p class="ch-leg__ask">{{ rr_p[2] }}</p>
+      </div>
+      <ol class="ch-leg__tiles{% if rr_wide %} ch-leg__tiles--wide{% endif %}" role="list">
+        {%- for rr_doc in rr_docs %}
+        {%- assign rr_n = rr_n | plus: 1 -%}
+        {%- capture rr_file -%}wiki/motifs/{{ rr_doc.motif | default: "pitch" }}.html{%- endcapture -%}
+        {%- capture rr_uid -%}{{ rr_id }}-m{{ rr_n }}{%- endcapture %}
+        <li>
+          <a class="ch-tile{% if rr_wide %} ch-tile--wide{% endif %}" href="{{ rr_doc.url | relative_url }}" data-ch-tile>
+            <span class="ch-tile__stage" aria-hidden="true">
+              {% include {{ rr_file }} labels=rr_doc.motif_labels uid=rr_uid %}
+              <span class="ch-tile__play"><svg viewBox="0 0 24 24" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.87l11-6.5a1 1 0 0 0 0-1.74l-11-6.5A1 1 0 0 0 8 5.5z"/></svg></span>
+            </span>
+            <span class="ch-tile__body">
+              <span class="ch-tile__meta"><span class="ch-tile__num">{{ rr_n | prepend: "0" | slice: -2, 2 }}</span><span class="ch-tile__topic">{{ rr_doc.route_label | default: rr_doc.kicker }}</span></span>
+              <span class="ch-tile__hook">{{ rr_doc.hook | default: rr_doc.title }}</span>{% if rr_doc.hook %}<span class="visually-hidden">. {{ rr_doc.title | escape }}</span>{% endif %}
+              <span class="ch-tile__go" aria-hidden="true">&rarr;</span>
+            </span>
+          </a>
+        </li>
+        {%- endfor %}
+      </ol>
+    </section>
+    {%- endfor %}
+  </div>
+</section>

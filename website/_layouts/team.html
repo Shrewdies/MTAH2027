@@ -1,0 +1,46 @@
+---
+layout: default
+---
+{%- assign section = site.sections | where: "collection", "team" | first -%}
+{%- assign docs = site.team | sort: "order" | where_exp: "d", "d.nav_exclude != true" -%}
+<article class="team-page">
+  <div class="team-stage">
+    <div class="team-stage__glow" aria-hidden="true"></div>
+    <div class="container">
+      <header class="team-head">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="{{ '/' | relative_url }}">Home</a></li>
+            <li><span aria-current="page">{{ section.title | default: page.title }}</span></li>
+          </ol>
+        </nav>
+        <h1 class="team-head__title"><span class="team-head__num">{{ section.kicker }}</span>{{ page.title }}</h1>
+        {%- if page.summary %}<p class="team-head__lede">{{ page.summary }}</p>{% endif %}
+      </header>
+      {% include team-cards.html %}
+      <p class="team-head__hint">Hover or tap a shirt to flip it. The photo opens the full profile.</p>
+    </div>
+  </div>
+
+  {%- assign intro = content | strip %}
+  {%- if intro != "" %}
+  <div class="container team-intro prose">{{ content }}</div>
+  {%- endif %}
+
+  {%- if docs.size > 0 %}
+  <section class="container team-reads" aria-labelledby="team-reads-title">
+    <h2 id="team-reads-title" class="team-reads__title">More about the team</h2>
+    <ul class="team-reads__grid" role="list">
+      {%- for doc in docs %}
+      <li>
+        <article class="team-read">
+          <h3 class="team-read__title"><a href="{{ doc.url | relative_url }}">{{ doc.nav_title | default: doc.title }}</a></h3>
+          {%- if doc.summary %}<p class="team-read__text">{{ doc.summary }}</p>{% endif %}
+          <span class="team-read__more" aria-hidden="true">Read <span class="team-read__arrow">&rarr;</span></span>
+        </article>
+      </li>
+      {%- endfor %}
+    </ul>
+  </section>
+  {%- endif %}
+</article>

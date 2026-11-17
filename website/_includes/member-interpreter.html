@@ -1,0 +1,23 @@
+{%- comment -%}
+  "Interpreter" panel: football terms on the left, their engineering definition on the right.
+  Params: data { title, lede, pairs: [{football, engineering}], cultures_note }.
+{%- endcomment -%}
+{%- assign d = include.data -%}
+<section class="container mb-interp" aria-labelledby="mb-interp-title">
+  <div class="mb-interp__card" data-reveal-group>
+    <header class="mb-interp__head">
+      <h2 id="mb-interp-title" class="mb-section-title">{{ d.title | default: "Interpreter" }}</h2>
+      {%- if d.lede %}<p class="mb-interp__lede">{{ d.lede }}</p>{% endif %}
+      <p class="mb-interp__cols" aria-hidden="true"><span>The pitch says</span><span>The model hears</span></p>
+    </header>
+    <dl class="mb-interp__rows">
+      {%- for p in d.pairs %}
+      <div class="mb-interp__row" style="--i: {{ forloop.index0 }}">
+        <dt>{{ p.football }}</dt>
+        <dd><span class="mb-interp__arrow" aria-hidden="true"></span><span>{{ p.engineering }}</span></dd>
+      </div>
+      {%- endfor %}
+    </dl>
+    {%- if d.cultures_note %}<p class="mb-interp__foot">{{ d.cultures_note }}</p>{% endif %}
+  </div>
+</section>

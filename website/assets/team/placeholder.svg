@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Photo to come">
+  <defs>
+    <linearGradient id="ph-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E9EDF5" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#B9A2D8" stop-opacity=".25"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#ph-fill)" stroke="#E9EDF5" stroke-opacity=".6" stroke-width="4">
+    <circle cx="400" cy="400" r="150"/>
+    <path d="M140 1000C150 760 260 620 400 620S650 760 660 1000Z"/>
+  </g>
+  <circle cx="400" cy="400" r="9" fill="#C4F000"/>
+</svg>

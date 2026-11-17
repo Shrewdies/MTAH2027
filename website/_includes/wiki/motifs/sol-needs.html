@@ -1,0 +1,26 @@
+{%- comment -%} Solutions family "direct possession": the six entries by what they need and what they give. Four produce H / A / D from different inputs; two take possession as an input. Values follow the family table. {%- endcomment -%}
+{%- assign rows = "Nearest player;f,n,n|Rule cascade;f,n,n|Possession TCN;p,f,n|PathCRF;n,f,f" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text class="wm-t--xs wm-t--dim" x="240" y="60" text-anchor="middle">Ball</text><text class="wm-t--xs wm-t--dim" x="315" y="60" text-anchor="middle">Labels</text><text class="wm-t--xs wm-t--dim" x="390" y="60" text-anchor="middle">Identities</text>
+  {%- for r in rows %}{% assign parts = r | split: ";" %}{% assign cells = parts[1] | split: "," %}{% assign y = forloop.index0 | times: 56 | plus: 78 %}{% assign cy = y | plus: 19 %}
+  <g class="wm-light" style="--i:{{ forloop.index0 }};--step:1.1s;--lo:.6">
+    <rect class="wm-panel" x="40" y="{{ y }}" width="160" height="38" rx="8"/><text class="wm-t--s" x="52" y="{{ y | plus: 24 }}">{{ parts[0] }}</text>
+    {%- for c in cells %}{% assign x = forloop.index0 | times: 75 | plus: 240 %}
+    {%- if c == "f" %}<circle class="wm-lime" cx="{{ x }}" cy="{{ cy }}" r="11"/>
+    {%- elsif c == "p" %}<circle class="wm-ring" cx="{{ x }}" cy="{{ cy }}" r="11"/><path class="wm-lime" d="M{{ x }} {{ cy | minus: 11 }}A11 11 0 0 0 {{ x }} {{ cy | plus: 11 }}Z"/>
+    {%- else %}<circle class="wm-ln wm-ln--dash" cx="{{ x }}" cy="{{ cy }}" r="11"/>{% endif %}
+    {%- endfor %}
+    <path class="wm-ln wm-ln--lime wm-ln--dash" d="M416 {{ cy }}H450"/>
+  </g>
+  {%- endfor %}
+  <rect class="wm-box" x="450" y="78" width="44" height="206" rx="22"/>
+  <text class="wm-t--s" x="472" y="186" text-anchor="middle" transform="rotate(-90 472 181)">H / A / D</text>
+  <text class="wm-t--xs wm-t--dim" x="575" y="100" text-anchor="middle">Consume it</text>
+  <path class="wm-ln" d="M494 133H530M494 229H530"/><path class="wm-flow" pathLength="100" d="M494 133H530"/><path class="wm-flow" pathLength="100" d="M494 229H530" style="--delay:-1.3s"/>
+  <rect class="wm-panel" x="530" y="114" width="90" height="38" rx="8"/><text class="wm-t--s" x="575" y="138" text-anchor="middle">Phases</text>
+  <rect class="wm-panel" x="530" y="210" width="90" height="38" rx="8"/><text class="wm-t--s" x="575" y="234" text-anchor="middle">DEFCON</text>
+  <text class="wm-t--s wm-t--lime" x="40" y="330">Four produce possession. Two consume it.</text>
+  <circle class="wm-lime" cx="47" cy="362" r="8"/><text class="wm-t--s wm-t--dim" x="64" y="367">Needed</text>
+  <circle class="wm-ring" cx="170" cy="362" r="8"/><path class="wm-lime" d="M170 354A8 8 0 0 0 170 370Z"/><text class="wm-t--s wm-t--dim" x="187" y="367">As trained</text>
+  <circle class="wm-ln wm-ln--dash" cx="320" cy="362" r="8"/><text class="wm-t--s wm-t--dim" x="337" y="367">Not needed</text>
+</svg>

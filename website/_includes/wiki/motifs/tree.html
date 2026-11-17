@@ -1,0 +1,21 @@
+{%- comment -%} A feature table feeding a decision tree. Labels: table, tree, leaf classes. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign leaves = "249,h|295,h|341,a|387,d|433,h|479,a|525,a|571,d" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="36" y="98" class="wm-t--s">{{ L[0] | default: "Features" | truncate: 12, "" | escape }}</text>
+  <rect class="wm-panel" x="36" y="112" width="148" height="180" rx="8"/>
+  <rect x="36" y="112" width="148" height="30" rx="8" fill="rgba(196,240,0,.28)"/>
+  <path class="wm-ln" d="M36 142H184M36 172H184M36 202H184M36 232H184M36 262H184M73 112V292M110 112V292M147 112V292"/>
+  <rect class="wm-box wm-step" x="36" y="142" width="148" height="30" rx="4" style="--ty:120px;--n:5;--dur:5s"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M196 202H228M218 192L230 202L218 212"/>
+  <path class="wm-ln" d="M410 84L318 168M410 84L502 168M318 168L272 252M318 168L364 252M502 168L456 252M502 168L548 252M272 252L249 318M272 252L295 318M364 252L341 318M364 252L387 318M456 252L433 318M456 252L479 318M548 252L525 318M548 252L571 318"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold wm-draw" d="M410 84L502 168L456 252L479 318" pathLength="100" style="--dur:5s"/>
+  <g class="wm-node"><circle cx="410" cy="84" r="15"/><circle cx="318" cy="168" r="13"/><circle cx="502" cy="168" r="13"/><circle cx="272" cy="252" r="11"/><circle cx="364" cy="252" r="11"/><circle cx="456" cy="252" r="11"/><circle cx="548" cy="252" r="11"/></g>
+  <g class="wm-lime"><circle class="wm-pop" cx="410" cy="84" r="8" style="--i:0;--dur:5s;--step:.6s"/><circle class="wm-pop" cx="502" cy="168" r="7" style="--i:1;--dur:5s;--step:.6s"/><circle class="wm-pop" cx="456" cy="252" r="6" style="--i:2;--dur:5s;--step:.6s"/></g>
+  {%- for leaf in leaves %}{% assign v = leaf | split: "," %}
+  <rect class="wm-{{ v[1] }}" x="{{ v[0] | minus: 12 }}" y="318" width="24" height="24" rx="5"/>
+  {%- endfor %}
+  <rect class="wm-ring wm-pulse" x="463" y="314" width="32" height="32" rx="8"/>
+  <text x="434" y="76" class="wm-t--s">{{ L[1] | default: "Splits" | escape }}</text>
+  <text x="410" y="374" text-anchor="middle" class="wm-t--s wm-t--dim">{{ L[2] | default: "Class" | escape }}</text>
+</svg>

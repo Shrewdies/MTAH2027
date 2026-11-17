@@ -1,0 +1,16 @@
+{%- comment -%} Athlete localisation: each player in the frame gets a ground point and a position in metres. Labels: player, ground point. Coordinates are illustrative. {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign players = "112,268,1.2,h,18.4,0|214,226,.92,a,31.0,2|332,282,1.32,h,44.7,1|448,218,.88,a,58.2,3|548,258,1.1,h,71.5,4" | split: "|" -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M40 150H600M24 330H616M24 330L150 150M616 330L490 150M320 150V330" opacity=".7"/>
+  {%- for player in players %}{% assign v = player | split: "," %}
+  <g transform="translate({{ v[0] }} {{ v[1] }})">
+    <ellipse class="wm-ring wm-ping" cx="0" cy="0" rx="13" ry="5" style="--delay:{{ v[5] | times: -0.5 }}s"/>
+    <ellipse class="wm-lime" cx="0" cy="0" rx="9" ry="3.5"/>
+    <g transform="scale({{ v[2] }})" class="wm-{{ v[3] }}" opacity=".92"><circle cy="-62" r="9"/><rect x="-11" y="-51" width="22" height="31" rx="9"/><rect x="-10" y="-25" width="7.5" height="25" rx="3.7"/><rect x="2.5" y="-25" width="7.5" height="25" rx="3.7"/></g>
+    <g class="wm-pop" style="--i:{{ v[5] }};--step:.55s"><path class="wm-ln wm-ln--lime" d="M0 6V20"/><rect class="wm-lime" x="-27" y="20" width="54" height="17" rx="3"/><text class="wm-t--xs wm-t--ink" x="0" y="32.5" text-anchor="middle">{{ v[4] }} m</text></g>
+  </g>
+  {%- endfor %}
+  <g class="wm-h"><circle cx="48" cy="354" r="5"/><rect x="42" y="360" width="12" height="14" rx="5"/></g><text x="68" y="372" class="wm-t--s">{{ L[0] | default: "Player" | escape }}</text>
+  <ellipse class="wm-lime" cx="340" cy="367" rx="10" ry="4"/><text x="360" y="372" class="wm-t--s">{{ L[1] | default: "Ground point" | escape }}</text>
+</svg>

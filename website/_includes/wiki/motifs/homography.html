@@ -1,0 +1,32 @@
+{%- comment -%} Camera trapezoid mapped to a pitch rectangle. Labels: image side, transform, pitch side. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <rect class="wm-panel" x="36" y="104" width="264" height="200" rx="10"/>
+  <path class="wm-ln wm-ln--lime" d="M48 132V116h16M272 116h16v16M288 276v16h-16M64 292H48v-16"/>
+  <path class="wm-ln wm-ln--white" d="M58 282H278L232 142H104Z"/>
+  <path class="wm-ln" d="M168 142V282M88 196H250M72 240H264"/>
+  <ellipse class="wm-ln" cx="168" cy="208" rx="40" ry="17"/>
+  <rect class="wm-panel" x="386" y="132" width="218" height="144" rx="4"/>
+  <path class="wm-ln wm-ln--white" d="M386 132H604V276H386Z"/>
+  <path class="wm-ln" d="M495 132V276M386 172H416V236H386M604 172H574V236H604"/>
+  <circle class="wm-ln" cx="495" cy="204" r="24"/>
+  <path class="wm-ln wm-ln--dash" d="M128 236C150 40 420 40 449 214M214 180C250 70 520 60 561 160" opacity=".7"/>
+  <path class="wm-flow" d="M128 236C150 40 420 40 449 214" pathLength="100" style="--dur:3s"/>
+  <path class="wm-flow wm-flow--white" d="M214 180C250 70 520 60 561 160" pathLength="100" style="--dur:3s;--delay:-1.5s"/>
+  <circle class="wm-lime" cx="128" cy="236" r="7"/><circle class="wm-white" cx="214" cy="180" r="7"/><circle class="wm-a" cx="190" cy="254" r="7"/>
+  <circle class="wm-ring wm-ping" cx="449" cy="214" r="10"/><circle class="wm-lime" cx="449" cy="214" r="7"/>
+  <circle class="wm-ring wm-ln--white wm-ping" cx="561" cy="160" r="10" style="--delay:-1.3s"/><circle class="wm-white" cx="561" cy="160" r="7"/>
+  <circle class="wm-a" cx="519" cy="236" r="7"/>
+  <g transform="translate(343 204)">
+    <path class="wm-ln wm-ln--lime wm-ln--bold" d="M-26 0H22M12 -10L24 0L12 10"/>
+    <g class="wm-lime">
+      {%- for i in (0..8) %}{% assign cx = i | modulo: 3 | times: 12 | minus: 12 %}{% assign cy = i | divided_by: 3 | times: 12 | minus: 46 %}
+      <circle class="wm-pulse" cx="{{ cx }}" cy="{{ cy }}" r="3.4" style="--i:{{ i }}"/>
+      {%- endfor %}
+    </g>
+    <path class="wm-ln wm-ln--white" d="M-20 -54h-5v40h5M20 -54h5v40h-5"/>
+  </g>
+  <text x="168" y="340" text-anchor="middle" class="wm-t--s">{{ L[0] | default: "Camera view" | escape }}</text>
+  <text x="343" y="340" text-anchor="middle" class="wm-t--s wm-t--lime">{{ L[1] | default: "Homography" | truncate: 11, "" | escape }}</text>
+  <text x="495" y="340" text-anchor="middle" class="wm-t--s">{{ L[2] | default: "Pitch plane" | escape }}</text>
+</svg>

@@ -1,0 +1,25 @@
+{%- comment -%} Four to six labelled stages with pulses flowing through. Labels: one per stage (fewer than four uses the defaults). {%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign n = L.size | default: 0 -%}
+{%- if n < 4 -%}{%- assign L = "Ingest,Detect,Track,Decode,Export" | split: "," -%}{%- assign n = 5 -%}{%- endif -%}
+{%- assign last = n | minus: 1 -%}
+{%- assign gap = 500 | divided_by: last -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln wm-ln--bold" d="M70 200H570"/>
+  <path class="wm-flow" d="M70 200H570" pathLength="100" style="--dur:4s"/>
+  <path class="wm-flow wm-flow--white" d="M70 200H570" pathLength="100" style="--dur:4s;--delay:-2s" opacity=".7"/>
+  {%- for i in (0..last) %}{% assign x = i | times: gap | plus: 70 %}{% assign p = i | times: 1.0 | divided_by: last %}{% assign odd = i | modulo: 2 %}
+  <g transform="translate({{ x }} 200)">
+    {%- if i == last %}
+    <circle class="wm-lime wm-edge" r="30"/>
+    <text class="wm-t--disp wm-t--num wm-t--ink" y="9" text-anchor="middle">{{ i | plus: 1 | prepend: "0" }}</text>
+    {%- else %}
+    <circle class="wm-node" r="30"/>
+    <circle class="wm-ring wm-lit" r="30" stroke-width="4" style="--p:{{ p }};--lo:0"/>
+    <text class="wm-t--disp wm-t--num" y="9" text-anchor="middle">{{ i | plus: 1 | prepend: "0" }}</text>
+    {%- endif %}
+    <path class="wm-ln wm-ln--lime" d="{% if odd == 1 %}M0 -36V-50{% else %}M0 36V50{% endif %}"/>
+    <text class="wm-t--s" y="{% if odd == 1 %}-60{% else %}70{% endif %}" text-anchor="middle">{{ L[i] | truncate: 13, "" | escape }}</text>
+  </g>
+  {%- endfor %}
+</svg>

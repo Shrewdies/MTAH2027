@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <p class="pill"><span class="pill__dot" aria-hidden="true"></span>{{ page.kicker | default: "More Than a Hack 2027" }}</p>
+    <h1 id="hero-title" class="hero__title">
+      <span class="visually-hidden">{{ site.title }}</span>
+      <span class="hero__logo" aria-hidden="true">{% include logo.html variant="hero" %}</span>
+    </h1>
+    <p class="hero__tagline">{{ page.tagline }}</p>
+    <div class="actions">
+      <a class="button" href="{{ '/challenges/' | relative_url }}">Our challenges <span class="button__arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="button button--ghost" href="{{ '/team/' | relative_url }}">Meet the squad</a>
+    </div>
+  </div>
+  <a class="hero__scroll" href="#intro"><span class="visually-hidden">Skip to the introduction</span><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</section>
+
+{{ content }}

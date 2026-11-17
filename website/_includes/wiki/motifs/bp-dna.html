@@ -1,0 +1,31 @@
+{%- comment -%}
+  Architecture motif: the double strand. Evidence and decision run as two strands that never merge; five questions
+  join them. Labels: the five questions, left to right. Kit drawing classes; motion is stroke-dashoffset and opacity.
+{%- endcomment -%}
+{%- assign L = include.labels -%}
+{%- assign names = "Observe,Evidence,Decode,Adjudicate,Prove" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <text x="60" y="62" class="wm-t--s">Evidence</text>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M150 57H196"/>
+  <text x="330" y="62" class="wm-t--s wm-t--lime">Decision</text>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M420 57H466"/>
+
+  {%- for i in (0..4) %}{% assign x = i | times: 104 | plus: 112 %}{% assign odd = i | modulo: 2 %}
+  <path class="wm-ln" d="M{{ x }} 140V260" stroke-width="3"/>
+  {%- endfor %}
+
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M60 200C98 120 126 120 164 200S230 280 268 200S334 120 372 200S438 280 476 200S542 120 580 200"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" d="M60 200C98 280 126 280 164 200S230 120 268 200S334 280 372 200S438 120 476 200S542 280 580 200"/>
+  <path class="wm-flow wm-flow--white" d="M60 200C98 120 126 120 164 200S230 280 268 200S334 120 372 200S438 280 476 200S542 120 580 200" pathLength="100" style="--dur:5s"/>
+  <path class="wm-flow" d="M60 200C98 280 126 280 164 200S230 120 268 200S334 280 372 200S438 120 476 200S542 280 580 200" pathLength="100" style="--dur:5s;--delay:-2.5s"/>
+
+  {%- for i in (0..4) %}{% assign x = i | times: 104 | plus: 112 %}{% assign p = i | times: 1.0 | divided_by: 4 %}
+  <g transform="translate({{ x }} 200)">
+    <circle class="wm-node" r="21"/>
+    <circle class="wm-ring wm-lit" r="21" stroke-width="4" style="--p:{{ p }};--lo:0;--dur:5s"/>
+    <text class="wm-t--disp wm-t--num" y="8" text-anchor="middle" style="font-size:20px">{{ i | plus: 1 | prepend: "0" }}</text>
+    <text class="wm-t--s" y="118" text-anchor="middle">{{ L[i] | default: names[i] | truncate: 11, "" | escape }}</text>
+  </g>
+  {%- endfor %}
+  <path class="wm-ln" d="M60 348H580M572 342l8 6-8 6"/>
+</svg>

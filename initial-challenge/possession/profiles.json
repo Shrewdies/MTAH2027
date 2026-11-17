@@ -1,0 +1,87 @@
+{
+  "evaluated": 159,
+  "fixed_params": {
+    "alive_ball_speed": 3.0,
+    "ball_stationary_speed": 1.0,
+    "ball_stationary_window_s": 1.5,
+    "control_max_ball_speed": 7.0,
+    "control_radius_m": 1.5,
+    "fps": 25,
+    "oob_margin_m": 1.0,
+    "setpiece_dead_fraction": 0.4,
+    "speed_half_window": 2,
+    "still_speed": 0.9,
+    "still_window_s": 3.0,
+    "tag_cap": 0.5,
+    "tag_min_control_frames": 200,
+    "w_alive": 0.3,
+    "w_control": 1.0,
+    "w_control_fast": 0.2
+  },
+  "generations": 3,
+  "halves": [
+    3027,
+    3028,
+    3029,
+    3030,
+    3031,
+    3032
+  ],
+  "method": "NSGA-II-style search on simulated halves (possession/simulate.py), objectives from evaluation/possession_metrics.py; no competition data used",
+  "profiles": {
+    "balanced": {
+      "params": {
+        "cost_dead_switch": 12.4991,
+        "cost_team_switch": 8.3461,
+        "w_ball_stationary": 0.5096,
+        "w_oob": 2.4933,
+        "w_setpiece": 0.5599,
+        "w_still": 0.7975,
+        "w_tag_scale": 0.0489
+      },
+      "sim_macro_f1": 0.8571,
+      "sim_spell_f1": 0.6377
+    },
+    "macro": {
+      "params": {
+        "cost_dead_switch": 9.4302,
+        "cost_team_switch": 4.2323,
+        "w_ball_stationary": 0.3556,
+        "w_oob": 3.2968,
+        "w_setpiece": 0.6603,
+        "w_still": 0.7919,
+        "w_tag_scale": 0.035
+      },
+      "sim_macro_f1": 0.8591,
+      "sim_spell_f1": 0.6179
+    },
+    "spell": {
+      "params": {
+        "cost_dead_switch": 12.4991,
+        "cost_team_switch": 8.3461,
+        "w_ball_stationary": 0.5096,
+        "w_oob": 2.4933,
+        "w_setpiece": 0.5599,
+        "w_still": 0.7975,
+        "w_tag_scale": 0.0489
+      },
+      "sim_macro_f1": 0.8571,
+      "sim_spell_f1": 0.6377
+    }
+  },
+  "reasoned_defaults": {
+    "params": {
+      "cost_dead_switch": 20.0,
+      "cost_team_switch": 10.0,
+      "w_ball_stationary": 0.5,
+      "w_oob": 3.0,
+      "w_setpiece": 0.6,
+      "w_still": 0.3,
+      "w_tag_scale": 0.1
+    },
+    "sim_macro_f1": 0.8346,
+    "sim_spell_f1": 0.6055
+  },
+  "samples": 64,
+  "seed": 2027
+}

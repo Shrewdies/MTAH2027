@@ -1,0 +1,72 @@
+{%- comment -%}
+  Architecture motif: four ways to join the witnesses. The same three witnesses and the same output; what differs is
+  where the join (the lime diamond) sits: before the model, after the models, split into two decisions, or behind a
+  gate that weights each witness by how far it can be trusted right now. Synthetic.
+  Motion: stroke-dashoffset and opacity only.
+{%- endcomment -%}
+{%- assign rows = "Early|Join the features|Late|Join the scores|Hierarchical|Alive first, then team|Reliability-gated|Weight by trust" | split: "|" -%}
+<svg class="wm bp-fu" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <style>
+    .bp-fu .bp-fu__t { fill: var(--sh-blue-bright); }
+    .bp-fu .bp-fu__b { fill: var(--sh-mauve); }
+    .bp-fu .bp-fu__v { fill: var(--sh-lime); }
+  </style>
+  <text x="24" y="30" class="wm-t--xs wm-t--dim">Same witnesses, same output</text>
+  <path class="wm-lime" d="M434 18l8 8-8 8-8-8z"/>
+  <text x="450" y="30" class="wm-t--xs wm-t--lime">Where they are joined</text>
+
+  {%- for i in (0..3) %}{% assign k = i | times: 2 %}{% assign k1 = k | plus: 1 %}{% assign cy = i | times: 86 | plus: 92 %}{% assign up = cy | minus: 18 %}{% assign dn = cy | plus: 18 %}
+  <text x="24" y="{{ cy | minus: 2 }}" class="wm-t--xs{% if i == 3 %} wm-t--lime{% endif %}">{{ rows[k] }}</text>
+  <text x="24" y="{{ cy | plus: 14 }}" class="wm-t--xs wm-t--tight wm-t--dim">{{ rows[k1] }}</text>
+  <circle class="bp-fu__t" cx="196" cy="{{ up }}" r="6"/><circle class="bp-fu__b" cx="196" cy="{{ cy }}" r="6"/><circle class="bp-fu__v" cx="196" cy="{{ dn }}" r="6"/>
+  {%- if i == 0 %}
+  <path class="wm-ln" d="M202 {{ up }}L258 {{ cy }}M202 {{ cy }}H258M202 {{ dn }}L258 {{ cy }}"/>
+  <path class="wm-lime wm-pulse" d="M270 {{ cy | minus: 12 }}l12 12-12 12-12-12z" style="--lo:.5"/>
+  <path class="wm-ln" d="M282 {{ cy }}H330"/>
+  <rect class="wm-node" x="330" y="{{ cy | minus: 17 }}" width="120" height="34" rx="8"/>
+  <text x="390" y="{{ cy | plus: 4 }}" text-anchor="middle" class="wm-t--xs">One model</text>
+  <path class="wm-ln" d="M450 {{ cy }}H530"/>
+  <path class="wm-flow" d="M202 {{ cy }}H530" pathLength="100" style="--dur:3.2s"/>
+  {%- elsif i == 1 %}
+  {%- for o in (0..2) %}{% assign yy = o | times: 18 | plus: up %}
+  <path class="wm-ln" d="M202 {{ yy }}H240"/>
+  <rect class="wm-node" x="240" y="{{ yy | minus: 7 }}" width="110" height="14" rx="5" stroke-width="1.5"/>
+  <path class="wm-ln" d="M350 {{ yy }}L404 {{ cy }}"/>
+  {%- endfor %}
+  <text x="295" y="{{ up | minus: 12 }}" text-anchor="middle" class="wm-t--xs wm-t--tight wm-t--dim">A model each</text>
+  <path class="wm-lime wm-pulse" d="M416 {{ cy | minus: 12 }}l12 12-12 12-12-12z" style="--lo:.5;--i:3"/>
+  <path class="wm-ln" d="M428 {{ cy }}H530"/>
+  <path class="wm-flow" d="M202 {{ cy }}H530" pathLength="100" style="--dur:3.2s;--delay:-.8s"/>
+  {%- elsif i == 2 %}
+  <path class="wm-ln" d="M202 {{ up }}L240 {{ cy }}M202 {{ cy }}H240M202 {{ dn }}L240 {{ cy }}"/>
+  <rect class="wm-node" x="240" y="{{ cy | minus: 17 }}" width="96" height="34" rx="8"/>
+  <text x="288" y="{{ cy | plus: 4 }}" text-anchor="middle" class="wm-t--xs">Alive?</text>
+  <path class="wm-ln" d="M336 {{ cy }}H356"/>
+  <path class="wm-lime wm-pulse" d="M368 {{ cy | minus: 12 }}l12 12-12 12-12-12z" style="--lo:.5;--i:6"/>
+  <path class="wm-ln" d="M380 {{ cy }}H400"/>
+  <rect class="wm-node" x="400" y="{{ cy | minus: 17 }}" width="96" height="34" rx="8"/>
+  <text x="448" y="{{ cy | plus: 4 }}" text-anchor="middle" class="wm-t--xs">Team?</text>
+  <path class="wm-ln" d="M496 {{ cy }}H530"/>
+  <path class="wm-flow" d="M202 {{ cy }}H530" pathLength="100" style="--dur:3.2s;--delay:-1.6s"/>
+  {%- else %}
+  {%- assign ws = "46|30|8" | split: "|" -%}
+  {%- for o in (0..2) %}{% assign yy = o | times: 18 | plus: up %}{% assign ww = ws[o] | plus: 0 %}
+  <path class="wm-ln{% if o == 2 %} wm-ln--dash{% endif %}" d="M202 {{ yy }}H240"/>
+  <rect class="wm-node" x="240" y="{{ yy | minus: 7 }}" width="80" height="14" rx="5" stroke-width="1.5"{% if o == 2 %} stroke-dasharray="4 4" opacity=".6"{% endif %}/>
+  <rect class="wm-ln" x="330" y="{{ yy | minus: 5 }}" width="50" height="10" rx="4" stroke-width="1"/>
+  <rect class="{% if o == 2 %}wm-a{% else %}wm-lime{% endif %}" x="331" y="{{ yy | minus: 4 }}" width="{{ ww }}" height="8" rx="3"/>
+  <path class="wm-ln" d="M380 {{ yy }}L404 {{ cy }}"/>
+  {%- endfor %}
+  <text x="355" y="{{ up | minus: 12 }}" text-anchor="middle" class="wm-t--xs wm-t--tight wm-t--dim">Trust now</text>
+  <path class="wm-lime wm-pulse" d="M416 {{ cy | minus: 12 }}l12 12-12 12-12-12z" style="--lo:.5;--i:9"/>
+  <path class="wm-ln" d="M428 {{ cy }}H530"/>
+  <path class="wm-flow" d="M202 {{ up }}H240" pathLength="100" style="--dur:1.6s"/>
+  <path class="wm-flow" d="M428 {{ cy }}H530" pathLength="100" style="--dur:1.6s;--delay:-.8s"/>
+  {%- endif %}
+  <rect class="wm-h" x="534" y="{{ cy | minus: 11 }}" width="36" height="22" rx="4"/><rect class="wm-d" x="572" y="{{ cy | minus: 11 }}" width="14" height="22" rx="4"/><rect class="wm-a" x="588" y="{{ cy | minus: 11 }}" width="28" height="22" rx="4"/>
+  {%- unless i == 3 %}<path class="wm-ln wm-ln--dash" d="M24 {{ cy | plus: 43 }}H616" stroke-width="1"/>{% endunless %}
+  {%- endfor %}
+  <circle class="bp-fu__t" cx="30" cy="386" r="5"/><text x="42" y="390" class="wm-t--xs wm-t--tight wm-t--dim">Tactical</text>
+  <circle class="bp-fu__b" cx="126" cy="386" r="5"/><text x="138" y="390" class="wm-t--xs wm-t--tight wm-t--dim">Broadcast</text>
+  <circle class="bp-fu__v" cx="232" cy="386" r="5"/><text x="244" y="390" class="wm-t--xs wm-t--tight wm-t--dim">Video frames</text>
+</svg>

@@ -1,0 +1,34 @@
+{%- comment -%}
+  Architecture motif: one model, many frames. A window slides over stacked tracking signals, one learner reads it,
+  and three scores per frame come out; the two flickering cells show what nothing in the model forbids.
+  Synthetic. Motion: transform, opacity and stroke-dashoffset only.
+{%- endcomment -%}
+{%- assign names = "Ball reach|Ball speed|Team shape|Tags" | split: "|" -%}
+{%- assign sig = "M150 0l22 -8 22 12 22 -16 22 6 22 14 22 -18 22 4 22 10 22 -14 22 6|M150 0l22 10 22 -14 22 4 22 12 22 -18 22 8 22 -6 22 14 22 -4 22 -8|M150 0l22 -4 22 -6 22 10 22 4 22 -12 22 14 22 -8 22 -2 22 12 22 -10|M150 0h44v-12h66v12h44v-12h66" | split: "|" -%}
+{%- assign out = "h,h,h,h,a,h,h,h,d,d,d,h,d,a,a,a,a,a,h,a,a,a" | split: "," -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  {%- for nm in names %}{% assign y = forloop.index0 | times: 44 | plus: 62 %}
+  <text x="24" y="{{ y | plus: 4 }}" class="wm-t--xs">{{ nm }}</text>
+  <path class="wm-ln" d="M150 {{ y }}H370" stroke-width="1" opacity=".5"/>
+  <g transform="translate(0 {{ y }})"><path class="wm-ln {% if forloop.index0 == 3 %}wm-ln--mauve{% else %}wm-ln--white{% endif %}" d="{{ sig[forloop.index0] }}"/></g>
+  {%- endfor %}
+  <rect class="wm-box wm-slide" x="150" y="34" width="72" height="180" rx="8" style="--fx:0px;--tx:148px;--dur:5s"/>
+  <text x="150" y="238" class="wm-t--xs wm-t--lime">Sliding window</text>
+
+  <path class="wm-ln wm-ln--bold" d="M386 124H452M444 118l8 6-8 6"/>
+  <path class="wm-flow" d="M386 124H452" pathLength="100" style="--dur:2s"/>
+  <rect class="wm-node" x="456" y="84" width="160" height="80" rx="12"/>
+  <rect class="wm-ring wm-pulse" x="456" y="84" width="160" height="80" rx="12" style="--lo:.4"/>
+  <text x="536" y="120" text-anchor="middle" class="wm-t--s">One model</text>
+  <text x="536" y="142" text-anchor="middle" class="wm-t--xs wm-t--dim">Time lives inside</text>
+  <path class="wm-ln wm-ln--bold" d="M536 164V262M530 254l6 8 6-8"/>
+  <path class="wm-flow" d="M536 164V262" pathLength="100" style="--dur:2s;--delay:-1s"/>
+
+  <text x="24" y="287" class="wm-t--xs">Scores per frame</text>
+  {%- for c in out %}
+  <rect class="wm-{{ c }}{% if forloop.index0 == 4 or forloop.index0 == 11 or forloop.index0 == 18 %} wm-blink{% endif %}" x="{{ forloop.index0 | times: 21 | plus: 154 }}" y="268" width="19" height="30" rx="3"/>
+  {%- endfor %}
+  <g class="wm-ln wm-ln--lime" stroke-width="2"><path d="M247.5 304v14M394.5 304v14M541.5 304v14"/></g>
+  <text x="154" y="344" class="wm-t--xs wm-t--lime">One flicker cuts a possession in two</text>
+  <text x="154" y="368" class="wm-t--xs wm-t--dim">Coherent spells are learned, never guaranteed</text>
+</svg>

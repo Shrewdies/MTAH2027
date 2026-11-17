@@ -1,0 +1,21 @@
+{%- comment -%} Fallback motif: pitch lines drawing in, a pass route and a ball. {%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <g class="wm-ln">
+    <rect class="wm-draw" x="40" y="55" width="560" height="290" rx="4" pathLength="100"/>
+    <path class="wm-draw" d="M40 120H116V280H40M40 163H68V237H40" pathLength="100" style="--delay:.3s"/>
+    <path class="wm-draw" d="M600 120H524V280H600M600 163H572V237H600" pathLength="100" style="--delay:.3s"/>
+    <path class="wm-draw" d="M116 170A40 40 0 0 1 116 230M524 170A40 40 0 0 0 524 230" pathLength="100" style="--delay:.6s"/>
+  </g>
+  <g class="wm-ln wm-ln--lime">
+    <path class="wm-draw" d="M320 55V345" pathLength="100" style="--delay:.15s"/>
+    <circle class="wm-draw" cx="320" cy="200" r="42" pathLength="100" style="--delay:.45s"/>
+  </g>
+  <path class="wm-ln wm-ln--dash" d="M150 285C240 330 300 250 350 205S470 120 520 150" opacity=".7"/>
+  <path class="wm-flow" d="M150 285C240 330 300 250 350 205S470 120 520 150" pathLength="100" style="--dur:3.2s"/>
+  <circle class="wm-white" cx="150" cy="285" r="8"/>
+  <circle class="wm-ring wm-ping" cx="520" cy="150" r="13"/>
+  <circle class="wm-lime" cx="520" cy="150" r="8"/>
+  {%- if include.labels[0] %}
+  <text x="320" y="382" text-anchor="middle">{{ include.labels[0] | escape }}</text>
+  {%- endif %}
+</svg>

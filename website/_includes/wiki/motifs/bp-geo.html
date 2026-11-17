@@ -1,0 +1,48 @@
+{%- comment -%}
+  Architecture motif: geospatial evidence. One synthetic pitch, four facts a match official would check, lit in turn:
+  a player within reach of a slow ball, a ball beyond the line, players standing still, a fast ball in play.
+  Each fact names the state it supports. Motion: opacity, transform and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  {% include wiki/pitch-lines.html x=24 y=24 scale=0.72 %}
+  <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="92" cy="80" r="7"/><circle cx="150" cy="150" r="7"/><circle cx="118" cy="196" r="7"/></g>
+  <g class="wm-a wm-edge" stroke-width="1.5"><circle cx="232" cy="74" r="7"/><circle cx="262" cy="170" r="7"/></g>
+
+  <g class="wm-light" style="--i:0;--step:1.6s;--dur:6.4s;--lo:.28">
+    <circle class="wm-box" cx="150" cy="150" r="24" stroke-dasharray="4 5"/>
+    <circle class="wm-lime" cx="163" cy="158" r="5"/>
+    <path class="wm-ln wm-ln--lime" d="M174 150C230 150 250 60 452 60"/>
+  </g>
+  <g class="wm-light" style="--i:1;--step:1.6s;--dur:6.4s;--lo:.28">
+    <circle class="wm-lime" cx="214" cy="250" r="5"/>
+    <path class="wm-ln wm-ln--lime wm-ln--dash" d="M214 222V246"/>
+    <path class="wm-ln wm-ln--lime" d="M222 252C300 262 330 128 452 128"/>
+  </g>
+  <g class="wm-light" style="--i:2;--step:1.6s;--dur:6.4s;--lo:.28">
+    <g class="wm-h wm-edge" stroke-width="1.5"><circle cx="330" cy="92" r="7"/><circle cx="352" cy="112" r="7"/></g>
+    <g class="wm-a wm-edge" stroke-width="1.5"><circle cx="338" cy="126" r="7"/><circle cx="364" cy="96" r="7"/></g>
+    <ellipse class="wm-ln wm-ln--lime wm-ln--dash" cx="346" cy="108" rx="36" ry="32"/>
+    <path class="wm-ln wm-ln--lime" d="M382 112C410 118 420 196 452 196"/>
+  </g>
+  <g class="wm-light" style="--i:3;--step:1.6s;--dur:6.4s;--lo:.28">
+    <path class="wm-ln wm-ln--white wm-ln--bold" d="M296 196L372 184" stroke-dasharray="2 9"/>
+    <circle class="wm-lime" cx="380" cy="183" r="5"/>
+    <path class="wm-ln wm-ln--lime" d="M388 186C420 200 420 264 452 264"/>
+  </g>
+
+  {%- assign facts = "In reach, slow ball|Ball beyond the line|Players standing still|Fast ball in play" | split: "|" -%}
+  {%- assign says = "Home or away|Dead|Dead|Not dead" | split: "|" -%}
+  {%- for f in facts %}{% assign y = forloop.index0 | times: 68 | plus: 36 %}
+  <g class="wm-light" style="--i:{{ forloop.index0 }};--step:1.6s;--dur:6.4s;--lo:.4">
+    <rect class="wm-node" x="452" y="{{ y }}" width="170" height="50" rx="9"/>
+    <text x="464" y="{{ y | plus: 21 }}" class="wm-t--xs wm-t--tight">{{ f }}</text>
+    <text x="464" y="{{ y | plus: 39 }}" class="wm-t--xs wm-t--lime">&#8594; {{ says[forloop.index0] }}</text>
+  </g>
+  {%- endfor %}
+
+  <text x="24" y="296" class="wm-t--xs wm-t--dim">Evidence on this frame</text>
+  <rect class="wm-panel" x="24" y="308" width="598" height="66" rx="10"/>
+  <text x="42" y="346" class="wm-t--s">Home</text><rect class="wm-h wm-pulse" x="100" y="328" width="96" height="26" rx="5" style="--i:0;--lo:.3;--dur:6.4s"/>
+  <text x="232" y="346" class="wm-t--s">Away</text><rect class="wm-a" x="290" y="328" width="30" height="26" rx="5" opacity=".5"/>
+  <text x="420" y="346" class="wm-t--s">Dead</text><rect class="wm-d wm-pulse" x="478" y="328" width="118" height="26" rx="5" style="--i:14;--lo:.3;--dur:6.4s"/>
+</svg>

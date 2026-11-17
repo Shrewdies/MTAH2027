@@ -1,0 +1,64 @@
+---
+layout: default
+---
+{%- assign team = site.data.team -%}
+{%- assign hub = site.team | where_exp: "d", "d.url contains 'why-our-specialization-matters'" | where_exp: "d", "d.why_order == nil" | first -%}
+{%- assign reads = site.team | where_exp: "d", "d.why_order" | sort: "why_order" -%}
+{%- for r in reads %}{% if r.url == page.url %}{% assign i = forloop.index0 %}{% endif %}{% endfor -%}
+{%- assign pi = i | minus: 1 -%}
+{%- assign ni = i | plus: 1 -%}
+<article class="wy-read" data-why>
+  <header class="page-hero">
+    <div class="container page-hero__inner">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="{{ '/' | relative_url }}">Home</a></li>
+          <li><a href="{{ '/team/' | relative_url }}">Team</a></li>
+          {%- if hub %}<li><a href="{{ hub.url | relative_url }}">{{ hub.nav_title | default: hub.title }}</a></li>{% endif %}
+          <li><span aria-current="page">{{ page.title }}</span></li>
+        </ol>
+      </nav>
+      <p class="kicker"><span class="kicker__num">{{ i | plus: 1 | prepend: "0" | slice: -2, 2 }} / {{ reads.size | prepend: "0" | slice: -2, 2 }}</span>Why it matters</p>
+      <h1 class="page-title wy-read__title">{{ page.title }}</h1>
+      {%- if page.summary %}<p class="lede">{{ page.summary }}</p>{% endif %}
+    </div>
+  </header>
+
+  <div class="container wy-read__grid">
+    <div class="paper wy-read__paper">
+      <div class="prose">{{ content }}</div>
+    </div>
+    <aside class="wy-read__aside">
+      <figure class="wy-read__art">{% include member-why-art.html art=page.art %}</figure>
+      {%- if page.members %}
+      <div class="wy-read__who">
+        <h2 class="mb-section-title">Who brings it</h2>
+        <ul class="wy-who" role="list">
+          {%- for n in page.members %}{% assign m = team.members | where: "number", n | first %}
+          {%- assign thumb = '/assets/team/' | append: m.slug | append: '.webp' %}
+          <li>
+            <a class="wy-who__link" href="{{ '/team/' | append: m.slug | append: '/' | relative_url }}">
+              <img src="{{ thumb | relative_url }}" alt="" width="800" height="1000" loading="lazy" decoding="async">
+              <span class="wy-who__text"><b>No. {{ m.number }} · {{ m.name }}</b><span>{{ m.role }}</span></span>
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+    </aside>
+  </div>
+
+  <nav class="container pager wy-read__pager" aria-label="More reads">
+    {%- if pi >= 0 %}{% assign p = reads[pi] %}
+    <a class="pager__link pager__link--prev" href="{{ p.url | relative_url }}"><span class="pager__dir">&larr; Previous</span><span class="pager__title">{{ p.title }}</span></a>
+    {%- elsif hub %}
+    <a class="pager__link pager__link--prev" href="{{ hub.url | relative_url }}"><span class="pager__dir">&larr; All reads</span><span class="pager__title">{{ hub.title }}</span></a>
+    {%- endif %}
+    {%- if ni < reads.size %}{% assign n = reads[ni] %}
+    <a class="pager__link pager__link--next" href="{{ n.url | relative_url }}"><span class="pager__dir">Next &rarr;</span><span class="pager__title">{{ n.title }}</span></a>
+    {%- elsif hub %}
+    <a class="pager__link pager__link--next" href="{{ hub.url | relative_url }}"><span class="pager__dir">All reads &rarr;</span><span class="pager__title">{{ hub.title }}</span></a>
+    {%- endif %}
+  </nav>
+</article>

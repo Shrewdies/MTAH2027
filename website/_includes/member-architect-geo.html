@@ -1,0 +1,41 @@
+{%- comment -%}
+  Geospatial layers on a hex grid: coverage cells, demand, movement, then the same grid read as a pitch.
+  Phases: 1 coverage, 2 demand, 3 movement, 4 pitch. Without scripts every layer is shown.
+{%- endcomment -%}
+<svg class="ax-geo" viewBox="0 0 420 270" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="ax-hex" d="M0 -23L20 -11.5V11.5L0 23L-20 11.5V-11.5Z"/>
+    <radialGradient id="ax-heat"><stop offset="0" stop-color="#E5336F" stop-opacity=".85"/><stop offset="1" stop-color="#E5336F" stop-opacity="0"/></radialGradient>
+  </defs>
+  <g class="ax-geo__cover">
+    {%- for row in (0..5) %}{% assign odd = row | modulo: 2 %}{% for col in (0..8) %}
+      {%- assign x = col | times: 42 | plus: 32 -%}{% if odd == 1 %}{% assign x = x | plus: 21 %}{% endif -%}
+      {%- assign y = row | times: 37 | plus: 40 -%}
+      {%- assign v = col | times: 5 | plus: row | times: 3 | modulo: 7 %}
+    <use href="#ax-hex" x="{{ x }}" y="{{ y }}" style="--v: {{ v }}"/>
+    {%- endfor %}{% endfor %}
+  </g>
+  <g class="ax-geo__sites">
+    <g transform="translate(95 77)"><circle class="ax-geo__ring" r="10"/><circle r="4.5"/></g>
+    <g transform="translate(284 114)"><circle class="ax-geo__ring" r="10" style="--t: -1s"/><circle r="4.5"/></g>
+    <g transform="translate(158 188)"><circle class="ax-geo__ring" r="10" style="--t: -2s"/><circle r="4.5"/></g>
+  </g>
+  <g class="ax-geo__demand">
+    <circle cx="210" cy="96" r="46" fill="url(#ax-heat)"/>
+    <circle cx="326" cy="182" r="38" fill="url(#ax-heat)"/>
+    <circle cx="84" cy="170" r="30" fill="url(#ax-heat)"/>
+  </g>
+  <g class="ax-geo__move">
+    <path d="M95 77Q150 40 210 96"/><path d="M158 188Q250 230 326 182"/>
+    <path d="M284 114Q320 130 326 182"/><path d="M84 170Q110 110 210 96"/>
+  </g>
+  <g class="ax-geo__pitch">
+    <rect x="14" y="16" width="392" height="238" rx="4"/>
+    <line x1="210" y1="16" x2="210" y2="254"/><circle cx="210" cy="135" r="34"/>
+    <rect x="14" y="70" width="58" height="130"/><rect x="348" y="70" width="58" height="130"/>
+    <g class="ax-geo__players">
+      <circle cx="95" cy="77" r="5.5" class="is-h"/><circle cx="158" cy="188" r="5.5" class="is-h"/><circle cx="210" cy="96" r="5.5" class="is-h"/>
+      <circle cx="284" cy="114" r="5.5" class="is-a"/><circle cx="326" cy="182" r="5.5" class="is-a"/><circle cx="84" cy="170" r="5.5" class="is-a"/>
+    </g>
+  </g>
+</svg>

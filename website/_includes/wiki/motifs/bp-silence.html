@@ -1,0 +1,50 @@
+{%- comment -%}
+  Architecture motif: when the ball goes missing. One ball track with a gap, and the same stretch of play under three
+  treatments of the blank frames: read them as a dead ball, feed an interpolated guess, or score nothing and let the
+  story continue. Synthetic. Motion: transform (wipe), opacity and stroke-dashoffset only.
+{%- endcomment -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="{{ include.uid }}-s1"><rect class="wm-wipe" x="170" y="136" width="450" height="44" style="--dur:7s"/></clipPath>
+    <clipPath id="{{ include.uid }}-s2"><rect class="wm-wipe" x="170" y="212" width="450" height="44" style="--dur:7s"/></clipPath>
+    <clipPath id="{{ include.uid }}-s3"><rect class="wm-wipe" x="170" y="288" width="450" height="44" style="--dur:7s"/></clipPath>
+  </defs>
+
+  <rect x="318" y="30" width="150" height="312" rx="8" fill="rgba(229,51,111,.12)" stroke="rgba(229,51,111,.5)" stroke-width="1.5" stroke-dasharray="5 6"/>
+  <text x="393" y="50" text-anchor="middle" class="wm-t--xs">Ball untracked</text>
+
+  <text x="24" y="92" class="wm-t--xs">Ball track</text>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M170 96C220 70 270 104 318 84"/>
+  <path class="wm-ln wm-ln--dash" d="M318 84C370 62 420 112 468 90"/>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M468 90C520 70 570 100 616 84"/>
+  <g transform="translate(616 84)"><g class="wm-travel" style="--fx:-446px;--dur:7s"><circle class="wm-lime" r="6"/></g></g>
+
+  <text x="24" y="156" class="wm-t--xs">Blank means dead</text>
+  <g clip-path="url(#{{ include.uid }}-s1)">
+    <rect class="wm-h" x="170" y="140" width="146" height="36" rx="6"/>
+    <rect class="wm-d" x="318" y="140" width="150" height="36" rx="6"/>
+    <rect class="wm-h" x="470" y="140" width="146" height="36" rx="6"/>
+  </g>
+  <text x="24" y="174" class="wm-t--xs wm-t--dim">A stoppage invented</text>
+
+  <text x="24" y="232" class="wm-t--xs">Guess the ball</text>
+  <g clip-path="url(#{{ include.uid }}-s2)">
+    <rect class="wm-h" x="170" y="216" width="146" height="36" rx="6"/>
+    <rect class="wm-a" x="318" y="216" width="28" height="36" rx="5"/>
+    <rect class="wm-h" x="348" y="216" width="40" height="36" rx="5"/>
+    <rect class="wm-a" x="390" y="216" width="22" height="36" rx="5"/>
+    <rect class="wm-h" x="414" y="216" width="54" height="36" rx="5"/>
+    <rect class="wm-h" x="470" y="216" width="146" height="36" rx="6"/>
+  </g>
+  <text x="24" y="250" class="wm-t--xs wm-t--dim">Guess scored as fact</text>
+
+  <text x="24" y="308" class="wm-t--xs wm-t--lime">No evidence</text>
+  <g clip-path="url(#{{ include.uid }}-s3)">
+    <rect class="wm-h" x="170" y="292" width="446" height="36" rx="6"/>
+  </g>
+  <rect class="wm-ring wm-late" x="166" y="288" width="454" height="44" rx="9" style="--dur:7s"/>
+  <text x="24" y="326" class="wm-t--xs wm-t--lime">The story continues</text>
+
+  <text x="170" y="368" class="wm-t--xs wm-t--dim">Possessions found:</text>
+  <text x="318" y="368" class="wm-t--xs">2, then 5, then 1. The truth is 1.</text>
+</svg>

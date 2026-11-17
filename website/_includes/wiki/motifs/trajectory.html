@@ -1,0 +1,17 @@
+{%- comment -%} Ball arc with growing uncertainty. Labels: observed part, predicted part, uncertainty. {%- endcomment -%}
+{%- assign L = include.labels -%}
+<svg class="wm" viewBox="0 0 640 400" aria-hidden="true" focusable="false">
+  <path class="wm-ln" d="M40 300H600"/>
+  <path class="wm-ticks" d="M40 306H600" opacity=".5"/>
+  <ellipse class="wm-box wm-breathe" cx="540" cy="300" rx="56" ry="15" stroke-dasharray="5 6" style="--s:1.14"/>
+  <ellipse class="wm-ln wm-ln--lime wm-ln--dash wm-breathe" cx="494" cy="228" rx="30" ry="20" style="--s:1.14;--delay:-.6s"/>
+  <ellipse class="wm-ln wm-ln--lime wm-ln--dash wm-breathe" cx="425" cy="150" rx="18" ry="13" style="--s:1.14;--delay:-1.2s"/>
+  <path class="wm-ln wm-ln--white wm-ln--bold" d="M80 300Q218 60 356 108"/>
+  <path class="wm-ln wm-ln--lime wm-ln--bold" stroke-dasharray="3 10" d="M356 108Q448 140 540 300"/>
+  <g class="wm-white"><circle cx="126" cy="228" r="4.5"/><circle cx="172" cy="172" r="4.5"/><circle cx="218" cy="132" r="4.5"/><circle cx="264" cy="108" r="4.5"/><circle cx="310" cy="100" r="4.5"/></g>
+  <circle class="wm-h wm-edge" cx="80" cy="300" r="10"/>
+  <g class="wm-slide" style="--fx:-276px;--tx:184px;--dur:3.6s"><g class="wm-lob" style="--fy:192px;--py:-8px;--dur:3.6s"><g class="wm-ends" style="--dur:3.6s"><circle class="wm-ring" cx="356" cy="108" r="14"/><circle class="wm-white" cx="356" cy="108" r="9"/></g></g></g>
+  <text x="50" y="140">{{ L[0] | default: "Observed" | truncate: 10, "" | escape }}</text>
+  <text x="452" y="112" class="wm-t--lime">{{ L[1] | default: "Predicted" | escape }}</text>
+  <text x="590" y="344" text-anchor="end" class="wm-t--s wm-t--dim">{{ L[2] | default: "Uncertainty" | escape }}</text>
+</svg>

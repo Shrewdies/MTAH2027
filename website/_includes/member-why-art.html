@@ -1,0 +1,84 @@
+{%- comment -%}
+  Small animated illustration for a "Why our specialization matters" article.
+  Params: art (eye | occlusion | pitch | orbit | loop | corner | multiplier). Styles: assets/members/why.css.
+  Every art sits on a pitch plan except multiplier, which is a wiring diagram.
+{%- endcomment -%}
+{%- assign a = include.art -%}
+<svg class="wy-art wy-art--{{ a }}" viewBox="0 0 240 160" aria-hidden="true" focusable="false">
+  {%- unless a == "multiplier" %}
+  <g class="wy-pitch">
+    <rect x="12" y="14" width="216" height="132" rx="4"/>
+    <line x1="120" y1="14" x2="120" y2="146"/>
+    <circle cx="120" cy="80" r="18"/>
+    <rect x="12" y="50" width="26" height="60"/>
+    <rect x="202" y="50" width="26" height="60"/>
+  </g>
+  {%- endunless %}
+  {%- case a -%}
+  {%- when "eye" %}
+  <g class="wy-eye">
+    <path class="wy-eye__lid" d="M50 80Q120 22 190 80Q120 138 50 80Z"/>
+    <g class="wy-eye__iris"><circle r="24" cx="120" cy="80"/><circle class="wy-eye__pupil" r="10" cx="120" cy="80"/><circle class="wy-eye__glint" r="3.5" cx="127" cy="73"/></g>
+    <line class="wy-eye__scan" x1="50" y1="80" x2="190" y2="80"/>
+  </g>
+  <g class="wy-tags"><text x="22" y="34">LABEL</text><text x="176" y="138">VERIFY</text></g>
+  {%- when "occlusion" %}
+  <path class="wy-occ__path" d="M30 120L92 86L150 66L212 44"/>
+  <ellipse class="wy-occ__cone" cx="150" cy="66" rx="20" ry="12"/>
+  <g class="wy-occ__crowd">
+    <circle cx="112" cy="70" r="9" class="is-h"/><circle cx="128" cy="86" r="9" class="is-a"/><circle cx="136" cy="64" r="9" class="is-h"/><circle cx="118" cy="94" r="9" class="is-a"/>
+  </g>
+  <circle class="wy-occ__ball" cx="30" cy="120" r="5.5"/>
+  <g class="wy-tags"><text x="150" y="130">P(ball) ↑</text></g>
+  {%- when "pitch" %}
+  <g class="wy-heat">
+    {%- for row in (0..3) %}{% for col in (0..5) %}
+    <rect x="{{ col | times: 36 | plus: 12 }}" y="{{ row | times: 33 | plus: 14 }}" width="36" height="33" style="--d: {{ col | times: 3 | plus: row | modulo: 7 }}"/>
+    {%- endfor %}{% endfor %}
+  </g>
+  <g class="wy-dots"><circle cx="70" cy="60" r="4" class="is-h"/><circle cx="95" cy="104" r="4" class="is-h"/><circle cx="150" cy="70" r="4" class="is-a"/><circle cx="168" cy="110" r="4" class="is-a"/><circle cx="128" cy="92" r="4" class="is-h"/></g>
+  <g class="wy-tags"><text x="18" y="156">0,0</text><text x="186" y="10">105 × 68</text></g>
+  {%- when "orbit" %}
+  <path class="wy-orbit__earth" d="M-10 170Q120 108 250 170"/>
+  <ellipse class="wy-orbit__ring" cx="120" cy="96" rx="100" ry="34"/>
+  <g transform="translate(120 96)"><g class="wy-orbit__x"><g class="wy-orbit__sat"><rect x="-6" y="-4" width="12" height="8" rx="1.5"/><rect x="-18" y="-2.5" width="10" height="5"/><rect x="8" y="-2.5" width="10" height="5"/></g></g></g>
+  <g class="wy-orbit__stadium"><path d="M96 132Q120 116 144 132L140 142L100 142Z"/><line x1="102" y1="122" x2="102" y2="112"/><line x1="138" y1="122" x2="138" y2="112"/></g>
+  <g class="wy-orbit__waves"><path d="M112 112Q120 104 128 112"/><path d="M106 104Q120 92 134 104"/><path d="M100 96Q120 80 140 96"/></g>
+  {%- when "loop" %}
+  <circle class="wy-loop__ring" cx="120" cy="80" r="48"/>
+  <g class="wy-loop__runner"><circle cx="120" cy="32" r="6"/></g>
+  <g class="wy-loop__nodes">
+    <circle cx="120" cy="32" r="11"/><circle cx="168" cy="80" r="11"/><circle cx="120" cy="128" r="11"/><circle cx="72" cy="80" r="11"/>
+  </g>
+  <g class="wy-tags wy-tags--loop"><text x="120" y="12" text-anchor="middle">OBSERVE</text><text x="186" y="84">DECIDE</text><text x="120" y="155" text-anchor="middle">ACT</text><text x="54" y="84" text-anchor="end">VERIFY</text></g>
+  {%- when "corner" %}
+  <path class="wy-corner__arc" d="M228 22A8 8 0 0 1 220 14"/>
+  <rect class="wy-corner__zone" x="186" y="62" width="28" height="36" rx="3"/>
+  <path class="wy-corner__flight" d="M224 18Q170 20 198 78" pathLength="1"/>
+  <g class="wy-corner__runs">
+    <path d="M170 110L196 88" pathLength="1"/><path d="M150 60L190 72" pathLength="1"/><path d="M160 130L204 96" pathLength="1"/>
+  </g>
+  <g class="wy-dots"><circle cx="196" cy="88" r="4" class="is-h"/><circle cx="190" cy="72" r="4" class="is-h"/><circle cx="204" cy="96" r="4" class="is-h"/><circle cx="208" cy="80" r="4" class="is-a"/><circle cx="194" cy="104" r="4" class="is-a"/></g>
+  <circle class="wy-corner__ball" cx="224" cy="18" r="4.5"/>
+  {%- when "multiplier" %}
+  <g class="wy-mx__wires">
+    <path d="M27 26H70C96 26 92 80 108 80"/><path d="M27 62H70C92 62 94 80 108 80"/>
+    <path d="M27 98H70C92 98 94 80 108 80"/><path d="M27 134H70C96 134 92 80 108 80"/>
+  </g>
+  <g class="wy-mx__parts">
+    <circle cx="20" cy="26" r="7"/><circle cx="20" cy="62" r="7"/><circle cx="20" cy="98" r="7"/><circle cx="20" cy="134" r="7"/>
+  </g>
+  <g class="wy-tags"><text x="32" y="20">ANALYST</text><text x="32" y="56">PERCEPTION</text><text x="32" y="92">MAPS</text><text x="32" y="128">DELIVERY</text><text x="200" y="112" text-anchor="middle">ONE SYSTEM</text></g>
+  <path class="wy-mx__beam" d="M144 80H170"/>
+  <g class="wy-mx__out">
+    <rect class="is-h" x="172" y="66" width="13" height="28" rx="3" style="--i: 0"/><rect class="is-h" x="186" y="66" width="9" height="28" rx="3" style="--i: 1"/>
+    <rect class="is-a" x="196" y="66" width="12" height="28" rx="3" style="--i: 2"/><rect class="is-d" x="209" y="66" width="7" height="28" rx="3" style="--i: 3"/>
+    <rect class="is-a" x="217" y="66" width="12" height="28" rx="3" style="--i: 4"/>
+  </g>
+  <g class="wy-mx__core">
+    <circle class="wy-mx__halo" cx="126" cy="80" r="27"/>
+    <path d="M126 59L144 69.500V90.500L126 101L108 90.500V69.500Z"/>
+    <path class="wy-mx__x" d="M119 73L133 87M133 73L119 87"/>
+  </g>
+  {%- endcase %}
+</svg>

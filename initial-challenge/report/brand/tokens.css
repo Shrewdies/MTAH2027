@@ -1,0 +1,154 @@
+/*
+ * The Shrewdies — brand tokens, "Floodlit Blaugrana".
+ * Self-contained: no imports, no build step. Safe to link from the website, a print stylesheet
+ * or an HTML-to-PDF report. Fonts are referenced by name with system fallbacks.
+ */
+
+:root {
+  /* ---- Palette (raw) ------------------------------------------------------------------- */
+  --sh-blue: #004D98;          /* Blaugrana blue; home state H */
+  --sh-blue-bright: #2F86F0;   /* floodlit blue, for light and glows */
+  --sh-navy: #0A1F44;          /* deepest large surface; use sparingly */
+  --sh-garnet: #A50044;        /* Blaugrana garnet; away state A */
+  --sh-garnet-bright: #E5336F; /* floodlit garnet, for light and glows */
+  --sh-burgundy: #6D0F2C;
+  --sh-violet: #6E4C9F;        /* where blue meets garnet */
+  --sh-mauve: #B9A2D8;         /* soft light */
+  --sh-lime: #C4F000;          /* the hype accent: glows, strokes, highlights, CTAs, trails */
+  --sh-lime-bright: #E2FF5C;
+  --sh-lime-deep: #8FB300;
+  --sh-silver: #E9EDF5;        /* shine */
+  --sh-silver-2: #B8C2D3;
+  --sh-white: #FFFFFF;
+  --sh-offwhite: #F7F6FB;
+  --sh-black: #0B1433;         /* night navy; the darkest ink, never a background */
+
+  /* Ink steps from night navy to silver. */
+  --sh-ink-900: #0B1433;
+  --sh-ink-850: #101C42;
+  --sh-ink-800: #17244F;
+  --sh-ink-700: #24315F;
+  --sh-ink-600: #3A4372;
+  --sh-ink-400: #7C84AA;
+  --sh-ink-300: #B8C2D3;
+  --sh-ink-200: #D8DEEA;
+  --sh-ink-100: #E9EDF5;
+
+  /* Possession states (H home, A away, D dead ball). */
+  --sh-state-h: var(--sh-blue);
+  --sh-state-a: var(--sh-garnet);
+  --sh-state-d: var(--sh-ink-600);
+
+  /* ---- Gradients ------------------------------------------------------------------------- */
+  --sh-grad-floodlit: linear-gradient(150deg, #0F63C4 0%, #004D98 24%, #4D44A6 50%, #7E3F98 70%, #A50044 100%);
+  --sh-grad-night: linear-gradient(160deg, var(--sh-navy) 0%, #1A2F7A 60%, #3F2E80 100%);
+  --sh-grad-violet: linear-gradient(120deg, var(--sh-blue) 0%, var(--sh-violet) 55%, var(--sh-garnet) 100%);
+  --sh-grad-dusk: linear-gradient(180deg, var(--sh-violet) 0%, var(--sh-garnet) 100%);
+  --sh-grad-lime: linear-gradient(100deg, var(--sh-lime) 0%, var(--sh-lime-bright) 50%, var(--sh-lime) 100%);
+  --sh-grad-shine: linear-gradient(115deg, var(--sh-white) 0%, var(--sh-silver) 35%, var(--sh-silver-2) 55%, var(--sh-white) 75%, var(--sh-silver) 100%);
+  --sh-grad-stripes: repeating-linear-gradient(90deg,
+      var(--sh-blue) 0 28px, var(--sh-garnet) 28px 56px);
+  --sh-grad-stripes-thin: repeating-linear-gradient(90deg,
+      var(--sh-blue) 0 6px, transparent 6px 12px, var(--sh-garnet) 12px 18px, transparent 18px 24px);
+  --sh-grad-tricolour: linear-gradient(90deg, var(--sh-blue) 0 33%, var(--sh-lime) 33% 67%, var(--sh-garnet) 67% 100%);
+
+  /* ---- Typography -------------------------------------------------------------------------- */
+  --sh-font-display: "Big Shoulders Display", "Bahnschrift Condensed", "Arial Narrow", Impact, sans-serif;
+  --sh-font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --sh-font-mono: "JetBrains Mono", "Cascadia Mono", ui-monospace, Consolas, Menlo, monospace;
+
+  --sh-step--2: clamp(0.72rem, 0.70rem + 0.08vw, 0.78rem);
+  --sh-step--1: clamp(0.84rem, 0.82rem + 0.10vw, 0.90rem);
+  --sh-step-0: clamp(1.00rem, 0.97rem + 0.15vw, 1.09rem);
+  --sh-step-1: clamp(1.20rem, 1.14rem + 0.30vw, 1.40rem);
+  --sh-step-2: clamp(1.44rem, 1.32rem + 0.60vw, 1.86rem);
+  --sh-step-3: clamp(1.73rem, 1.50rem + 1.10vw, 2.48rem);
+  --sh-step-4: clamp(2.07rem, 1.68rem + 1.90vw, 3.30rem);
+  --sh-step-5: clamp(2.49rem, 1.80rem + 3.40vw, 4.70rem);
+  --sh-step-6: clamp(3.00rem, 1.80rem + 6.00vw, 7.20rem);
+
+  --sh-leading-tight: 0.92;
+  --sh-leading-snug: 1.2;
+  --sh-leading-body: 1.6;
+  --sh-tracking-display: -0.01em;
+  --sh-tracking-caps: 0.14em;
+
+  /* ---- Space, radius, depth, motion -------------------------------------------------------- */
+  --sh-space-3xs: 0.25rem;
+  --sh-space-2xs: 0.5rem;
+  --sh-space-xs: 0.75rem;
+  --sh-space-s: 1rem;
+  --sh-space-m: 1.5rem;
+  --sh-space-l: 2rem;
+  --sh-space-xl: 3rem;
+  --sh-space-2xl: 4.5rem;
+  --sh-space-3xl: 7rem;
+
+  --sh-measure: 68ch;
+  --sh-container: 76rem;
+
+  --sh-radius-s: 6px;
+  --sh-radius-m: 14px;
+  --sh-radius-l: 24px;
+
+  --sh-shadow-1: 0 1px 2px rgba(11, 20, 51, 0.25), 0 6px 20px rgba(28, 16, 80, 0.22);
+  --sh-shadow-2: 0 24px 60px -18px rgba(24, 10, 70, 0.6);
+  --sh-glow-lime: 0 0 0 1px rgba(196, 240, 0, 0.75), 0 0 22px rgba(196, 240, 0, 0.45), 0 0 60px rgba(196, 240, 0, 0.22);
+  --sh-glow-soft: 0 0 40px rgba(196, 240, 0, 0.18);
+
+  --sh-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --sh-ease-snap: cubic-bezier(0.68, -0.2, 0.27, 1.25);
+  --sh-dur-fast: 160ms;
+  --sh-dur-base: 320ms;
+  --sh-dur-slow: 720ms;
+
+  /* ---- Glass and paper --------------------------------------------------------------------- */
+  --sh-glass: rgba(16, 36, 92, 0.58);         /* translucent navy: light text on top */
+  --sh-glass-strong: rgba(12, 28, 74, 0.74);
+  --sh-glass-light: rgba(255, 255, 255, 0.12);
+  --sh-glass-edge: rgba(233, 237, 245, 0.28);
+  --sh-glass-blur: blur(16px) saturate(150%);
+  --sh-paper: rgba(250, 250, 255, 0.95);       /* bright card: navy text on top */
+  --sh-paper-text: #0A1F44;                    /* 15.5:1 on paper */
+  --sh-paper-muted: #3D4670;                   /* 8.9:1 on paper */
+  --sh-paper-link: #004D98;                    /* 8.4:1 on paper */
+  --sh-paper-link-hover: #A50044;              /* 7.1:1 on paper */
+  --sh-paper-border: rgba(10, 31, 68, 0.14);
+
+  /* ---- Semantic roles (one vivid theme; text sits on the floodlit gradient or on glass) ---- */
+  color-scheme: dark;
+  --sh-bg: var(--sh-navy);
+  --sh-bg-raised: var(--sh-glass-strong);
+  --sh-surface: var(--sh-glass);
+  --sh-surface-2: var(--sh-glass-light);
+  --sh-border: rgba(233, 237, 245, 0.22);
+  --sh-border-strong: rgba(233, 237, 245, 0.46);
+  --sh-text: var(--sh-white);
+  --sh-text-muted: #E1E6F2;
+  --sh-heading: var(--sh-white);
+  --sh-link: var(--sh-lime);
+  --sh-link-hover: var(--sh-white);
+  --sh-accent: var(--sh-lime);
+  --sh-accent-ink: var(--sh-navy);             /* text on lime, 12:1 */
+  --sh-accent-text: var(--sh-lime);
+  --sh-focus: var(--sh-lime);
+  --sh-code-bg: rgba(255, 255, 255, 0.14);
+}
+
+/* Print uses dark ink on white. */
+@media print {
+  :root {
+    color-scheme: light;
+    --sh-bg: #FFFFFF;
+    --sh-bg-raised: #FFFFFF;
+    --sh-surface: #FFFFFF;
+    --sh-surface-2: var(--sh-ink-100);
+    --sh-border: rgba(10, 31, 68, 0.2);
+    --sh-border-strong: rgba(10, 31, 68, 0.4);
+    --sh-text: var(--sh-navy);
+    --sh-text-muted: #3D4670;
+    --sh-heading: var(--sh-navy);
+    --sh-link: var(--sh-blue);
+    --sh-accent-text: var(--sh-garnet);
+  }
+}

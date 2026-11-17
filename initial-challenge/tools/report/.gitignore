@@ -1,0 +1,4 @@
+# Throwaway build environment and render cache
+.venv/
+.cache/
+__pycache__/
